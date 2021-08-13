@@ -7,9 +7,32 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String line1 = sc.nextLine();
-        char c = sc.next().charAt(0);
 
-        System.out.print(findAlphabet(line1, c));
+
+        System.out.print(changeUpperLowerCase(line1));
+    }
+
+    public static String changeUpperLowerCase(String line){
+//        char[] returnChar = new char[line.length()];
+//
+//        for (int i = 0; i < returnChar.length; i++){
+//            char c = line.charAt(i);
+//
+//            if(Character.isUpperCase(c))
+//                returnChar[i] = Character.toLowerCase(c);
+//            else if(Character.isLowerCase(c))
+//                returnChar[i] = Character.toUpperCase(c);
+//        }
+
+        String returnString = "";
+        for(char c: line.toCharArray()){
+            if(Character.isUpperCase(c))
+                returnString += Character.toLowerCase(c);
+            else if(Character.isLowerCase(c))
+                returnString += Character.toUpperCase(c);
+        }
+
+        return returnString;
     }
 
     public static int findAlphabet(String line1, char c){
