@@ -9,14 +9,48 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         String line = sc.nextLine();
-        int count = Integer.parseInt(line);
-        String[] line2 = new String[count];
-        for (int i = 0; i < line2.length; i++)
-            line2[i] = sc.nextLine();
 
-        for (String s : reverseWords(line2)) {
-            System.out.println(s);
+        System.out.println(reverseSpecWord(line));
+    }
+
+    //1-5
+    public static String reverseSpecWord(String line){
+        char[] chars = line.toCharArray();
+        int lt = 0;
+        int rt = chars.length - 1;
+        char tmp = 0;
+
+        while (lt < rt){
+
+            if((chars[lt] >= 0x41 && chars[lt] <= 0x5A)
+                    || (chars[lt] >= 0x61 && chars[lt] <= 0x7A)) {
+                tmp = chars[lt];
+
+                if((chars[rt] >= 0x41 && chars[rt] <= 0x5A)
+                        || (chars[rt] >= 0x61 && chars[rt] <= 0x7A)) {
+                    chars[lt] = chars[rt];
+                    lt++;
+                }
+            } else {
+                lt++;
+            }
+
+            if((chars[rt] >= 0x41 && chars[rt] <= 0x5A)
+                    || (chars[rt] >= 0x61 && chars[rt] <= 0x7A)) {
+                chars[rt] = tmp;
+                if((chars[lt] >= 0x41 && chars[lt] <= 0x5A)
+                        || (chars[lt] >= 0x61 && chars[lt] <= 0x7A)) {
+                    rt--;
+                    tmp = 0;
+                }
+            } else{
+                rt--;
+            }
         }
+
+        String resultString = String.valueOf(chars);
+
+        return resultString;
     }
 
     //1-4
