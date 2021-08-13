@@ -6,10 +6,24 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String line1 = sc.nextLine();
+        String line = sc.nextLine();
 
 
-        System.out.print(changeUpperLowerCase(line1));
+        System.out.print(findLongestWord(line));
+    }
+
+    public static String findLongestWord(String line){
+        String[] words = line.split(" ");
+        int index = 0;
+        int length = words[0].length();
+
+        for (int i = 0; i < words.length - 1; i++){
+            if(length < words[i + 1].length())
+                index = i + 1;
+
+        }
+
+        return words[index];
     }
 
     public static String changeUpperLowerCase(String line){
