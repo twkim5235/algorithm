@@ -18,11 +18,9 @@ public class Main {
         char[] chars = line.toCharArray();
         int lt = 0;
         int rt = chars.length - 1;
-        char tmp = 0;
 
         while (lt < rt){
-
-            if((chars[lt] >= 0x41 && chars[lt] <= 0x5A)
+/*            if((chars[lt] >= 0x41 && chars[lt] <= 0x5A)
                     || (chars[lt] >= 0x61 && chars[lt] <= 0x7A)) {
                 tmp = chars[lt];
 
@@ -45,13 +43,23 @@ public class Main {
                 }
             } else{
                 rt--;
+            }*/
+            if(!Character.isAlphabetic(chars[lt])){
+                lt++;
+            } else if(!Character.isAlphabetic(chars[rt])){
+                rt--;
+            }else {
+                char tmp = chars[lt];
+                chars[lt] = chars[rt];
+                chars[rt]= tmp;
+                lt++;
+                rt--;
             }
         }
 
-        String resultString = String.valueOf(chars);
-
-        return resultString;
+        return String.valueOf(chars);
     }
+//    1,12 2,11, 2,10, 2,9 3,9 4,8
 
     //1-4
     public static ArrayList<String> reverseWords(String[] words){
