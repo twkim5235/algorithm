@@ -6,10 +6,24 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+
         String line = sc.nextLine();
+        int count = Integer.parseInt(line);
+        String[] line2 = new String[count];
+        for (int i = 0; i < line2.length; i++)
+            line2[i] = sc.nextLine();
 
+        for (String s : reverseWords(line2)) {
+            System.out.println(s);
+        }
+    }
 
-        System.out.print(findLongestWord(line));
+    public static String[] reverseWords(String[] words){
+       for(int i = 0; i < words.length; i++){
+           StringBuffer sb = new StringBuffer(words[i]);
+           words[i] = sb.reverse().toString();
+       }
+       return words;
     }
 
     public static String findLongestWord(String line){
