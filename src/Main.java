@@ -18,6 +18,7 @@ public class Main {
         }
     }
 
+    //1-4
     public static String[] reverseWords(String[] words){
        for(int i = 0; i < words.length; i++){
            StringBuffer sb = new StringBuffer(words[i]);
@@ -26,6 +27,7 @@ public class Main {
        return words;
     }
 
+    //1-3
     public static String findLongestWord(String line){
         String[] words = line.split(" ");
         int index = 0;
@@ -40,6 +42,7 @@ public class Main {
         return words[index];
     }
 
+    //1-2
     public static String changeUpperLowerCase(String line){
 //        char[] returnChar = new char[line.length()];
 //
@@ -63,6 +66,7 @@ public class Main {
         return returnString;
     }
 
+    //1-1
     public static int findAlphabet(String line1, char c){
         line1 = line1.toUpperCase();
         char specialChar = Character.toUpperCase(c);
