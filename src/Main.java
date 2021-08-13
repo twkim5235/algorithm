@@ -1,16 +1,28 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String line = br.readLine();
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String line1 = sc.nextLine();
+        char c = sc.next().charAt(0);
 
-        BufferedReader br2 = new BufferedReader(new InputStreamReader(System.in));
-        String line2 = br.readLine();
+        System.out.print(findAlphabet(line1, c));
+    }
 
-        newAverage(line, line2);
+    public static int findAlphabet(String line1, char c){
+        line1 = line1.toUpperCase();
+        char specialChar = Character.toUpperCase(c);
+        int count = 0;
+
+        for(int i = 0; i < line1.length(); i++){
+            if(line1.charAt(i) == specialChar)
+                count++;
+        }
+
+        return count;
     }
 
     public static void findWord(String line){
@@ -27,7 +39,7 @@ public class Main {
     }
 
 
-    public static void findAlphabet(String line){
+    public static void findAlphabetNum(String line){
         int[] alphabetNums = new int[26];
         int bigAlphabetNum = 0;
         char bigAlphabet = 0;
