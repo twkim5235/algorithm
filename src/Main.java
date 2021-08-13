@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -19,12 +20,32 @@ public class Main {
     }
 
     //1-4
-    public static String[] reverseWords(String[] words){
-       for(int i = 0; i < words.length; i++){
-           StringBuffer sb = new StringBuffer(words[i]);
-           words[i] = sb.reverse().toString();
+    public static ArrayList<String> reverseWords(String[] words){
+//       ArrayList<String> stringArrayList = new ArrayList<>();
+//
+//        for(int i = 0; i < words.length; i++){
+//           StringBuffer sb = new StringBuffer(words[i]);
+//           stringArrayList.add(sb.reverse().toString());
+//       }
+
+        ArrayList<String> stringArrayList = new ArrayList<>();
+
+       for (String s : words){
+           char[] chars = s.toCharArray();
+           int lt = 0;
+           int rt = s.length() - 1;
+           while (lt < rt){
+               char tmp = chars[lt];
+               chars[lt] = chars[rt];
+               chars[rt] = tmp;
+               lt++;
+               rt--;
+           }
+
+           stringArrayList.add(String.valueOf(chars));
        }
-       return words;
+
+       return stringArrayList;
     }
 
     //1-3
