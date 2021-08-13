@@ -17,8 +17,13 @@ public class Main {
         char specialChar = Character.toUpperCase(c);
         int count = 0;
 
-        for(int i = 0; i < line1.length(); i++){
-            if(line1.charAt(i) == specialChar)
+//        for(int i = 0; i < line1.length(); i++){
+//            if(line1.charAt(i) == specialChar)
+//                count++;
+//        }
+
+        for(char x : line1.toCharArray()){
+            if(x == specialChar)
                 count++;
         }
 
