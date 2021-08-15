@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
@@ -10,15 +11,40 @@ public class Main {
 
         String line = sc.nextLine();
 
-        System.out.println(removeDuplicateChar(line));
+        System.out.println(palindromeString(line));
+    }
+
+    //1-7
+    public static String palindromeString(String line){
+        /*char[] chars = line.toLowerCase().toCharArray();
+        int lt = 0;
+        int rt = chars.length - 1;
+
+
+        while (lt < rt){
+            if(!(chars[lt] == chars[rt])) {
+                return "NO";
+            }
+
+            lt++;
+            rt--;
+        }
+
+        return "YES";*/
+
+        String tmp = new StringBuffer(line).reverse().toString();
+        if(tmp.equalsIgnoreCase(line))
+            return "YES";
+        else
+            return "NO";
     }
 
     //1-6
     public static String removeDuplicateChar(String line){
         char[] chars = line.toCharArray();
-        String returnString = new String();
         int lt = 0;
         int rt = line.length() - 1;
+        String returnString = new String();
 
         for (int i = 0; i < line.length(); i++)
         {
