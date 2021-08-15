@@ -10,7 +10,45 @@ public class Main {
 
         String line = sc.nextLine();
 
-        System.out.println(reverseSpecWord(line));
+        System.out.println(removeDuplicateChar(line));
+    }
+
+    //1-6
+    public static String removeDuplicateChar(String line){
+        char[] chars = line.toCharArray();
+        String returnString = new String();
+        int lt = 0;
+        int rt = line.length() - 1;
+
+        for (int i = 0; i < line.length(); i++)
+        {
+            if(line.indexOf(line.charAt(i)) == i){
+                returnString += line.charAt(i);
+            }
+        }
+/*
+
+        while (lt < rt){
+            if (chars[lt] == chars[rt]){
+                chars[rt] = 0;
+                rt--;
+            }
+            else rt--;
+
+            if(lt + 1 == rt) {
+                lt++;
+                rt = chars.length - 1;
+            }
+        }
+
+        for(int i = 0; i < chars.length; i++){
+            if(chars[i] >= 0x61 && chars[i] <= 0x7A) {
+                returnString += chars[i];
+            }
+        }
+*/
+
+        return returnString;
     }
 
     //1-5
@@ -59,7 +97,6 @@ public class Main {
 
         return String.valueOf(chars);
     }
-//    1,12 2,11, 2,10, 2,9 3,9 4,8
 
     //1-4
     public static ArrayList<String> reverseWords(String[] words){
