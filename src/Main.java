@@ -11,9 +11,42 @@ public class Main {
 
         String line = sc.nextLine();
 
-        System.out.println(extractNum2(line));
+        for (int x: getCharDistance(line)){
+            System.out.print(x + " ");
+        }
     }
 
+    //1-10
+    public static int[] getCharDistance(String line) {
+        String[] split = line.split(" ");
+        String standard = split[0];
+        char target = split[1].charAt(0);
+        int[] answer = new int[standard.length()];
+        int p = 1000;
+
+        for(int i = 0; i < standard.length(); i++){
+            if(standard.charAt(i) == target){
+                p = 0;
+                answer[i] = p;
+            }
+            else
+                answer[i] = ++p;
+        }
+        p = 1000;
+
+        for(int i = standard.length() - 1; i >= 0; i--){
+            if (standard.charAt(i) == target)
+                p = 0;
+            else{
+                answer[i] = Math.min(answer[i], ++p);
+            }
+
+        }
+
+        return answer;
+    }
+
+    //1-9
     public static int extractNum(String line){
         int answer = 0;
         char[] chars = line.toCharArray();
@@ -25,6 +58,7 @@ public class Main {
         return answer;
     }
 
+    //1-9
     public static int extractNum2(String line){
         String answer = "";
         for(char x: line.toCharArray()){
