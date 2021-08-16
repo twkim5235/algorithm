@@ -37,7 +37,8 @@ public class Main {
                 result.add("A");
             else if(numsA[i] == 3 && numsB[i] == 2)
                 result.add("A");
-            else result.add("B");
+            else
+                result.add("B");
         }
 
         return result;
