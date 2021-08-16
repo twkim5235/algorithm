@@ -10,12 +10,46 @@ public class Main {
 //        String line1 = sc.nextLine();
 //        String line2 = sc.nextLine();
         int n = sc.nextInt();
-        int[] nums = new int[n];
+        int[] numsA = new int[n], numsB = new int[n];
         for(int i = 0; i < n; i++){
-            nums[i] = sc.nextInt();
+            numsA[i] = sc.nextInt();
+        }
+        for(int i = 0; i < n; i++){
+            numsB[i] = sc.nextInt();
         }
 
-        System.out.println(seeBigStudent(n, nums));
+        for (String s : rockScissorPaper(n, numsA, numsB)) {
+            System.out.println(s);
+        }
+    }
+
+    //2-3 가위 바위 보
+    public static ArrayList<String> rockScissorPaper(int n, int[] numsA, int[] numsB){
+        ArrayList<String> result = new ArrayList<String>();
+
+        for(int i = 0; i < n; i++)
+        {
+            if(numsA[i] == 1 && numsB[i] == 1)
+                result.add("D");
+            else if(numsA[i] == 1 && numsB[i] == 2)
+                result.add("B");
+            else if(numsA[i] == 1 && numsB[i] == 3)
+                result.add("A");
+            else if(numsA[i] == 2 && numsB[i] == 1)
+                result.add("A");
+            else if(numsA[i] == 2 && numsB[i] == 2)
+                result.add("D");
+            else if(numsA[i] == 2 && numsB[i] == 3)
+                result.add("B");
+            else if(numsA[i] == 3 && numsB[i] == 1)
+                result.add("B");
+            else if(numsA[i] == 3 && numsB[i] == 2)
+                result.add("A");
+            else if(numsA[i] == 3 && numsB[i] == 3)
+                result.add("D");
+        }
+
+        return result;
     }
 
     //2-2 보이는 학생 수 세기
