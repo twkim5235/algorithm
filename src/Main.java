@@ -14,8 +14,20 @@ public class Main {
         System.out.println(palindromeString(line));
     }
 
-    //1-7
+    //1-8
     public static String palindromeString(String line){
+        String answer = "NO";
+        line = line.toLowerCase().replaceAll("[^a-z]", "");
+        String tmp = new StringBuffer(line).reverse().toString();
+
+        if(tmp.equals(line))
+            answer = "YES";
+
+        return answer;
+    }
+
+    //1-7
+    public static String palindromeWord(String line){
         /*char[] chars = line.toLowerCase().toCharArray();
         int lt = 0;
         int rt = chars.length - 1;
