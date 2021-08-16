@@ -29,24 +29,15 @@ public class Main {
 
         for(int i = 0; i < n; i++)
         {
-            if(numsA[i] == 1 && numsB[i] == 1)
+            if(numsA[i] == numsB[i])
                 result.add("D");
-            else if(numsA[i] == 1 && numsB[i] == 2)
-                result.add("B");
             else if(numsA[i] == 1 && numsB[i] == 3)
                 result.add("A");
             else if(numsA[i] == 2 && numsB[i] == 1)
                 result.add("A");
-            else if(numsA[i] == 2 && numsB[i] == 2)
-                result.add("D");
-            else if(numsA[i] == 2 && numsB[i] == 3)
-                result.add("B");
-            else if(numsA[i] == 3 && numsB[i] == 1)
-                result.add("B");
             else if(numsA[i] == 3 && numsB[i] == 2)
                 result.add("A");
-            else if(numsA[i] == 3 && numsB[i] == 3)
-                result.add("D");
+            else result.add("B");
         }
 
         return result;
