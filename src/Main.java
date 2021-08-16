@@ -24,8 +24,7 @@ public class Main {
         {
             String code = line2.substring(i * 7, (i+1) * 7);
             char decode = 0;
-            code = code.replace('#', '1');
-            code = code.replace('*', '0');
+            code = code.replace('#', '1').replace('*', '0');
 
             decode += Integer.parseInt(code, 2);
             answer += decode;
