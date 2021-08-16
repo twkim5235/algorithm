@@ -12,7 +12,26 @@ public class Main {
         String line1 = sc.nextLine();
         String line2 = sc.nextLine();
 
-        System.out.println(decode(line1, line2));
+        System.out.println(showBigNum(line1, line2));
+    }
+
+    //2-1 큰 수 출력하기
+    public static String showBigNum(String line1, String line2){
+        String answer = "";
+        int num = Integer.parseInt(line1);
+        int[] nums = new int[num];
+
+        for(int i = 0; i < num; i++){
+            nums[i] = Integer.parseInt(line2.split(" ")[i]);
+        }
+
+        answer += nums[0];
+        for(int i = 1; i < num; i++){
+            if(nums[i] > nums[i -1])
+                answer += " " + nums[i];
+        }
+
+        return answer;
     }
 
     //1-12 암호 해독
