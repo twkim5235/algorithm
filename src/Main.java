@@ -11,7 +11,28 @@ public class Main {
 
         String line = sc.nextLine();
 
-        System.out.println(palindromeString(line));
+        System.out.println(extractNum2(line));
+    }
+
+    public static int extractNum(String line){
+        int answer = 0;
+        char[] chars = line.toCharArray();
+        for(char x: chars){
+            if(x >= 48 && x <= 57){
+                answer = answer * 10 + (x - 48);
+            }
+        }
+        return answer;
+    }
+
+    public static int extractNum2(String line){
+        String answer = "";
+        for(char x: line.toCharArray()){
+            if(Character.isDigit(x)){
+                answer += x;
+            }
+        }
+        return Integer.parseInt(answer);
     }
 
     //1-8
