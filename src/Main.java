@@ -11,9 +11,31 @@ public class Main {
 
         String line = sc.nextLine();
 
-        for (int x: getCharDistance(line)){
-            System.out.print(x + " ");
+        System.out.println(compressionWord(line));
+    }
+
+    //1-11
+    public static String compressionWord(String s){
+        String answer = "";
+        char[] chars = s.toCharArray();
+        int count = 1;
+
+        for(int i = 0; i < chars.length - 1; i++){
+            if(chars[i] == chars[i + 1]){
+                count++;
+            }
+            else {
+                answer += chars[i];
+                if(count > 1) answer += String.valueOf(count);
+                count = 1;
+
+            }
         }
+        answer += chars[chars.length - 1];
+        if(count > 1) answer += count;
+
+
+        return answer;
     }
 
     //1-10
