@@ -1,18 +1,36 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        String line1 = sc.nextLine();
-        String line2 = sc.nextLine();
+//        String line1 = sc.nextLine();
+//        String line2 = sc.nextLine();
+        int n = sc.nextInt();
+        int[] nums = new int[n];
+        for(int i = 0; i < n; i++){
+            nums[i] = sc.nextInt();
+        }
 
-        System.out.println(showBigNum(line1, line2));
+        System.out.println(seeBigStudent(n, nums));
+    }
+
+    //2-2 보이는 학생 수 세기
+    public static int seeBigStudent(int n, int[] nums){
+        int answer = 1;
+        int max = nums[0];
+
+        for(int i = 1; i < n; i++) {
+            if(max < nums[i]){
+                answer++;
+                max = nums[i];
+            }
+        }
+
+        return answer;
     }
 
     //2-1 큰 수 출력하기
