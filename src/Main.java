@@ -9,9 +9,30 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        String line = sc.nextLine();
+        String line1 = sc.nextLine();
+        String line2 = sc.nextLine();
 
-        System.out.println(compressionWord(line));
+        System.out.println(decode(line1, line2));
+    }
+
+    //1-12 암호 해독
+    public static String decode(String line1, String line2){
+        String answer = "";
+        int num = Integer.parseInt(line1);
+
+        for(int i = 0; i < num; i++)
+        {
+            String code = line2.substring(i * 7, (i+1) * 7);
+            char decode = 0;
+            code = code.replace('#', '1');
+            code = code.replace('*', '0');
+
+            decode += Integer.parseInt(code, 2);
+            answer += decode;
+        }
+
+
+        return answer;
     }
 
     //1-11
