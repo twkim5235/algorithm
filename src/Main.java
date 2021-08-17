@@ -176,15 +176,25 @@ public class Main {
 
     //1-8
     public static String palindromeString(String line){
+//        String answer = "NO";
+//        line = line.toLowerCase().replaceAll("[^a-z]", "");
+//        String tmp = new StringBuffer(line).reverse().toString();
+//
+//        if(tmp.equals(line))
+//            answer = "YES";
+//
+//        return answer;
         String answer = "NO";
-        line = line.toLowerCase().replaceAll("[^a-z]", "");
-        String tmp = new StringBuffer(line).reverse().toString();
-
-        if(tmp.equals(line))
-            answer = "YES";
-
-        return answer;
+        int end = line.length() - 1;
+        for(int i=0; i< line.length()/2; i++, end--) {
+            if (line.charAt(i) != line.charAt(end)) {
+                return "NO";
+            }
+        }
+        return "YES";
     }
+
+
 
     //1-7
     public static String palindromeWord(String line){
