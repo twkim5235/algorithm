@@ -10,16 +10,38 @@ public class Main {
 //        String line1 = sc.nextLine();
 //        String line2 = sc.nextLine();
         int n = sc.nextInt();
-        int[] numsA = new int[n], numsB = new int[n];
-        for(int i = 0; i < n; i++){
-            numsA[i] = sc.nextInt();
-        }
-        for(int i = 0; i < n; i++){
-            numsB[i] = sc.nextInt();
+//        int[] numsA = new int[n], numsB = new int[n];
+
+//        for (int i : fibonacciSequence(n)) {
+//            System.out.print(i + " ");
+//        }
+        fibonacciSequence2(n);
+    }
+
+    //2-4 피보나치 수열
+    public static int[] fibonacciSequence(int num) {
+        int[] answer = new int[num];
+        answer[0] = 1;
+        answer[1] = 1;
+        for(int i = 2; i < num; i++){
+            answer[i] = answer[i - 2] + answer[i - 1];
         }
 
-        for (String s : rockScissorPaper(n, numsA, numsB)) {
-            System.out.println(s);
+        return answer;
+    }
+
+    public static void fibonacciSequence2(int num){
+        int fir = 1;
+        int sec = 1;
+        int tmp = 0;
+
+        System.out.print(fir + " ");
+        System.out.print(sec + " ");
+        for (int i = 2; i < num; i++){
+            tmp = fir + sec;
+            System.out.print(tmp + " ");
+            fir = sec;
+            sec = tmp;
         }
     }
 
