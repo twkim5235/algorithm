@@ -10,12 +10,25 @@ public class Main {
 //        String line1 = sc.nextLine();
 //        String line2 = sc.nextLine();
         int n = sc.nextInt();
-//        int[] numsA = new int[n], numsB = new int[n];
 
-//        for (int i : fibonacciSequence(n)) {
-//            System.out.print(i + " ");
-//        }
-        fibonacciSequence2(n);
+        //fibonacciSequence2(n);
+        System.out.println(SieveOfEratosthenes(n));
+    }
+
+    //2-5 소수(에라토스테네스의 체)
+    public static int SieveOfEratosthenes(int num){
+        int answer = 0;
+        int[] ch = new int[num + 1];
+        for(int i = 2; i <= num; i++){
+            if(ch[i] == 0){
+                answer++;
+            }
+            for (int j = i; j <= num; j = j + i) {
+                ch[j] = 1;
+            }
+        }
+
+        return answer;
     }
 
     //2-4 피보나치 수열
