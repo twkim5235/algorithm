@@ -7,12 +7,69 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-//        String line1 = sc.nextLine();
+        String line1 = sc.nextLine();
 //        String line2 = sc.nextLine();
-        int n = sc.nextInt();
+        int n = Integer.parseInt(line1);
+        String nums = sc.nextLine();
 
         //fibonacciSequence2(n);
-        System.out.println(SieveOfEratosthenes(n));
+        System.out.println(convertPrimeNum(n, nums));
+    }
+
+    //2-5 뒤집은 소수
+    public static String convertPrimeNum(int n, String nums){
+        String answer = "";
+        String[] numsStringArray = nums.split(" ");
+
+        for(int i = 0; i < n; i++){
+            StringBuffer sb = new StringBuffer(numsStringArray[i]);
+            int num = Integer.parseInt(sb.reverse().toString());
+            boolean result = true;
+
+            if(num > 1) {
+                for (int j = 2; j <= num / 2; j++) {
+                    if (num % j == 0) {
+                        result = false;
+                        break;
+                    } else {
+                        result = true;
+                    }
+                }
+
+                if(result)
+                    answer += num + " ";
+            }
+
+
+        }
+        return answer;
+    }
+
+    //2-5 뒤집은 소수 강의 풀의
+    public static ArrayList<Integer> convertPrimeNum2(int n, int[] arr){
+        ArrayList<Integer> answer = new ArrayList<>();
+        for(int i =0; i < n; i++){
+            int temp = arr[i];
+            int res = 0;
+            while (temp > 0){
+                int t = temp % 10;
+                res = res * 10 + t;
+                temp /= 10;
+            }
+            if(isPrime(res))
+                answer.add(res);
+        }
+        return answer;
+    }
+
+    public static boolean isPrime(int num){
+        if(num == 1)
+            return false;
+        for(int i = 0; i < num; i++){
+            if(num % i == 0)
+                return false;
+        }
+        return true;
     }
 
     //2-5 소수(에라토스테네스의 체)
