@@ -7,16 +7,56 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        String line1 = sc.nextLine();
+//        String line1 = sc.nextLine();
 //        String line2 = sc.nextLine();
-        int n = Integer.parseInt(line1);
-        String nums = sc.nextLine();
+//        String nums = sc.nextLine();
+        int n = sc.nextInt();
+        int[] nums = new int[n];
+        for(int i = 0; i < n; i ++){
+            nums[i] = sc.nextInt();
+        }
+
 
         //fibonacciSequence2(n);
-        System.out.println(convertPrimeNum(n, nums));
+        System.out.println(calResult(n, nums));
     }
 
-    //2-5 뒤집은 소수
+    //2-7 점수 계산
+    public static int calResult(int n, int[] nums){
+        int answer = 0;
+        boolean prev = false;
+
+        int num = 0;
+        for(int i = 0; i < n; i++) {
+            if (nums[i] == 1 && prev == false) {
+                prev = true;
+                answer += ++num;
+            } else if (nums[i] == 1 && prev == true) {
+                answer += ++num;
+            } else {
+                prev = false;
+                num = 0;
+            }
+        }
+
+        return answer;
+    }
+
+    //2-7 점수 계산 강의 문제풀이
+    public static int solution(int n, int[] arr){
+        int answer = 0, cnt = 0;
+        for(int i = 0; i < n; i++){
+            if(arr[i] == 1){
+                cnt++;
+                answer += cnt;
+            }
+            else cnt = 0;
+        }
+
+        return answer;
+    }
+
+    //2-6 뒤집은 소수
     public static String convertPrimeNum(int n, String nums){
         String answer = "";
         String[] numsStringArray = nums.split(" ");
@@ -45,7 +85,7 @@ public class Main {
         return answer;
     }
 
-    //2-5 뒤집은 소수 강의 풀의
+    //2-6 뒤집은 소수 강의 풀의
     public static ArrayList<Integer> convertPrimeNum2(int n, int[] arr){
         ArrayList<Integer> answer = new ArrayList<>();
         for(int i =0; i < n; i++){
