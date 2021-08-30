@@ -128,7 +128,7 @@ public class Main {
         return answer;
     }
 
-    //2-4 피보나치 수열
+    //2-4 피보나치 수열 강의 풀이
     public static int[] fibonacciSequence(int num) {
         int[] answer = new int[num];
         answer[0] = 1;
@@ -140,6 +140,7 @@ public class Main {
         return answer;
     }
 
+    //2-4 피보나치 수열 강의 풀이(배열 없이)
     public static void fibonacciSequence2(int num){
         int fir = 1;
         int sec = 1;
@@ -229,7 +230,7 @@ public class Main {
         return answer;
     }
 
-    //1-11
+    //1-11 문자열 압축
     public static String compressionWord(String s){
         String answer = "";
         char[] chars = s.toCharArray();
@@ -253,7 +254,7 @@ public class Main {
         return answer;
     }
 
-    //1-10
+    //1-10 가장 짧은 문자 거리
     public static int[] getCharDistance(String line) {
         String[] split = line.split(" ");
         String standard = split[0];
@@ -283,7 +284,7 @@ public class Main {
         return answer;
     }
 
-    //1-9
+    //1-9 숫자만 추출
     public static int extractNum(String line){
         int answer = 0;
         char[] chars = line.toCharArray();
@@ -295,7 +296,7 @@ public class Main {
         return answer;
     }
 
-    //1-9
+    //1-9 숫자만 추출
     public static int extractNum2(String line){
         String answer = "";
         for(char x: line.toCharArray()){
@@ -306,7 +307,7 @@ public class Main {
         return Integer.parseInt(answer);
     }
 
-    //1-8
+    //1-8 유효한 팰린드롬
     public static String palindromeString(String line){
 //        String answer = "NO";
 //        line = line.toLowerCase().replaceAll("[^a-z]", "");
@@ -328,7 +329,7 @@ public class Main {
 
 
 
-    //1-7
+    //1-7 회문 문자열
     public static String palindromeWord(String line){
         /*char[] chars = line.toLowerCase().toCharArray();
         int lt = 0;
@@ -353,7 +354,7 @@ public class Main {
             return "NO";
     }
 
-    //1-6
+    //1-6 중복문자제거
     public static String removeDuplicateChar(String line){
         char[] chars = line.toCharArray();
         int lt = 0;
@@ -391,7 +392,7 @@ public class Main {
         return returnString;
     }
 
-    //1-5
+    //1-5 특정 문자 뒤집기
     public static String reverseSpecWord(String line){
         char[] chars = line.toCharArray();
         int lt = 0;
@@ -438,7 +439,7 @@ public class Main {
         return String.valueOf(chars);
     }
 
-    //1-4
+    //1-4 단어 뒤집기
     public static ArrayList<String> reverseWords(String[] words){
 //       ArrayList<String> stringArrayList = new ArrayList<>();
 //
@@ -467,7 +468,7 @@ public class Main {
        return stringArrayList;
     }
 
-    //1-3
+    //1-3 문장 속 단어
     public static String findLongestWord(String line){
         String[] words = line.split(" ");
         int index = 0;
@@ -482,7 +483,7 @@ public class Main {
         return words[index];
     }
 
-    //1-2
+    //1-2 대소문자 변환
     public static String changeUpperLowerCase(String line){
 //        char[] returnChar = new char[line.length()];
 //
@@ -506,7 +507,7 @@ public class Main {
         return returnString;
     }
 
-    //1-1
+    //1-1 문자 찾기
     public static int findAlphabet(String line1, char c){
         line1 = line1.toUpperCase();
         char specialChar = Character.toUpperCase(c);
