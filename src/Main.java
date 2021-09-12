@@ -12,16 +12,80 @@ public class Main {
 //        String line2 = sc.nextLine();
 //        String nums = sc.nextLine();
         int n = sc.nextInt();
-        int[] nums = new int[n];
-        for(int i = 0; i < n; i ++){
-            nums[i] = sc.nextInt();
+        int[][] nums = new int[n][n];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                nums[i][j] = sc.nextInt();
+            }
         }
 
+        System.out.println(getMaxPlusNum(n, nums));
 
-        //fibonacciSequence2(n);
-        for (int i : getRank(nums)) {
-            System.out.print(i + " ");
+    }
+
+    //2-9 격자판 최대합 구하기
+    public static int getMaxPlusNum(int n, int[][] nums){
+        int answer = 0;
+        int[] resultNums = new int[n * 2 + 2];
+        int c = 0;
+
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                resultNums[c] += nums[i][j];
+            }
+            c++;
         }
+
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                resultNums[c] += nums[j][i];
+            }
+            c++;
+        }
+
+        for(int i = 0; i < n; i++){
+            resultNums[c] += nums[i][i];
+        }
+        c++;
+
+        for(int i = 0; i < n; i++)
+        {
+            int j = 4;
+            resultNums[c] += nums[i][j--];
+        }
+
+        answer = resultNums[0];
+        for(int i = 0; i < resultNums.length - 1; i++){
+            if(answer < resultNums[i])
+                answer = resultNums[i];
+        }
+
+        return answer;
+    }
+
+    //2-9 격자판 최대합 구하기 강의풀이
+    public static int getMaxPlusNumV2(int n, int[][] nums){
+        int answer = Integer.MIN_VALUE;
+        int sum1, sum2;
+        for(int i = 0; i < n; i++){
+            sum1 = sum2 = 0;
+            for(int j = 0; j < n; j++){
+                sum1 += nums[i][j];
+                sum2 += nums[j][i];
+            }
+            answer = Math.max(answer, sum1);
+            answer = Math.max(answer, sum2);
+        }
+
+        for (int i = 0; i < n; i++){
+            sum1 = sum2 = 0;
+            sum1 = nums[i][i];
+            sum2 = nums[i][n - i - 1];
+            answer = Math.max(answer, sum1);
+            answer = Math.max(answer, sum2);
+        }
+
+        return answer;
     }
 
     //2-8 등수 구하기
@@ -42,6 +106,7 @@ public class Main {
         return ranks;
     }
 
+    //2-8 등수 구하기 강의 풀이
     public static int[] getRankV2(int n,int[] nums){
         int[] answer = new int[n];
         for (int i = 0; i < n; i++) {
@@ -51,10 +116,8 @@ public class Main {
             }
             answer[i] = cnt;
         }
+        return answer;
     }
-
-    //2-8 등수 구하기 강의 풀이
-
 
     //2-7 점수 계산
     public static int calResult(int n, int[] nums){
