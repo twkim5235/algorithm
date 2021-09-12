@@ -12,15 +12,63 @@ public class Main {
 //        String line2 = sc.nextLine();
 //        String nums = sc.nextLine();
         int n = sc.nextInt();
+        n += 2;
         int[][] nums = new int[n][n];
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < n; j++){
+        for(int i = 1; i < n - 1; i++){
+            for(int j = 1; j < n - 1; j++){
                 nums[i][j] = sc.nextInt();
             }
         }
 
-        System.out.println(getMaxPlusNum(n, nums));
+        System.out.println(getPeak(n, nums));
 
+    }
+
+    //2-10 봉우리 구하기
+    public static int getPeak(int n, int[][] nums) {
+        int answer = 0;
+
+        for(int i = 1; i < n - 1; i++){
+            for(int j = 1; j < n - 1; j++){
+                if(nums[i][j] > nums[i][j - 1]){
+                    if(nums[i][j] > nums[i - 1][j]){
+                        if(nums[i][j] > nums[i][j + 1]){
+                            if(nums[i][j] > nums[i + 1][j])
+                                answer += 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        return answer;
+    }
+
+    //2-11 봉우리 구하기 강의 풀이
+    public static int getPeakV2(int n, int[][] nums) {
+        int answer = 0;
+        int[] dx = {-1, 0, 1, 0};
+        int[] dy = {0, 1, 0, -1};
+
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                boolean flag = true;
+                for (int k = 0; k < 4; k++){
+                    int nx = i + dx[k];
+                    int ny = i + dy[k];
+
+                    if(nx >= 0 && nx < n && nx >= 0 && nx < n) {
+                        if (nums[nx][ny] >= nums[i][j]) {
+                            flag = false;
+                            break;
+                        }
+                    }
+                }
+                if(flag) answer++;
+            }
+        }
+
+        return answer;
     }
 
     //2-9 격자판 최대합 구하기
