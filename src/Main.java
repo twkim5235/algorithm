@@ -12,16 +12,62 @@ public class Main {
 //        String line2 = sc.nextLine();
 //        String nums = sc.nextLine();
         int n = sc.nextInt();
-        n += 2;
-        int[][] nums = new int[n][n];
-        for(int i = 1; i < n - 1; i++){
-            for(int j = 1; j < n - 1; j++){
+        int[][] nums = new int[n][5];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < 5; j++){
                 nums[i][j] = sc.nextInt();
             }
         }
 
-        System.out.println(getPeak(n, nums));
+        System.out.println(getLeader(n, nums));
 
+    }
+
+    //2-11 임시반장 정하기
+    public static int getLeader(int n, int [][] nums){
+        int answer = Integer.MIN_VALUE;
+        int[] same = new int[n];
+
+        for (int i = 0; i < n; i++){
+            int cnt = 0;
+            for (int j = 0; j < n; j++){
+                for(int k = 0; k < 5; k++){
+                    if(nums[i][k] == nums[j][k]){
+                        same[i] = cnt++;
+                        break;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < same.length; i++) {
+            if (same[i] > answer) {
+                answer = i + 1;
+            }
+        }
+
+        return answer;
+    }
+
+    //2-11 임시반장 구하기 강의 풀이
+    public static int getLeaderV2(int n, int [][] nums){
+        int answer = 0, max = Integer.MAX_VALUE;
+        for(int i = 1; i <= n; i++){
+            int cnt = 0;
+            for(int j = 1; j <= n; j++){
+                for(int k = 1; k <= 5; k++){
+                    if(nums[i][k] == nums[j][k]){
+                        cnt++;
+                        break;
+                    }
+                }
+            }
+            if(cnt > max){
+                max = cnt;
+                answer = i;
+            }
+        }
+        return answer;
     }
 
     //2-10 봉우리 구하기
