@@ -44,7 +44,7 @@ public class Main {
         return answer;
     }
 
-    //2-11 봉우리 구하기 강의 풀이
+    //2-10 봉우리 구하기 강의 풀이
     public static int getPeakV2(int n, int[][] nums) {
         int answer = 0;
         int[] dx = {-1, 0, 1, 0};
