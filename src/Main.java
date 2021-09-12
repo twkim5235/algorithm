@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,8 +19,42 @@ public class Main {
 
 
         //fibonacciSequence2(n);
-        System.out.println(calResult(n, nums));
+        for (int i : getRank(nums)) {
+            System.out.print(i + " ");
+        }
     }
+
+    //2-8 등수 구하기
+    public static int[] getRank(int[] nums){
+        int[] ranks = IntStream.generate(() -> 1).limit(nums.length).toArray();
+
+        for(int i = 0; i < nums.length; i++){
+            for(int j = i + 1; j < nums.length; j++){
+                if(nums[i] > nums[j]) {
+                    ++ranks[j];
+                }
+                else if(nums[i] < nums[j]){
+                    ++ranks[i];
+                }
+            }
+        }
+
+        return ranks;
+    }
+
+    public static int[] getRankV2(int n,int[] nums){
+        int[] answer = new int[n];
+        for (int i = 0; i < n; i++) {
+            int cnt = 1;
+            for (int j = 0; j < n; j++){
+                if (nums[j] > nums[i]) cnt++;
+            }
+            answer[i] = cnt;
+        }
+    }
+
+    //2-8 등수 구하기 강의 풀이
+
 
     //2-7 점수 계산
     public static int calResult(int n, int[] nums){
