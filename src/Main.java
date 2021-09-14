@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -12,16 +13,61 @@ public class Main {
 //        String line2 = sc.nextLine();
 //        String nums = sc.nextLine();
         int n = sc.nextInt();
+        int[] nums1 = new int[n];
+        for(int i = 0; i < n; i++){
+            nums1[i] = sc.nextInt();
+        }
         int m = sc.nextInt();
-        int[][] nums = new int[m][n];
+        int[] nums2 = new int[m];
         for(int i = 0; i < m; i++){
-            for(int j = 0; j < n; j++){
-                nums[i][j] = sc.nextInt();
+            nums2[i] = sc.nextInt();
+        }
+
+        for (int i : combineArrayV2(n, m, nums1, nums2)) {
+            System.out.print(i + " ");
+        }
+
+    }
+
+    //2-13 두 배열 합치기
+    public static int[] combineArray(int n, int m, int[] nums1, int[] nums2){
+        int[] answer = new int[n + m];
+        System.arraycopy(nums1, 0, answer, 0, n);
+        System.arraycopy(nums2, 0, answer, n, m);
+
+        for (int i = 0; i < answer.length; i++){
+            for(int j = i; j < answer.length; j++){
+                int temp = 0;
+                if(answer[i] > answer[j]){
+                    temp = answer[i];
+                    answer[i] = answer[j];
+                    answer[j] = temp;
+                }
             }
         }
 
-        System.out.println(getMetoringNum(m, n, nums));
+        return answer;
+    }
 
+    //2-13 두 배열 합치기 강의 풀이(two pointers algorithm)
+    public static ArrayList<Integer> combineArrayV2(int n, int m, int[] nums1, int[] nums2){
+        ArrayList<Integer> answer = new ArrayList<>();
+        int p1 = 0;
+        int p2 = 0;
+
+        while (p1 < n && p2 < m){
+            if(nums1[p1] > nums2[p2]) answer.add(nums2[p2++]);
+            else answer.add(nums1[p1++]);
+
+        }
+        while (p1 < n){
+            answer.add(nums1[p1++]);
+        }
+        while (p2 < m){
+            answer.add(nums2[p2++]);
+        }
+
+        return answer;
     }
 
     //2-12 멘토링 강의 풀이
