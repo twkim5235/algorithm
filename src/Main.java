@@ -12,15 +12,38 @@ public class Main {
 //        String line2 = sc.nextLine();
 //        String nums = sc.nextLine();
         int n = sc.nextInt();
-        int[][] nums = new int[n][5];
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < 5; j++){
+        int m = sc.nextInt();
+        int[][] nums = new int[m][n];
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
                 nums[i][j] = sc.nextInt();
             }
         }
 
-        System.out.println(getLeader(n, nums));
+        System.out.println(getMetoringNum(m, n, nums));
 
+    }
+
+    //2-12 멘토링 강의 풀이
+    public static int getMetoringNum(int m, int n, int[][] nums){
+        int answer = 0;
+        for(int i = 1; i <= n; i++){
+            for(int j = 1; j <= n; j++){
+                if(i != j) {
+                    int cnt = 0;
+                    for (int k = 0; k < m; k++) {
+                        int pi = 0, pj = 0;
+                        for (int s = 0; s < n; s++) {
+                            if (nums[k][s] == i) pi = s;
+                            if (nums[k][s] == j) pj = s;
+                        }
+                        if (pi < pj) cnt++;
+                    }
+                    if (cnt == m) answer++;
+                }
+            }
+        }
+        return answer;
     }
 
     //2-11 임시반장 정하기
