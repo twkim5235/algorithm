@@ -23,13 +23,36 @@ public class Main {
             nums2[i] = sc.nextInt();
         }
 
-        for (int i : combineArrayV2(n, m, nums1, nums2)) {
+        for (int i : getCommonElement(n, m, nums1, nums2)) {
             System.out.print(i + " ");
         }
 
     }
 
-    //2-13 두 배열 합치기
+    //3-2 공통 원소 구하기
+    public static ArrayList<Integer> getCommonElement(int n, int m, int[] nums1, int[] nums2){
+        ArrayList<Integer> answer = new ArrayList<Integer>();
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+
+        int p1 = 0, p2 = 0;
+
+        while (p1 < n && p2 < m){
+                if(nums1[p1] < nums2[p2]) {
+                    p1++;
+                }else if(nums1[p1] > nums2[p2]) {
+                    p2++;
+                }else {
+                    answer.add(nums1[p1]);
+                    p1++;
+                    p2++;
+                }
+        }
+
+        return answer;
+    }
+
+    //3-1 두 배열 합치기
     public static int[] combineArray(int n, int m, int[] nums1, int[] nums2){
         int[] answer = new int[n + m];
         System.arraycopy(nums1, 0, answer, 0, n);
@@ -49,7 +72,7 @@ public class Main {
         return answer;
     }
 
-    //2-13 두 배열 합치기 강의 풀이(two pointers algorithm)
+    //3-1 두 배열 합치기 강의 풀이(two pointers algorithm)
     public static ArrayList<Integer> combineArrayV2(int n, int m, int[] nums1, int[] nums2){
         ArrayList<Integer> answer = new ArrayList<>();
         int p1 = 0;
