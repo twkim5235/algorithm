@@ -13,13 +13,46 @@ public class Main {
 //        String line2 = sc.nextLine();
 //        String nums = sc.nextLine();
         int n = sc.nextInt();
-        int m = sc.nextInt();
-        int[] nums = new int[n];
-        for(int i = 0; i < n; i++){
-            nums[i] = sc.nextInt();
+        int[] nums = new int[n / 2 + 1];
+        for(int i = 0; i < nums.length; i++){
+            nums[i] = i + 1;
         }
 
-        System.out.println(seqPartArray(n, m, nums));
+        System.out.println(seqNumSum(n, nums));
+    }
+
+    //3-5 연속된 자연수의 합
+    public static int seqNumSum(int n, int[] nums){
+        int answer = 0, sum = 0, lt = 0;
+
+        for (int rt = 0; rt < nums.length; rt++) {
+            sum += nums[rt];
+            if(sum == n) {
+                answer++;
+            }
+            while (sum >= n){
+                sum -= nums[lt++];
+                if(sum == n) {
+                    answer++;
+                }
+            }
+        }
+
+        return answer;
+    }
+
+    //3-5 연속된 자연수의 합
+    public static int seqNumSum(int n){
+        int answer = 0, cnt = 1;
+        n--;
+        while (n > 0){
+            cnt++;
+            n = n - cnt;
+            if(n % cnt == 0)
+                answer++;
+        }
+
+        return answer;
     }
 
     //3-4 연속 부분 수열(복합적 문제)
