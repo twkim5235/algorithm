@@ -19,14 +19,51 @@ public class Main {
             nums[i] = sc.nextInt();
         }
 
-        System.out.println(getMaxSale(n, m, nums));
+        System.out.println(seqPartArray(n, m, nums));
+    }
+
+    //3-4 연속 부분 수열(복합적 문제)
+    public static int seqPartArray(int n, int m, int[] nums){
+        int answer = 0, sum = 0;
+        int st = 0, ed = 0;
+
+        sum = nums[st];
+        while (st < n) {
+            if(sum == m){
+                answer++;
+                sum -= nums[st++];
+            }else if(sum > m){
+                sum -= nums[st++];
+            }else {
+                if(ed < n - 1)
+                    sum += nums[++ed];
+            }
+
+            if(ed == n -1){
+                st++;
+            }
+        }
+
+        return answer;
+    }
+
+    //3-4 연속 부분 수열(복합적 문제) - 강의 풀이
+    public static int seqPartArrayV2(int n, int m, int[] nums){
+        int answer = 0, sum = 0, lt = 0;
+        for (int rt = 0; rt < n; rt++) {
+            sum += nums[rt];
+            if(sum == m) answer++;
+            while (sum >= m){
+                sum -= nums[lt++];
+                if(sum == m) answer++;
+            }
+        }
+        return answer;
     }
 
     //3-3 최대 매출 구하기
     public static int getMaxSale(int n, int m, int[] nums){
         int answer = 0, sum = 0;
-        int st = 0;
-        int ed = 0;
 
         for(int i = 0; i < m; i++){
             sum += nums[i];
