@@ -13,20 +13,33 @@ public class Main {
 //        String line2 = sc.nextLine();
 //        String nums = sc.nextLine();
         int n = sc.nextInt();
-        int[] nums1 = new int[n];
-        for(int i = 0; i < n; i++){
-            nums1[i] = sc.nextInt();
-        }
         int m = sc.nextInt();
-        int[] nums2 = new int[m];
+        int[] nums = new int[n];
+        for(int i = 0; i < n; i++){
+            nums[i] = sc.nextInt();
+        }
+
+        System.out.println(getMaxSale(n, m, nums));
+    }
+
+    //3-3 최대 매출 구하기
+    public static int getMaxSale(int n, int m, int[] nums){
+        int answer = 0, sum = 0;
+        int st = 0;
+        int ed = 0;
+
         for(int i = 0; i < m; i++){
-            nums2[i] = sc.nextInt();
+            sum += nums[i];
+        }
+        answer = sum;
+
+        for(int i = m; i < n; i++){
+            sum += nums[i] - nums[i - m];
+            if(answer < sum)
+                answer = sum;
         }
 
-        for (int i : getCommonElement(n, m, nums1, nums2)) {
-            System.out.print(i + " ");
-        }
-
+        return answer;
     }
 
     //3-2 공통 원소 구하기
