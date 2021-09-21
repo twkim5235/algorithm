@@ -19,12 +19,25 @@ public class Main {
 //        for (int i = 0; i < n; i++) {
 //            nums[i] = sc.nextInt();
 //        }
-        int n = sc.nextInt();
-        int m = sc.nextInt();
-        int[] nums = new int[n];
-        for (int i = 0; i < n; i++) nums[i] = sc.nextInt();
+        String line1 = bf.readLine();
+        System.out.println(rightBracket(line1));
+    }
 
-        System.out.println(findK(n, m, nums));
+    //5-1 올바른 괄호
+    public static String rightBracket(String line1) {
+        String answer = "YES";
+        Stack<Character> stack = new Stack<>();
+        for (char c : line1.toCharArray()) {
+            if(c == '(') stack.push(c);
+            else if(c == ')'){
+                if (stack.isEmpty()) return "NO";
+                stack.pop();
+            }
+        }
+        if(!stack.isEmpty())
+            return "NO";
+
+        return answer;
     }
 
     //4-5 k번째 큰 수 - 강의 풀이
