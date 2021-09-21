@@ -6,22 +6,52 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
 
 //        String line1 = sc.nextLine();
 //        String line2 = sc.nextLine();
 //        String nums = sc.nextLine();
-        int n = sc.nextInt();
-        int m = sc.nextInt();
-        int[] nums = new int[n];
-        for (int i = 0; i < n; i++) {
-            nums[i] = sc.nextInt();
+//        int n = sc.nextInt();
+//        int m = sc.nextInt();
+//        int[] nums = new int[n];
+//        for (int i = 0; i < n; i++) {
+//            nums[i] = sc.nextInt();
+//        }
+        String line1 = bf.readLine();
+        String line2 = bf.readLine();
+
+        System.out.println(findAllAnagram(line1, line2));
+    }
+
+    //4-4 모든 아나그램 찾기
+    public static int findAllAnagram(String line1, String line2){
+        int answer = 0, lt = 0;
+        Map<Character, Integer> map1 = new HashMap<>();
+        Map<Character, Integer> map2 = new HashMap<>();
+        char[] chars1 = line1.toCharArray();
+        char[] chars2 = line2.toCharArray();
+
+        for (char key : chars2) {
+            map2.put(key, map2.getOrDefault(key, 0) + 1);
+        }
+        for (int i = 0; i < chars2.length - 1; i++){
+            map1.put(chars1[i], map1.getOrDefault(chars1[i], 0) + 1);
         }
 
-        for (int i : takeKindV2(n, m, nums)) {
-            System.out.print(i + " ");
+        for(int rt = line2.length() - 1; rt < chars1.length; rt++){
+            map1.put(chars1[rt], map1.getOrDefault(chars1[rt], 0) + 1);
+            if (map1.equals(map2)) {
+                answer++;
+            }
+            map1.put(chars1[lt], map1.get(chars1[lt]) - 1);
+            if(map1.get(chars1[lt]) == 0) map1.remove(chars1[lt]);
+            lt++;
+
         }
+
+        return answer;
     }
 
     //4-3 매출액의 종류
@@ -36,10 +66,8 @@ public class Main {
             if((rt - lt) % (m - 1) == 0){
                 answer.add(kinds.size());
 
-                if(kinds.get(nums[lt]) > 1) kinds.put(nums[lt], kinds.get(nums[lt]) - 1);
-                else {
-                    kinds.remove(nums[lt]);
-                }
+                kinds.put(nums[lt], kinds.get(nums[lt]) - 1);
+                if(kinds.get(nums[lt]) == 0) kinds.remove(nums[lt]);
 
                 lt++;
             }
