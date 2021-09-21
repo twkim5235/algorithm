@@ -19,8 +19,46 @@ public class Main {
 //        for (int i = 0; i < n; i++) {
 //            nums[i] = sc.nextInt();
 //        }
-        String line1 = bf.readLine();
-        System.out.println(removeBracketChar(line1));
+        int n = sc.nextInt();
+        int[][] crane = new int[n][n];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                crane[i][j] = sc.nextInt();
+            }
+        }
+        int m = sc.nextInt();
+        int[] moves = new int[m];
+        for(int i = 0; i < m; i++){
+            moves[i] = sc.nextInt() - 1;
+        }
+        System.out.println(drawDoll(n, crane, m, moves));
+    }
+
+    //5-3 크레인 인형뽑기(카카오)
+    public static int drawDoll(int n, int[][] crane, int m, int[] moves){
+        int answer = 0;
+        Stack<Integer> bucket = new Stack();
+
+        for(int i = 0; i < m; i++){
+            int doll = 0;
+            for(int j = 0; j < n; j++){
+                if(crane[j][moves[i]] != 0){
+                    doll = crane[j][moves[i]];
+                    crane[j][moves[i]] = 0;
+
+                    break;
+                }
+            }
+
+            if(!bucket.isEmpty() && bucket.peek() == doll){
+                bucket.pop();
+                answer += 2;
+            }else {
+                bucket.push(doll);
+            }
+
+        }
+        return answer;
     }
 
     //5-2 괄호 문자 제거
