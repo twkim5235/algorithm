@@ -13,12 +13,92 @@ public class Main {
 //        String line2 = sc.nextLine();
 //        String nums = sc.nextLine();
         int n = sc.nextInt();
-        int[] nums = new int[n / 2 + 1];
-        for(int i = 0; i < nums.length; i++){
-            nums[i] = i + 1;
+        String mark = sc.next();
+        char[] chars = mark.toCharArray();
+
+        System.out.println(classPresident(n, chars));
+    }
+
+    //3-7 학급 회장 hashMap
+    public static Character classPresident(int n, char[] marks){
+        Character answer = 0;
+        Map<Character, Integer> presidentMap = new HashMap<>();
+
+
+        for (int i = 0; i < n; i++) {
+
+            if (presidentMap.containsKey(marks[i])) {
+                int temp = presidentMap.get(marks[i]) + 1;
+                presidentMap.put(marks[i], temp);
+            } else {
+                presidentMap.put(marks[i], 1);
+            }
         }
 
-        System.out.println(seqNumSum(n, nums));
+
+        int cnt = 0;
+        for (Character s : presidentMap.keySet()) {
+            if (cnt < presidentMap.get(s)) {
+                cnt = presidentMap.get(s);
+                answer = s;
+            }
+        }
+
+        return answer;
+    }
+
+    //3-7 학급 회장 hashMap - 강의 풀이
+    public static Character classPresidentV2(int n, char[] marks){
+        char answer = 0;
+        Map<Character, Integer> map = new HashMap<>();
+        for (char x : marks) {
+            map.put(x, map.getOrDefault(x, 0) + 1);
+        }
+
+
+        /**
+         * containsKey
+         * 함수 설명: hashMap에 특정 key가 있는지 확인한다
+         * 특정 key가 존재하면 true, 없으면 false를 반환한다.
+         * return: boolean
+         */
+//        map.containsKey(marks[0]);
+
+        int cnt = 0;
+        for (char key : map.keySet()) {
+            if (cnt < map.get(key)) {
+                cnt = map.get(key);
+                answer = key;
+            }
+        }
+
+        return answer;
+    }
+
+    //3-7 문제용 키찾기 함수
+    private static boolean findKey(Map<Character, Integer> map, Character mark){
+        for (Character s : map.keySet()) {
+            if(mark.equals(s)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //3-6 최대 길이 연속부분수열 - 강의 풀이
+    public static int seqMaxLengthArray(int n, int m, int[] nums){
+        int answer = 0, cnt = 0, lt = 0, zeroCount = 0;
+
+        for(int rt = 0; rt < n; rt++){
+            if(nums[rt] == 0) cnt++;
+            while (cnt > m){
+                if(nums[lt] == 0) cnt--;
+                lt++;
+            }
+            answer = Math.max(answer, rt - lt + 1);
+        }
+
+        return answer;
     }
 
     //3-5 연속된 자연수의 합
