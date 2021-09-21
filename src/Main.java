@@ -20,7 +20,31 @@ public class Main {
 //            nums[i] = sc.nextInt();
 //        }
         String line1 = bf.readLine();
-        System.out.println(postFix(line1));
+        System.out.println(ironStick(line1));
+    }
+
+    //5-5 쇠막대기 - 강의 풀이
+    public static int ironStick(String line1){
+        int answer = 0;
+        Stack<Character> stack = new Stack<>();
+        boolean flag = false;
+
+        for(int i = 0; i < line1.length(); i++)
+            if(line1.charAt(i) == '(') {
+                stack.push(line1.charAt(i));
+            }
+            else {
+                if(!stack.isEmpty()) {
+                    stack.pop();
+                    if(line1.charAt(i - 1) == '(') {
+                        answer += stack.size();
+                    } else {
+                        answer++;
+                    }
+                }
+        }
+
+        return answer;
     }
 
     //5-4 후위식 연산
