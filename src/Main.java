@@ -12,15 +12,65 @@ public class Main {
 //        String line1 = sc.nextLine();
 //        String line2 = sc.nextLine();
 //        String nums = sc.nextLine();
-//        int n = sc.nextInt();
-        String s1 = sc.nextLine();
-        String s2 = sc.nextLine();
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[] nums = new int[n];
+        for (int i = 0; i < n; i++) {
+            nums[i] = sc.nextInt();
+        }
 
-
-        System.out.println(anaGramV2(s1, s2));
+        for (int i : takeKindV2(n, m, nums)) {
+            System.out.print(i + " ");
+        }
     }
 
-    //3-8 아나그램
+    //4-3 매출액의 종류
+    public static ArrayList<Integer> takeKind(int n, int m, int[] nums) {
+        ArrayList<Integer> answer = new ArrayList<>();
+        Map<Integer, Integer> kinds = new HashMap<>();
+        int lt = 0;
+
+        kinds.put(nums[0], kinds.getOrDefault(nums[0], 0) + 1);
+        for (int rt = 1; rt < n; rt++) {
+            kinds.put(nums[rt], kinds.getOrDefault(nums[rt], 0) + 1);
+            if((rt - lt) % (m - 1) == 0){
+                answer.add(kinds.size());
+
+                if(kinds.get(nums[lt]) > 1) kinds.put(nums[lt], kinds.get(nums[lt]) - 1);
+                else {
+                    kinds.remove(nums[lt]);
+                }
+
+                lt++;
+            }
+        }
+
+        return answer;
+    }
+
+    //4-3 매출액의 종류 - 강의 풀이
+    public static ArrayList<Integer> takeKindV2(int n, int m, int[] nums){
+        ArrayList<Integer> answer = new ArrayList<>();
+        HashMap<Integer, Integer> hashMap = new HashMap<>();
+
+        for(int i = 0; i < m - 1; i++){
+            hashMap.put(nums[i], hashMap.getOrDefault(nums[i], 0) + 1);
+        }
+        int lt = 0;
+        for (int rt = m - 1; rt < n; rt++) {
+            hashMap.put(nums[rt], hashMap.getOrDefault(nums[rt], 0) + 1);
+            answer.add(hashMap.size());
+            hashMap.put(nums[lt], hashMap.get(nums[lt]) - 1);
+            if (hashMap.get(nums[lt]) == 0) {
+                hashMap.remove(nums[lt]);
+            }
+            lt++;
+        }
+
+        return answer;
+    }
+
+    //4-2 아나그램
     public static String anaGram(String s1, String s2) {
         String answer = "NO";
         Map<Character, Integer> mapS1 = new HashMap<>();
@@ -51,7 +101,7 @@ public class Main {
         return answer;
     }
 
-    //3-8 아나그램 - 강의 풀이
+    //4-2 아나그램 - 강의 풀이
     public static String anaGramV2(String s1, String s2){
         String answer = "YES";
         HashMap<Character, Integer> map = new HashMap<>();
@@ -68,7 +118,7 @@ public class Main {
         return answer;
     }
 
-    //3-7 학급 회장 hashMap
+    //4-1 학급 회장 hashMap
     public static Character classPresident(int n, char[] marks){
         Character answer = 0;
         Map<Character, Integer> presidentMap = new HashMap<>();
@@ -96,7 +146,7 @@ public class Main {
         return answer;
     }
 
-    //3-7 학급 회장 hashMap - 강의 풀이
+    //4-1 학급 회장 hashMap - 강의 풀이
     public static Character classPresidentV2(int n, char[] marks){
         char answer = 0;
         Map<Character, Integer> map = new HashMap<>();
