@@ -20,7 +20,24 @@ public class Main {
 //            nums[i] = sc.nextInt();
 //        }
         String line1 = bf.readLine();
-        System.out.println(rightBracket(line1));
+        System.out.println(removeBracketChar(line1));
+    }
+
+    //5-2 괄호 문자 제거
+    public static String removeBracketChar(String line1){
+        String answer = "";
+        Stack<Character> stack = new Stack<>();
+        for (char c : line1.toCharArray()) {
+            if(c == ')'){
+              while (stack.pop() != '(');
+            } else stack.push(c);
+        }
+
+        for (Character character : stack) {
+            answer += character;
+        }
+
+        return answer;
     }
 
     //5-1 올바른 괄호
