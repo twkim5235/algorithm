@@ -12,11 +12,60 @@ public class Main {
 //        String line1 = sc.nextLine();
 //        String line2 = sc.nextLine();
 //        String nums = sc.nextLine();
-        int n = sc.nextInt();
-        String mark = sc.next();
-        char[] chars = mark.toCharArray();
+//        int n = sc.nextInt();
+        String s1 = sc.nextLine();
+        String s2 = sc.nextLine();
 
-        System.out.println(classPresident(n, chars));
+
+        System.out.println(anaGramV2(s1, s2));
+    }
+
+    //3-8 아나그램
+    public static String anaGram(String s1, String s2) {
+        String answer = "NO";
+        Map<Character, Integer> mapS1 = new HashMap<>();
+        Map<Character, Integer> mapS2 = new HashMap<>();
+
+        for (char key : s1.toCharArray()) {
+            mapS1.put(key, mapS1.getOrDefault(key, 0) + 1);
+        }
+
+        for (char key : s2.toCharArray()) {
+            mapS2.put(key, mapS2.getOrDefault(key, 0) + 1);
+        }
+
+        for (char key : mapS1.keySet()) {
+            if(mapS2.containsKey(key)){
+                if(mapS1.get(key) == mapS2.get(key)) answer = "YES";
+                else {
+                    answer = "NO";
+                    break;
+                }
+            }
+            else {
+                answer = "NO";
+                break;
+            }
+        }
+
+        return answer;
+    }
+
+    //3-8 아나그램 - 강의 풀이
+    public static String anaGramV2(String s1, String s2){
+        String answer = "YES";
+        HashMap<Character, Integer> map = new HashMap<>();
+        for (char x : s1.toCharArray()) {
+            map.put(x, map.getOrDefault(x, 0) + 1);
+        }
+        for (char x : s2.toCharArray()){
+            if (!map.containsKey(x) || map.get(x) == 0) {
+                return "NO";
+            }
+            map.put(x, map.get(x) - 1);
+        }
+
+        return answer;
     }
 
     //3-7 학급 회장 hashMap
