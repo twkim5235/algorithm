@@ -19,19 +19,41 @@ public class Main {
 //        for (int i = 0; i < n; i++) {
 //            nums[i] = sc.nextInt();
 //        }
-        int n = sc.nextInt();
-        int[][] crane = new int[n][n];
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < n; j++){
-                crane[i][j] = sc.nextInt();
+        String line1 = bf.readLine();
+        System.out.println(postFix(line1));
+    }
+
+    //5-4 후위식 연산
+    public static int postFix(String line1){
+        Stack<Integer> stack = new Stack<>();
+
+
+        for (char c : line1.toCharArray()) {
+            int result = 0;
+            if (Character.isDigit(c)) {
+                stack.push(Character.getNumericValue(c));
+            }else {
+                switch (c){
+                    case '+':
+                        result = stack.pop() + stack.pop();
+                        stack.push(result);
+                        break;
+                    case '-':
+                        result = (stack.pop() - stack.pop()) * -1;
+                        stack.push(result);
+                        break;
+                    case '*':
+                        result = stack.pop() * stack.pop();
+                        stack.push(result);
+                        break;
+                    case '/':
+                        result = stack.pop() / stack.pop();
+                        stack.push(result);
+                        break;
+                }
             }
         }
-        int m = sc.nextInt();
-        int[] moves = new int[m];
-        for(int i = 0; i < m; i++){
-            moves[i] = sc.nextInt() - 1;
-        }
-        System.out.println(drawDoll(n, crane, m, moves));
+        return stack.pop();
     }
 
     //5-3 크레인 인형뽑기(카카오)
