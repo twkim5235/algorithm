@@ -19,10 +19,33 @@ public class Main {
 //        for (int i = 0; i < n; i++) {
 //            nums[i] = sc.nextInt();
 //        }
-        String line1 = bf.readLine();
-        String line2 = bf.readLine();
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[] nums = new int[n];
+        for (int i = 0; i < n; i++) nums[i] = sc.nextInt();
 
-        System.out.println(findAllAnagram(line1, line2));
+        System.out.println(findK(n, m, nums));
+    }
+
+    //4-5 k번째 큰 수 - 강의 풀이
+    public static int findK(int n, int m, int[] nums){
+        int answer = -1;
+        TreeSet<Integer> set = new TreeSet<>(Collections.reverseOrder());
+
+        for(int i = 0; i < n; i++){
+            for(int j = i + 1; j < n; j++){
+                for(int k = j + 1; k < n; k++){
+                    set.add(nums[i] + nums[j] + nums[k]);
+                }
+            }
+        }
+
+        int cnt = 0;
+        for (Integer x : set) {
+            cnt++;
+            if(cnt == m) return x;
+        }
+        return answer;
     }
 
     //4-4 모든 아나그램 찾기
