@@ -5,17 +5,6 @@ import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.IntStream;
 
-//5 - 8 응급실 문제용 클래스
-class Person {
-    public int id;
-    public int crit;
-
-    public Person(int id, int crit) {
-        this.id = id;
-        this.crit = crit;
-    }
-}
-
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
@@ -29,9 +18,23 @@ public class Main {
         for (int i = 0; i < n; i++) {
             nums[i] = sc.nextInt();
         }
-        for (int i : selectSort(n, nums)) {
+        for (int i : bubbleSort(n, nums)) {
             System.out.print(i + " ");
         }
+    }
+
+    //6-2 버블 정렬
+    public static int[] bubbleSort(int n, int[] nums){
+        for(int i = 0; i < n - 1; i++){
+            for(int j = 0; j < n - i - 1; j++){
+                if(nums[j] > nums[j + 1]){
+                    int tmp = nums[j + 1];
+                    nums[j + 1] = nums[j];
+                    nums[j] = tmp;
+                }
+            }
+        }
+        return nums;
     }
 
     //6-1 선택 정렬
@@ -1414,5 +1417,16 @@ public class Main {
         }
 
         System.out.println(result / scoreNum);
+    }
+}
+
+//5 - 8 응급실 문제용 클래스
+class Person {
+    public int id;
+    public int crit;
+
+    public Person(int id, int crit) {
+        this.id = id;
+        this.crit = crit;
     }
 }
