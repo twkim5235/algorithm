@@ -25,12 +25,29 @@ public class Main {
 //        String line2 = sc.nextLine();
 //        String nums = sc.nextLine();
         int n = sc.nextInt();
-        int m = sc.nextInt();
-        Integer[] nums = new Integer[n];
+        int[] nums = new int[n];
         for (int i = 0; i < n; i++) {
             nums[i] = sc.nextInt();
         }
-        System.out.println(emergencyRoom(n, m, nums));
+        for (int i : selectSort(n, nums)) {
+            System.out.print(i + " ");
+        }
+    }
+
+    //6-1 선택 정렬
+    public static int[] selectSort(int n, int[] nums){
+        for(int i = 0; i < n - 1; i++){
+            int minValue = i;
+            for (int j = i + 1; j < n; j++) {
+                if(nums[minValue] > nums[j]){
+                    minValue = j;
+                }
+            }
+            int tmp = nums[minValue];
+            nums[minValue] = nums[i];
+            nums[i] = tmp;
+        }
+        return nums;
     }
 
     //5-8 응급실 - 강의 풀이
