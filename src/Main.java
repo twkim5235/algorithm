@@ -19,12 +19,51 @@ public class Main {
 //        for (int i = 0; i < n; i++) {
 //            nums[i] = sc.nextInt();
 //        }
-//        String line1 = bf.readLine();
-        int n = sc.nextInt();
-        int m = sc.nextInt();
-        System.out.println(savePrincess(n, m));
+        String line1 = bf.readLine();
+        String line2 = bf.readLine();
+        System.out.println(organizeEduV2(line1, line2));
     }
-    //5-6 공주 구하기
+
+    //5-7 교육과정 설계(QUEUE)
+    public static String organizeEdu(String line1, String line2) {
+        Queue<Character> queue = new LinkedList();
+        String answer = "YES";
+        for(int i = 0; i < line1.length(); i++){
+            queue.add(line1.charAt(i));
+        }
+
+        for(int i = 0; i < line2.length(); i++){
+            if(queue.contains(line2.charAt(i))){
+                if (queue.peek() == line2.charAt(i)) queue.poll();
+                else return "NO";
+            }
+            if(queue.isEmpty()) break;
+        }
+
+        if(!queue.isEmpty()) return "NO";
+
+        return answer;
+    }
+
+    //5-7 교육 과정 설계 - 강의 풀이(QUEUE)
+    public static String organizeEduV2(String line1, String line2) {
+        String answer = "YES";
+        Queue<Character> Q = new LinkedList<>();
+
+        for(char x: line1.toCharArray()) Q.offer(x);
+        for(char x: line2.toCharArray()){
+            if(Q.contains(x)){
+                if(Q.poll() != x) return "NO";
+            }
+        }
+
+        if(!Q.isEmpty()) return "NO";
+
+        return answer;
+
+    }
+
+    //5-6 공주 구하기(QUEUE)
     public static int savePrincess(int n, int m){
         int answer = 0;
         Queue<Integer> prince = new LinkedList();
@@ -47,7 +86,7 @@ public class Main {
         return answer;
     }
 
-    //5-5 쇠막대기 - 강의 풀이
+    //5-5 쇠막대기 - 강의 풀이(STACK)
     public static int ironStick(String line1){
         int answer = 0;
         Stack<Character> stack = new Stack<>();
@@ -71,7 +110,7 @@ public class Main {
         return answer;
     }
 
-    //5-4 후위식 연산
+    //5-4 후위식 연산(STACK)
     public static int postFix(String line1){
         Stack<Integer> stack = new Stack<>();
 
@@ -104,7 +143,7 @@ public class Main {
         return stack.pop();
     }
 
-    //5-3 크레인 인형뽑기(카카오)
+    //5-3 크레인 인형뽑기(카카오)(STACK)
     public static int drawDoll(int n, int[][] crane, int m, int[] moves){
         int answer = 0;
         Stack<Integer> bucket = new Stack();
@@ -131,7 +170,7 @@ public class Main {
         return answer;
     }
 
-    //5-2 괄호 문자 제거
+    //5-2 괄호 문자 제거(STACK)
     public static String removeBracketChar(String line1){
         String answer = "";
         Stack<Character> stack = new Stack<>();
@@ -148,7 +187,7 @@ public class Main {
         return answer;
     }
 
-    //5-1 올바른 괄호
+    //5-1 올바른 괄호(STACK)
     public static String rightBracket(String line1) {
         String answer = "YES";
         Stack<Character> stack = new Stack<>();
@@ -165,7 +204,7 @@ public class Main {
         return answer;
     }
 
-    //4-5 k번째 큰 수 - 강의 풀이
+    //4-5 k번째 큰 수 - 강의 풀이(TreeSet)
     public static int findK(int n, int m, int[] nums){
         int answer = -1;
         TreeSet<Integer> set = new TreeSet<>(Collections.reverseOrder());
@@ -186,7 +225,7 @@ public class Main {
         return answer;
     }
 
-    //4-4 모든 아나그램 찾기
+    //4-4 모든 아나그램 찾기(HashMap, slidingWindow)
     public static int findAllAnagram(String line1, String line2){
         int answer = 0, lt = 0;
         Map<Character, Integer> map1 = new HashMap<>();
@@ -215,7 +254,7 @@ public class Main {
         return answer;
     }
 
-    //4-3 매출액의 종류
+    //4-3 매출액의 종류(HashMap, slidingWindow)
     public static ArrayList<Integer> takeKind(int n, int m, int[] nums) {
         ArrayList<Integer> answer = new ArrayList<>();
         Map<Integer, Integer> kinds = new HashMap<>();
@@ -237,7 +276,7 @@ public class Main {
         return answer;
     }
 
-    //4-3 매출액의 종류 - 강의 풀이
+    //4-3 매출액의 종류 - 강의 풀이(HashMap, slidingWindow)
     public static ArrayList<Integer> takeKindV2(int n, int m, int[] nums){
         ArrayList<Integer> answer = new ArrayList<>();
         HashMap<Integer, Integer> hashMap = new HashMap<>();
@@ -259,7 +298,7 @@ public class Main {
         return answer;
     }
 
-    //4-2 아나그램
+    //4-2 아나그램(HashMap)
     public static String anaGram(String s1, String s2) {
         String answer = "NO";
         Map<Character, Integer> mapS1 = new HashMap<>();
@@ -290,7 +329,7 @@ public class Main {
         return answer;
     }
 
-    //4-2 아나그램 - 강의 풀이
+    //4-2 아나그램 - 강의 풀이(HashMap)
     public static String anaGramV2(String s1, String s2){
         String answer = "YES";
         HashMap<Character, Integer> map = new HashMap<>();
@@ -307,7 +346,7 @@ public class Main {
         return answer;
     }
 
-    //4-1 학급 회장 hashMap
+    //4-1 학급 회장 hashMap(HashMap)
     public static Character classPresident(int n, char[] marks){
         Character answer = 0;
         Map<Character, Integer> presidentMap = new HashMap<>();
@@ -335,7 +374,7 @@ public class Main {
         return answer;
     }
 
-    //4-1 학급 회장 hashMap - 강의 풀이
+    //4-1 학급 회장 hashMap - 강의 풀이(HashMap)
     public static Character classPresidentV2(int n, char[] marks){
         char answer = 0;
         Map<Character, Integer> map = new HashMap<>();
@@ -363,7 +402,7 @@ public class Main {
         return answer;
     }
 
-    //3-7 문제용 키찾기 함수
+    //4-1 문제용 키찾기 함수
     private static boolean findKey(Map<Character, Integer> map, Character mark){
         for (Character s : map.keySet()) {
             if(mark.equals(s)) {
