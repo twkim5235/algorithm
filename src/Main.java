@@ -5,6 +5,17 @@ import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.IntStream;
 
+//5 - 8 응급실 문제용 클래스
+class Person {
+    public int id;
+    public int crit;
+
+    public Person(int id, int crit) {
+        this.id = id;
+        this.crit = crit;
+    }
+}
+
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
@@ -13,15 +24,40 @@ public class Main {
 //        String line1 = sc.nextLine();
 //        String line2 = sc.nextLine();
 //        String nums = sc.nextLine();
-//        int n = sc.nextInt();
-//        int m = sc.nextInt();
-//        int[] nums = new int[n];
-//        for (int i = 0; i < n; i++) {
-//            nums[i] = sc.nextInt();
-//        }
-        String line1 = bf.readLine();
-        String line2 = bf.readLine();
-        System.out.println(organizeEduV2(line1, line2));
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        Integer[] nums = new Integer[n];
+        for (int i = 0; i < n; i++) {
+            nums[i] = sc.nextInt();
+        }
+        System.out.println(emergencyRoom(n, m, nums));
+    }
+
+    //5-8 응급실 - 강의 풀이
+    public static int emergencyRoom(int pNum, int order, Integer[] crits){
+        int answer = 0;
+        Queue<Person> list = new LinkedList<>();
+        for(int i = 0; i < pNum; i++){
+            list.offer(new Person(i, crits[i]));
+        }
+
+        while (!list.isEmpty()) {
+            Person tmp = list.poll();
+            for (Person person : list) {
+                if(person.crit > tmp.crit){
+                    list.offer(tmp);
+                    tmp = null;
+                    break;
+                }
+            }
+            if(tmp != null){
+                answer++;
+                if(tmp.id == order) return answer;
+            }
+        }
+
+        return answer;
+
     }
 
     //5-7 교육과정 설계(QUEUE)
