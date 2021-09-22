@@ -19,8 +19,32 @@ public class Main {
 //        for (int i = 0; i < n; i++) {
 //            nums[i] = sc.nextInt();
 //        }
-        String line1 = bf.readLine();
-        System.out.println(ironStick(line1));
+//        String line1 = bf.readLine();
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        System.out.println(savePrincess(n, m));
+    }
+    //5-6 공주 구하기
+    public static int savePrincess(int n, int m){
+        int answer = 0;
+        Queue<Integer> prince = new LinkedList();
+        for (int i = 1; i <= n; i++) {
+            prince.add(i);
+        }
+
+        int cnt = 1;
+        while (prince.size() != 1) {
+            int tmp = prince.poll();
+            if(cnt == m){
+                cnt = 1;
+            }else {
+                prince.add(tmp);
+                cnt++;
+            }
+        }
+        answer = prince.poll();
+
+        return answer;
     }
 
     //5-5 쇠막대기 - 강의 풀이
