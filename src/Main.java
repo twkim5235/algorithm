@@ -18,9 +18,23 @@ public class Main {
         for (int i = 0; i < n; i++) {
             nums[i] = sc.nextInt();
         }
-        for (int i : bubbleSort(n, nums)) {
+        for (int i : insertSort(n, nums)) {
             System.out.print(i + " ");
         }
+    }
+
+    //6-3 삽입 정렬
+    public static int[] insertSort(int n, int[] nums){
+        for (int i = 1; i < n; i++){
+            int tmp = nums[i], j;
+            for(j = i - 1; j >= 0; j--){
+                if(nums[j] > tmp) nums[j + 1] = nums[j];
+                else break;
+            }
+            nums[j + 1] = tmp;
+        }
+
+        return nums;
     }
 
     //6-2 버블 정렬
