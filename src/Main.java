@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class Main {
+    static int[] fibo;
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
@@ -15,8 +16,25 @@ public class Main {
 //        String nums = sc.nextLine();
 //        int n = sc.nextInt();
 
-        showBinary(11);
+        int n = 500;
+        fibo = new int[n + 1];
+        reclusiveFibonacci(n);
+        for (int i = 1; i <= n; i++) System.out.print(fibo[i] + " ");
 
+    }
+
+    //7-4 피보나치 (재귀)
+    public static int reclusiveFibonacci(int n) {
+        if(fibo[n] > 0) return fibo[n];
+        if(n == 1) return fibo[n] = 1;
+        else if(n == 2) return fibo[n] = 1;
+        else return fibo[n] = reclusiveFibonacci(n - 2) + reclusiveFibonacci(n - 1);
+    }
+
+    //7-3 팩토리얼
+    public static int factorial(int n) {
+        if(n == 1) return 1;
+        else return n * factorial(n - 1);
     }
 
     //7-2 이진수 출력(재귀)
@@ -25,7 +43,7 @@ public class Main {
             return;
         }
         else {
-            recursiveFunction(n / 2);
+            showBinary(n / 2);
             System.out.print(n % 2);
         }
     }
