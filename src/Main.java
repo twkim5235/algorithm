@@ -14,13 +14,34 @@ public class Main {
 //        String line2 = sc.nextLine();
 //        String nums = sc.nextLine();
         int n = sc.nextInt();
-        int[] nums = new int[n];
-        for (int i = 0; i < n; i++) {
+        int m = sc.nextInt();
+        int[] nums = new int[m];
+        for (int i = 0; i < m; i++) {
             nums[i] = sc.nextInt();
         }
-        for (int i : insertSort(n, nums)) {
+        for (int i : lruCache(n, m, nums)) {
             System.out.print(i + " ");
         }
+    }
+
+    //6-4 LRU CACHE - 강의 풀이
+    public static int[] lruCache(int n, int m, int[] nums){
+        int [] cache = new int[n];
+        for (int num : nums) {
+            int pos = - 1;
+            for (int i = 0; i < n; i++) if(num == cache[i]) pos = i;
+            if (pos == -1){
+                for(int i  = n - 1; i > 0; i--){
+                    cache[i] = cache[i - 1];
+                }
+            } else {
+                for(int i  = pos; i > 0; i--){
+                    cache[i] = cache[i - 1];
+                }
+            }
+            cache[0] = num;
+        }
+        return cache;
     }
 
     //6-3 삽입 정렬
