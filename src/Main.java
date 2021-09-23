@@ -20,15 +20,49 @@ public class Main {
             nums[i] = sc.nextInt();
         }
 
-        System.out.println(musicVideo(n, m, nums));
+        System.out.println(selectStall(n, m, nums));
 
+    }
+
+    //6-10 마구간 정하기(결정 알고리즘) 강의 풀이
+    public static int selectStall(int n, int m, int[] nums){
+        Arrays.sort(nums);
+        int answer = 0;
+        int low = 1;
+        int high = nums[n - 1];
+        while (low <= high){
+            int mid = (low + high) / 2;
+            if (getHorseNum(nums, mid) >= m) {
+                answer = mid;
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+
+        return answer;
+    }
+
+    //6-10 마구간 정하기용 말 마리 수 구하는 함수
+    public static int getHorseNum(int[] arr, int distance){
+        int cnt = 1; //말의 수
+        int loc = arr[0];
+
+        for (int i : arr) {
+            if(i - loc >= distance){
+                cnt++;
+                loc = i;
+            }
+        }
+
+        return cnt++;
     }
 
     //6-9 뮤직비디오(결정 알고리즘) 강의 풀이
     public static int musicVideo(int n, int m, int[] nums){
         int answer = 0;
-        int low = Arrays.stream(nums).max().getAsInt();
-        int high = Arrays.stream(nums).sum();
+        int low = Arrays.stream(nums).min().getAsInt();
+        int high = Arrays.stream(nums).max().getAsInt();
 
         while (low <= high){
             int mid = (low + high) / 2;
@@ -41,6 +75,7 @@ public class Main {
         return answer;
     }
 
+    //6-9 뮤직비디오 용 cd 개수 구하는 함수
     public static int count(int[] arr, int capacity){
         int cnt = 1; //dvd 장수
         int sum = 0;
