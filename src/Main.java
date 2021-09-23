@@ -14,22 +14,32 @@ public class Main {
 //        String line2 = sc.nextLine();
 //        String nums = sc.nextLine();
         int n = sc.nextInt();
-        int[][] nums = new int[n][2];
-        for (int i = 0; i < n; i++) {
-            for(int j = 0; j < 2; j++){
-                nums[i][j] = sc.nextInt();
-            }
+        int m = sc.nextInt();
+        int[] nums = new int[n];
+        for(int i = 0; i < n; i++){
+            nums[i] = sc.nextInt();
         }
 
-        for (int[] ints : locationSort(n, nums)) {
-            for(int i = 0; i < ints.length; i++){
-                if(i == 0)
-                System.out.print(ints[i] + " ");
-                else
-                System.out.println(ints[i]);
-            }
+        System.out.println(binarySearch(n, m, nums));
+
+    }
+
+    //6-8 이분 검색
+    public static int binarySearch(int n, int target, int[] nums){
+        int low = 0, high = n - 1, mid;
+        Arrays.sort(nums);
+
+        while (low <= high){
+            mid = (low + high) / 2;
+            if (nums[mid] == target)
+                return mid + 1;
+            else if(nums[mid] > target)
+                high = mid - 1;
+            else
+                low = mid + 1;
         }
 
+        return -1;
     }
 
     //6-7 좌표 정렬
