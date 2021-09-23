@@ -15,11 +15,22 @@ public class Main {
 //        String nums = sc.nextLine();
 //        int n = sc.nextInt();
 
-        recursiveFunction(11);
+        showBinary(11);
 
     }
 
-    //7-1 이진수 출력(재귀)
+    //7-2 이진수 출력(재귀)
+    public static void showBinary(int n) {
+        if(n == 0) {
+            return;
+        }
+        else {
+            recursiveFunction(n / 2);
+            System.out.print(n % 2);
+        }
+    }
+
+    //7-1 재귀 함수(스택 프레임)
     public static void recursiveFunction(int n) {
         if(n == 0) {
             return;
