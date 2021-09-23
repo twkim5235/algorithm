@@ -14,14 +14,49 @@ public class Main {
 //        String line2 = sc.nextLine();
 //        String nums = sc.nextLine();
         int n = sc.nextInt();
-        int m = sc.nextInt();
-        int[] nums = new int[m];
-        for (int i = 0; i < m; i++) {
+        int[] nums = new int[n];
+        for (int i = 0; i < n; i++) {
             nums[i] = sc.nextInt();
         }
-        for (int i : lruCache(n, m, nums)) {
-            System.out.print(i + " ");
+
+        System.out.println(checkOverlap(n, nums));
+    }
+
+    //6-5 중복 확인
+    public static Character checkOverlap(int n, int[] nums){
+        Character answer = 'U';
+        Map<Integer, Integer> map = new HashMap<>();
+        //1안
+        for(int i = 0; i < n; i++){
+            if(!map.containsKey(nums[i])){
+                map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
+            }else {
+                return 'D';
+            }
         }
+
+        //2안
+        for (int i = 0; i < n - 1; i++){
+            for(int j = i + 1; j < n; j++){
+                if(nums[i] == nums[j]){
+                    return 'D';
+                }
+            }
+        }
+
+        return answer;
+    }
+
+    //6-5 중복 확인 - 강의 풀이
+    public static Character checkOverlapV2(int n, int[] nums) {
+        Character answer = 'U';
+        Arrays.sort(nums);
+
+        for(int i = 0; i < n - 1; i++){
+            if(nums[i] == nums[i + 1]) return 'D';
+        }
+
+        return answer;
     }
 
     //6-4 LRU CACHE - 강의 풀이
