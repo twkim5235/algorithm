@@ -20,8 +20,39 @@ public class Main {
             nums[i] = sc.nextInt();
         }
 
-        System.out.println(binarySearch(n, m, nums));
+        System.out.println(musicVideo(n, m, nums));
 
+    }
+
+    //6-9 뮤직비디오(결정 알고리즘) 강의 풀이
+    public static int musicVideo(int n, int m, int[] nums){
+        int answer = 0;
+        int low = Arrays.stream(nums).max().getAsInt();
+        int high = Arrays.stream(nums).sum();
+
+        while (low <= high){
+            int mid = (low + high) / 2;
+            if (count(nums, mid) <= m) {
+                answer = mid;
+                high = mid - 1;
+            } else low = mid + 1;
+        }
+
+        return answer;
+    }
+
+    public static int count(int[] arr, int capacity){
+        int cnt = 1; //dvd 장수
+        int sum = 0;
+
+        for (int x : arr){
+            if(sum+x > capacity){
+                cnt++;
+                sum = x;
+            } else sum += x;
+        }
+
+        return cnt;
     }
 
     //6-8 이분 검색
