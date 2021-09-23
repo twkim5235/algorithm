@@ -14,14 +14,56 @@ public class Main {
 //        String line2 = sc.nextLine();
 //        String nums = sc.nextLine();
         int n = sc.nextInt();
-        int[] nums = new int[n];
+        int[][] nums = new int[n][2];
         for (int i = 0; i < n; i++) {
-            nums[i] = sc.nextInt();
+            for(int j = 0; j < 2; j++){
+                nums[i][j] = sc.nextInt();
+            }
         }
 
-        for (Integer naughtiness : naughtiness(n, nums)) {
-            System.out.print(naughtiness + " ");
+        for (int[] ints : locationSort(n, nums)) {
+            for(int i = 0; i < ints.length; i++){
+                if(i == 0)
+                System.out.print(ints[i] + " ");
+                else
+                System.out.println(ints[i]);
+            }
         }
+
+    }
+
+    //6-7 좌표 정렬
+    public static int[][] locationSort(int n, int[][] locations){
+        for(int i = 1; i < n; i++){
+            int[] tmp = locations[i];
+            int tmpX = locations[i][0], tmpY = locations[i][1], j;
+            for(j = i - 1; j >= 0; j--){
+                if(tmpX < locations[j][0]) locations[j + 1] = locations[j];
+                else if(tmpX == locations[j][0]){
+                    if(tmpY < locations[j][1]) locations[j + 1] = locations[j];
+                    else break;
+                } else break;
+            }
+            locations[j + 1] = tmp;
+        }
+        return locations;
+    }
+
+    //6-7 좌표 정렬 - 강의 풀이
+    public static ArrayList<Point> locationSortV2(int n, Scanner sc){
+        ArrayList<Point> arr = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            int x = sc.nextInt();
+            int y = sc.nextInt();
+            arr.add(new Point(x, y));
+        };
+        Collections.sort(arr);
+
+        for (Point point : arr) {
+            System.out.println(point.x + " " + point.y);
+        }
+
+        return arr;
     }
 
     //6-6 장난 꾸러기
@@ -1513,5 +1555,21 @@ class Person {
     public Person(int id, int crit) {
         this.id = id;
         this.crit = crit;
+    }
+}
+
+//6-7 좌표 정렬용 클래스
+class Point implements Comparable<Point>{
+    public int x, y;
+
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    @Override
+    public int compareTo(Point o) {
+        if(this.x == o.x) return this.y - o.y;
+        else return this.x - o.x;
     }
 }
