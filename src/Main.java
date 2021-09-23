@@ -13,15 +13,21 @@ public class Main {
 //        String line1 = sc.nextLine();
 //        String line2 = sc.nextLine();
 //        String nums = sc.nextLine();
-        int n = sc.nextInt();
-        int m = sc.nextInt();
-        int[] nums = new int[n];
-        for(int i = 0; i < n; i++){
-            nums[i] = sc.nextInt();
+//        int n = sc.nextInt();
+
+        recursiveFunction(11);
+
+    }
+
+    //7-1 이진수 출력(재귀)
+    public static void recursiveFunction(int n) {
+        if(n == 0) {
+            return;
         }
-
-        System.out.println(selectStall(n, m, nums));
-
+        else {
+            recursiveFunction(n - 1);
+            System.out.print(n + " ");
+        }
     }
 
     //6-10 마구간 정하기(결정 알고리즘) 강의 풀이
@@ -90,7 +96,7 @@ public class Main {
         return cnt;
     }
 
-    //6-8 이분 검색
+    //6-8 이진 검색
     public static int binarySearch(int n, int target, int[] nums){
         int low = 0, high = n - 1, mid;
         Arrays.sort(nums);
