@@ -19,7 +19,22 @@ public class Main {
             nums[i] = sc.nextInt();
         }
 
-        System.out.println(checkOverlap(n, nums));
+        for (Integer naughtiness : naughtiness(n, nums)) {
+            System.out.print(naughtiness + " ");
+        }
+    }
+
+    //6-6 장난 꾸러기
+    public static ArrayList<Integer> naughtiness (int n, int[] nums){
+        ArrayList<Integer> answer = new ArrayList<>();
+        int[] falseNum = nums.clone();
+        Arrays.sort(nums);
+
+        for(int i = 0; i < n; i++){
+            if(falseNum[i] != nums[i]) answer.add(i + 1);
+        }
+
+        return answer;
     }
 
     //6-5 중복 확인
