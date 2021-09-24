@@ -6,8 +6,11 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class Main {
+    //7-4
     static int[] fibo;
-
+    //7-5
+    Node root;
+    //7-6
     static int n;
     static int[] ch;
 
@@ -19,10 +22,34 @@ public class Main {
 //        String line2 = sc.nextLine();
 //        String nums = sc.nextLine();
 //        int n = sc.nextInt();
-        Main main = new Main();
-        n = 3;
-        ch = new int[n + 1];
-        main.getPartSet(1);
+        Main tree = new Main();
+        tree.root = new Node(1);
+        tree.root.lt = new Node(2);
+        tree.root.rt = new Node(3);
+        tree.root.lt.lt = new Node(4);
+        tree.root.lt.rt = new Node(5);
+        tree.root.rt.lt = new Node(6);
+        tree.root.rt.rt = new Node(7);
+        tree.binaryTreeTourBFS(tree.root);
+    }
+
+    //7-7 이진트리 순회(BFS: 레벨 탐색)
+    public void binaryTreeTourBFS(Node root){
+        Queue<Node> Q = new LinkedList<>();
+        Q.offer(root);
+        int level = 0;
+        while (!Q.isEmpty()){
+            int len = Q.size();
+            System.out.print(level + " : ");
+            for (int i = 0; i < len; i++) {
+                Node cur = Q.poll();
+                System.out.print(cur.data + " ");
+                if(cur.lt != null) Q.offer(cur.lt);
+                if(cur.rt != null) Q.offer(cur.rt);
+            }
+            level++;
+            System.out.println();
+        }
     }
 
     //7-6 부분집합 구하기(DFS)
