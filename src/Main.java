@@ -28,14 +28,32 @@ public class Main {
         tree.root.rt = new Node(3);
         tree.root.lt.lt = new Node(4);
         tree.root.lt.rt = new Node(5);
-        System.out.println(tree.getShortestDistanceDfs(0, tree.root));
+        System.out.println(tree.getShortestDistanceBFS(tree.root));
 
     }
 
+    //7-10 Tree Node에서 말단 Node까지 가장 짧은 거리 구하기(BFS)
+    public int getShortestDistanceBFS(Node root) {
+        Queue<Node> que = new LinkedList();
+        que.offer(root);
+        int level = 0;
+        while (!que.isEmpty()) {
+            int len = que.size();
+            for(int i = 0; i < len; i++){
+                Node cur = que.poll();
+                if (cur.lt == null && cur.rt == null) return level;
+                if(cur.lt != null) que.offer(cur.lt);
+                if(cur.rt != null) que.offer(cur.rt);
+            }
+            level++;
+        }
+        return -1;
+    }
+
     //7-9 Tree Node에서 말단 Node까지 가장 짧은 거리 구하기(DFS)
-    public int getShortestDistanceDfs(int L, Node root) {
+    public int getShortestDistanceDFS(int L, Node root) {
         if (root.lt == null && root.rt == null) return L;
-        else return Math.min(getShortestDistanceDfs(L + 1, root.lt), getShortestDistanceDfs(L + 1, root.rt));
+        else return Math.min(getShortestDistanceDFS(L + 1, root.lt), getShortestDistanceDFS(L + 1, root.rt));
     }
 
     //7-8 송아지 찾기
