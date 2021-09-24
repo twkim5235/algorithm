@@ -17,18 +17,43 @@ public class Main {
     int answer = 0;
     int[] dis = {1, -1, 5};
     Queue<Integer> Q = new LinkedList<>();
+    //7-12
+    static int m;
+    static int[][] graph;
+
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
 
-        Main tree = new Main();
-        tree.root = new Node(1);
-        tree.root.lt = new Node(2);
-        tree.root.rt = new Node(3);
-        tree.root.lt.lt = new Node(4);
-        tree.root.lt.rt = new Node(5);
-        System.out.println(tree.getShortestDistanceBFS(tree.root));
+        Main T = new Main();
+        n = sc.nextInt();
+        m = sc.nextInt();
+        graph = new int[n][m];
+        ch = new int[n + 1];
+        for (int i = 0; i < m; i++) {
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            graph[a][b] = 1;
+        }
+        ch[1] = 1;
+        T.findPathDFS(1);
+        System.out.println("T.answer = " + T.answer);
+
+    }
+
+    //7-12 경로탐색(DFS)
+    public void findPathDFS(int v) {
+        if(v == n) answer++;
+        else {
+            for (int i = 1; i <= n; i++) {
+                if(graph[v][i] == 1 && ch[i] == 0){
+                    ch[i] = 1;
+                    findPathDFS(i);
+                    ch[i] = 0;
+                }
+            }
+        }
 
     }
 
