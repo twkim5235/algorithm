@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 
 public class Main {
     static int[] fibo;
+    Node root;
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
@@ -16,11 +17,27 @@ public class Main {
 //        String nums = sc.nextLine();
 //        int n = sc.nextInt();
 
-        int n = 500;
-        fibo = new int[n + 1];
-        reclusiveFibonacci(n);
-        for (int i = 1; i <= n; i++) System.out.print(fibo[i] + " ");
+        Main tree = new Main();
+        tree.root = new Node(1);
+        tree.root.lt = new Node(2);
+        tree.root.rt = new Node(3);
+        tree.root.lt.lt = new Node(4);
+        tree.root.lt.rt = new Node(5);
+        tree.root.rt.lt = new Node(6);
+        tree.root.rt.rt = new Node(7);
+        tree.binaryTreeTourDFS(tree.root);
 
+
+    }
+
+    //7-5 이진트리 순회(깊이 우선 탐색)
+    public void binaryTreeTourDFS(Node root) {
+        if(root == null) return;
+        else {
+            binaryTreeTourDFS(root.lt);
+            binaryTreeTourDFS(root.rt);
+            System.out.print(root.data + " ");
+        }
     }
 
     //7-4 피보나치 (재귀)
@@ -1682,5 +1699,16 @@ class Point implements Comparable<Point>{
     public int compareTo(Point o) {
         if(this.x == o.x) return this.y - o.y;
         else return this.x - o.x;
+    }
+}
+
+//7-5 이진트리 순회(DFS)용 클래스
+class Node{
+    int data;
+    Node lt, rt;
+
+    public Node(int val) {
+        data = val;
+        lt = rt = null;
     }
 }
