@@ -13,24 +13,44 @@ public class Main {
     //7-6
     static int n;
     static int[] ch;
+    //7-8
+    int answer = 0;
+    int[] dis = {1, -1, 5};
+    Queue<Integer> Q = new LinkedList<>();
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
 
-//        String line1 = sc.nextLine();
-//        String line2 = sc.nextLine();
-//        String nums = sc.nextLine();
-//        int n = sc.nextInt();
-        Main tree = new Main();
-        tree.root = new Node(1);
-        tree.root.lt = new Node(2);
-        tree.root.rt = new Node(3);
-        tree.root.lt.lt = new Node(4);
-        tree.root.lt.rt = new Node(5);
-        tree.root.rt.lt = new Node(6);
-        tree.root.rt.rt = new Node(7);
-        tree.binaryTreeTourBFS(tree.root);
+        int s = sc.nextInt();
+        int e = sc.nextInt();
+        Main T = new Main();
+        System.out.println(T.findCalfBFS(s, e));
+
+    }
+
+    //7-8 송아지 찾기
+    public int findCalfBFS(int s, int e){
+        ch = new int[10001];
+        ch[s] = 1;
+        Q.offer(s);
+        int level = 0;
+        while (!Q.isEmpty()){
+            int len = Q.size();
+            for (int i = 0; i < len; i++) {
+                int x = Q.poll();
+                for (int j = 0; j < 3; j++){
+                    int nx = x + dis[j];
+                    if(nx == e) return level + 1;
+                    if (nx >= 1 && nx <= 10000 && ch[nx] == 0) {
+                        ch[nx] = 1;
+                        Q.offer(nx);
+                    }
+                }
+            }
+            level++;
+        }
+        return -1;
     }
 
     //7-7 이진트리 순회(BFS: 레벨 탐색)
