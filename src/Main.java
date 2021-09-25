@@ -14,14 +14,16 @@ public class Main {
     static int n;
     static int[] ch;
     //7-8
-    int answer = 0;
     int[] dis = {1, -1, 5};
     Queue<Integer> Q = new LinkedList<>();
     //7-12
-    static int m;
+    static int m, answer;
     static int[][] graph;
     //7-13
     static ArrayList<ArrayList<Integer>> graphV2;
+    //7-14
+    static int[] disV2;
+
 
 
     public static void main(String[] args) throws IOException {
@@ -36,14 +38,34 @@ public class Main {
             graphV2.add(new ArrayList<Integer>());
         }
         ch = new int[n + 1];
+        disV2 = new int[n + 1];
         for (int i = 0; i < m; i++) {
             int a = sc.nextInt();
             int b = sc.nextInt();
             graphV2.get(a).add(b);
         }
-        ch[1] = 1;
-        T.findPathV2(1);
-        System.out.print(T.answer);
+        T.findShortestPath(1);
+        for (int i = 2; i <= n; i++) {
+            System.out.println(i + " : " + disV2[i]);
+        }
+    }
+
+    //7-14 그래프 최단거리(BFS)
+    public void findShortestPath(int v) {
+        Queue<Integer> que = new LinkedList<>();
+        ch[v] = 1;
+        disV2[0] = 0;
+        que.offer(v);
+        while (!que.isEmpty()) {
+            int cv = que.poll();
+            for (int nv : graphV2.get(cv)) {
+                if (ch[nv] == 0) {
+                    ch[nv] = 1;
+                    que.offer(nv);
+                    disV2[nv] = disV2[cv] + 1;
+                }
+            }
+        }
     }
 
     //7-13 경로탐색(인접리스트, ArrayList)
