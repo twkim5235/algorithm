@@ -20,6 +20,8 @@ public class Main {
     //7-12
     static int m;
     static int[][] graph;
+    //7-13
+    static ArrayList<ArrayList<Integer>> graphV2;
 
 
     public static void main(String[] args) throws IOException {
@@ -29,17 +31,33 @@ public class Main {
         Main T = new Main();
         n = sc.nextInt();
         m = sc.nextInt();
-        graph = new int[n][m];
+        graphV2 = new ArrayList<ArrayList<Integer>>();
+        for (int i = 0; i <= n; i++) {
+            graphV2.add(new ArrayList<Integer>());
+        }
         ch = new int[n + 1];
         for (int i = 0; i < m; i++) {
             int a = sc.nextInt();
             int b = sc.nextInt();
-            graph[a][b] = 1;
+            graphV2.get(a).add(b);
         }
         ch[1] = 1;
-        T.findPathDFS(1);
-        System.out.println("T.answer = " + T.answer);
+        T.findPathV2(1);
+        System.out.print(T.answer);
+    }
 
+    //7-13 경로탐색(인접리스트, ArrayList)
+    public void findPathV2(int v) {
+        if(v == n) answer++;
+        else {
+            for (int nv : graphV2.get(v)) {
+                if (ch[nv] == 0) {
+                    ch[nv] = 1;
+                    findPathV2(nv);
+                    ch[nv] = 0;
+                }
+            }
+        }
     }
 
     //7-12 경로탐색(DFS)
