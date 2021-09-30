@@ -8,41 +8,55 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class Main {
-    static String answer = "NO";
-    static int n, total = 0;
-    boolean flag = false;
+    static int answer = 0;
+    static int weight;
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
 
         Main T = new Main();
-        n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
+        weight = sc.nextInt();
+        int num = sc.nextInt();
+
+        int[] arr = new int[num];
+        for (int i = 0; i < num; i++) {
             arr[i] = sc.nextInt();
-            total += arr[i];
         }
 
-        T.sameSumSubSet(0, 0, arr);
+        T.heaviestRideDog(0, 0, arr);
+
         System.out.println(answer);
 
     }
 
-    //8-1 합이 같은 부분 집합(DFS)
-    public void sameSumSubSet(int level, int sum, int[] arr) {
-        if(flag) return;
-        if(sum > total/2) return;
-        if (level == n) {
-            if ((total - sum) == sum) {
-                answer = "YES";
-                flag = true;
-            }
-        }else {
-            sameSumSubSet(level + 1, sum + arr[level], arr);
-            sameSumSubSet(level + 1, sum, arr);
+    //8-2 바둑이 승차(DFS)
+    public void heaviestRideDog(int level, int sum, int[] dogs){
+        if(weight < sum) return;
+        if(level == dogs.length) {
+            answer = Math.max(answer, sum);
+        }
+        else {
+            heaviestRideDog(level + 1,sum + dogs[level], dogs);
+            heaviestRideDog(level + 1, sum, dogs);
         }
     }
+
+
+//    //8-1 합이 같은 부분 집합(DFS)
+//    public void sameSumSubSet(int level, int sum, int[] arr) {
+//        if(flag) return;
+//        if(sum > total/2) return;
+//        if (level == n) {
+//            if ((total - sum) == sum) {
+//                answer = "YES";
+//                flag = true;
+//            }
+//        }else {
+//            sameSumSubSet(level + 1, sum + arr[level], arr);
+//            sameSumSubSet(level + 1, sum, arr);
+//        }
+//    }
 //
 //    //7-14 그래프 최단거리(BFS)
 //    public void findShortestPath(int v) {
