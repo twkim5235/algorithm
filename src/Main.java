@@ -9,38 +9,52 @@ import java.util.stream.IntStream;
 
 public class Main {
     static int answer = 0;
-    static int weight;
+    static int proNum;
+    static int min;
+    static boolean flag = false;
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
 
         Main T = new Main();
-        weight = sc.nextInt();
-        int num = sc.nextInt();
+        proNum = sc.nextInt();
+        min = sc.nextInt();
 
-        int[] arr = new int[num];
-        for (int i = 0; i < num; i++) {
-            arr[i] = sc.nextInt();
+        int[][] arr = new int[proNum][2];
+        for(int i = 0; i < proNum; i++){
+            for (int j = 0; j < 2; j++) {
+                arr[i][j] = sc.nextInt();
+            }
         }
 
-        T.heaviestRideDog(0, 0, arr);
+        T.getMaxNum(0, 0, min, arr);
 
         System.out.println(answer);
 
     }
 
-    //8-2 바둑이 승차(DFS)
-    public void heaviestRideDog(int level, int sum, int[] dogs){
-        if(weight < sum) return;
-        if(level == dogs.length) {
+    public void getMaxNum(int level, int sum, int minSum, int[][] proScoNum) {
+        if(minSum < 0) return;
+        if(level == proNum){
             answer = Math.max(answer, sum);
-        }
-        else {
-            heaviestRideDog(level + 1,sum + dogs[level], dogs);
-            heaviestRideDog(level + 1, sum, dogs);
+        }else {
+            getMaxNum(level + 1, sum + proScoNum[level][0], minSum - proScoNum[level][1], proScoNum);
+            getMaxNum(level + 1, sum, minSum, proScoNum);
         }
     }
+
+//    //8-2 바둑이 승차(DFS)
+//    public void heaviestRideDog(int level, int sum, int[] dogs){
+//        if(weight < sum) return;
+//        if(level == dogs.length) {
+//            answer = Math.max(answer, sum);
+//        }
+//        else {
+//            heaviestRideDog(level + 1,sum + dogs[level], dogs);
+//            heaviestRideDog(level + 1, sum, dogs);
+//        }
+//    }
 
 
 //    //8-1 합이 같은 부분 집합(DFS)
