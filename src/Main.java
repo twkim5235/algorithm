@@ -8,41 +8,47 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class Main {
-    static int answer = 0;
-    static int proNum;
-    static int min;
-    static boolean flag = false;
+    static int[] pm;
+    static int n,m;
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
 
         Main T = new Main();
-        proNum = sc.nextInt();
-        min = sc.nextInt();
+        n = sc.nextInt();
+        m = sc.nextInt();
+        pm = new int[m];
 
-        int[][] arr = new int[proNum][2];
-        for(int i = 0; i < proNum; i++){
-            for (int j = 0; j < 2; j++) {
-                arr[i][j] = sc.nextInt();
+        T.doublePermutation(0);
+    }
+
+    //8-4 중복순열
+    public void doublePermutation(int level) {
+        if (level == m) {
+            for (int i : pm) {
+                System.out.print(i + " ");
+            }
+            System.out.println();
+            return;
+        }else {
+            for (int i = 1; i <= n; i++) {
+                pm[level] = i;
+                doublePermutation(level + 1);
             }
         }
-
-        T.getMaxNum(0, 0, min, arr);
-
-        System.out.println(answer);
-
     }
 
-    public void getMaxNum(int level, int sum, int minSum, int[][] proScoNum) {
-        if(minSum < 0) return;
-        if(level == proNum){
-            answer = Math.max(answer, sum);
-        }else {
-            getMaxNum(level + 1, sum + proScoNum[level][0], minSum - proScoNum[level][1], proScoNum);
-            getMaxNum(level + 1, sum, minSum, proScoNum);
-        }
-    }
+//    //8-3 최대 점수 구하기(DFS)
+//    public void getMaxNum(int level, int sum, int minSum, int[][] proScoNum) {
+//        if(minSum < 0) return;
+//        if(level == proNum){
+//            answer = Math.max(answer, sum);
+//        }else {
+//            getMaxNum(level + 1, sum + proScoNum[level][0], minSum - proScoNum[level][1], proScoNum);
+//            getMaxNum(level + 1, sum, minSum, proScoNum);
+//        }
+//    }
 
 //    //8-2 바둑이 승차(DFS)
 //    public void heaviestRideDog(int level, int sum, int[] dogs){
