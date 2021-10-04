@@ -8,46 +8,47 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class Main {
-    static int n, m;
-    static int[] pm;
-    static int[] check;
+    int[][] dy = new int[35][35];
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
 
         Main T = new Main();
+        int n, r;
         n = sc.nextInt();
-        m = sc.nextInt();
-        int[] nums = new int[n];
-        for (int i = 0; i < n; i++) {
-            nums[i] = sc.nextInt();
-        }
-        check = new int[n];
-        pm = new int[m];
+        r = sc.nextInt();
 
-        T.getPermutation(0, nums);
+        System.out.println(T.getNumOfCombinations(n, r));
+
     }
 
-    //8-6 순열구하기
-    public void getPermutation(int level, int[] nums) {
-        if (level == m) {
-            for (int i : pm) {
-                System.out.print(i + " ");
-            }
-            System.out.println();
-            return;
-        }else {
-            for (int i = 0; i < n; i++) {
-                if(check[i] == 0){
-                    check[i] = 1;
-                    pm[level] = nums[i];
-                    getPermutation(level + 1, nums);
-                    check[i] = 0;
-                }
-            }
-        }
+    //8-7 조합의 경우수 - 강의 풀이
+    public int getNumOfCombinations(int n, int r){
+        if(dy[n][r] > 0) return dy[n][r];
+        if(n == r || r == 0) return 1;
+        else return dy[n][r] = getNumOfCombinations(n - 1, r - 1) + getNumOfCombinations(n - 1, r);
     }
+
+//    //8-6 순열구하기 - 강의 풀이
+//    public void getPermutation(int level, int[] nums) {
+//        if (level == m) {
+//            for (int i : pm) {
+//                System.out.print(i + " ");
+//            }
+//            System.out.println();
+//            return;
+//        }else {
+//            for (int i = 0; i < n; i++) {
+//                if(check[i] == 0){
+//                    check[i] = 1;
+//                    pm[level] = nums[i];
+//                    getPermutation(level + 1, nums);
+//                    check[i] = 0;
+//                }
+//            }
+//        }
+//    }
 
 //    //8-5 동전교환
 //    public void changeCoins(int coin, int value) {
@@ -64,7 +65,7 @@ public class Main {
 //        }
 //    }
 
-//    //8-4 중복순열
+//    //8-4 중복순열 - 강의 풀이
 //    public void doublePermutation(int level) {
 //        if (level == m) {
 //            for (int i : pm) {
