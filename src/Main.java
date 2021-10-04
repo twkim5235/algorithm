@@ -8,36 +8,59 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class Main {
-    static int[] pm;
-    static int n,m;
+    static int answer = Integer.MAX_VALUE;
+    static Integer[] coins;
+    static int n;
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
 
         Main T = new Main();
+        int value;
         n = sc.nextInt();
-        m = sc.nextInt();
-        pm = new int[m];
+        coins = new Integer[n];
+        for (int i = 0; i < n; i++) {
+            coins[i] = sc.nextInt();
+        }
+        Arrays.sort(coins, Collections.reverseOrder());
+        value = sc.nextInt();
+        
+        T.changeCoins(0, value);
 
-        T.doublePermutation(0);
+        System.out.println(answer);
     }
 
-    //8-4 중복순열
-    public void doublePermutation(int level) {
-        if (level == m) {
-            for (int i : pm) {
-                System.out.print(i + " ");
-            }
-            System.out.println();
+    //8-5 동전교환
+    public void changeCoins(int coin, int value) {
+        if(coin > answer) return;
+        if (value == 0) {
+            answer = Math.min(answer, coin);
             return;
-        }else {
-            for (int i = 1; i <= n; i++) {
-                pm[level] = i;
-                doublePermutation(level + 1);
-            }
+        } else {
+            if (value > 0) {
+                for (int i = 0; i < n; i++) {
+                    changeCoins(coin + 1, value - coins[i]);
+                }
+            } else return;
         }
     }
+
+//    //8-4 중복순열
+//    public void doublePermutation(int level) {
+//        if (level == m) {
+//            for (int i : pm) {
+//                System.out.print(i + " ");
+//            }
+//            System.out.println();
+//            return;
+//        }else {
+//            for (int i = 1; i <= n; i++) {
+//                pm[level] = i;
+//                doublePermutation(level + 1);
+//            }
+//        }
+//    }
 
 //    //8-3 최대 점수 구하기(DFS)
 //    public void getMaxNum(int level, int sum, int minSum, int[][] proScoNum) {
