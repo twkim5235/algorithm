@@ -1,5 +1,6 @@
 import org.w3c.dom.Node;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,38 +9,66 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class Main {
+    static int n, m;
     static int[] dx = {-1, 0, 1, 0};
     static int[] dy = {0, 1, 0, -1};
-    static int[][] maze = new int[8][8];
-    static int[][] dis = new int[8][8];
+    static int[][] store;
+    static int[][] dis;
+    static Queue<Point> queue = new LinkedList<>();
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
+        int answer = 0;
 
         Main T = new Main();
-        for (int i = 1; i < maze.length; i++){
-            for (int j = 1; j < maze[0].length; j++){
-                maze[i][j] = sc.nextInt();
+        n = sc.nextInt();
+        m = sc.nextInt();
+        store = new int[m][n];
+        dis = new int[m][n];
+        boolean storeFlag = true;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                store[i][j] = sc.nextInt();
+                if(store[i][j] == 1)
+                    queue.offer(new Point(i, j));
+                if(store[i][j] == 0)
+                    storeFlag = false;
             }
         }
-        T.findShortestDistance(1, 1);
-        if(dis[7][7] == 0) System.out.println(-1);
-        else System.out.println(dis[7][7]);
+
+        if(storeFlag == true) {
+            System.out.println(0);
+            return;
+        }
+
+        T.tomato();
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if(store[i][j] == 0) {
+                    System.out.println(-1);
+                    return;
+                }else {
+                    answer = Math.max(answer, dis[i][j]);
+                }
+            }
+        }
+
+        System.out.println(answer);
     }
 
-    //8-11 미로 최단거리 통로 - 강의 풀이
-    public void findShortestDistance(int x, int y) {
-        Queue<Point> queue = new LinkedList();
-        queue.offer(new Point(x, y));
-        maze[x][y] = 1;
+    //8-12 토마토 - 강의 풀이
+    public void tomato(){
+        int nx = 0;
+        int ny = 0;
+
         while (!queue.isEmpty()) {
             Point tmp = queue.poll();
             for (int i = 0; i < 4; i++) {
-                int nx = tmp.x + dx[i];
-                int ny = tmp.y + dy[i];
-                if (nx > 0 && nx < 8 && ny > 0 && ny < 8 && maze[nx][ny] == 0) {
-                    maze[nx][ny] = 1;
+                nx = tmp.x + dx[i];
+                ny = tmp.y + dy[i];
+                if(nx >= 0 && nx < m && ny >= 0 && ny < n && store[nx][ny] == 0){
+                    store[nx][ny] = 1;
                     queue.offer(new Point(nx, ny));
                     dis[nx][ny] = dis[tmp.x][tmp.y] + 1;
                 }
@@ -47,7 +76,26 @@ public class Main {
         }
     }
 
-    class Point{
+//    //8-11 미로 최단거리 통로 - 강의 풀이
+//    public void findShortestDistance(int x, int y) {
+//        Queue<Point> queue = new LinkedList();
+//        queue.offer(new Point(x, y));
+//        maze[x][y] = 1;
+//        while (!queue.isEmpty()) {
+//            Point tmp = queue.poll();
+//            for (int i = 0; i < 4; i++) {
+//                int nx = tmp.x + dx[i];
+//                int ny = tmp.y + dy[i];
+//                if (nx > 0 && nx < 8 && ny > 0 && ny < 8 && maze[nx][ny] == 0) {
+//                    maze[nx][ny] = 1;
+//                    queue.offer(new Point(nx, ny));
+//                    dis[nx][ny] = dis[tmp.x][tmp.y] + 1;
+//                }
+//            }
+//        }
+//    }
+//
+static class Point{
         public int x;
         public int y;
 
