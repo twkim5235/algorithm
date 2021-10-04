@@ -8,11 +8,8 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class Main {
-
-    static int[] b, p, ch;
-    static int n, f;
-    boolean flag = false;
-    int[][] dy = new int[35][35];
+    static int n, m;
+    static int[] pm;
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
@@ -20,44 +17,57 @@ public class Main {
 
         Main T = new Main();
         n = sc.nextInt();
-        f = sc.nextInt();
-        b = new int[n];
-        p = new int[n];
-        ch = new int[n + 1];
-        for (int i = 0; i < n; i++) {
-            b[i] = T.getNumOfCombinations(n - 1, i);
-        }
-        T.guessPermutation(0, 0);
+        m = sc.nextInt();
+        pm = new int[m];
+
+        T.getCombination(0,1);
+
     }
 
-    //8-8 수열 추측하기 - 강의 풀이
-    public void guessPermutation(int level, int sum) {
-        if(flag == true) return;
-        if (level == n) {
-            if(sum == f) {
-                for (int i : p) {
-                    System.out.print(i + " ");
-                }
-                flag = true;
+    //8-9 조합 구하기 - 강의 풀이
+    public void getCombination(int level, int start){
+        if(level == m){
+            for (int i : pm) {
+                System.out.print(i + " ");
             }
-        } else {
-            for (int i = 1; i <= n; i++) {
-                if (ch[i] == 0) {
-                    ch[i] = 1;
-                    p[level] = i;
-                    guessPermutation(level + 1, sum+(p[level] * b[level]));
-                    ch[i] = 0;
-                }
+            System.out.println();
+        }else {
+            for (int i = start; i <= n; i++){
+                    pm[level] = i;
+                    getCombination(level + 1, i + 1);
             }
         }
+
     }
 
-    //8-7 조합의 경우수 - 강의 풀이
-    public int getNumOfCombinations(int n, int r){
-        if(dy[n][r] > 0) return dy[n][r];
-        if(n == r || r == 0) return 1;
-        else return dy[n][r] = getNumOfCombinations(n - 1, r - 1) + getNumOfCombinations(n - 1, r);
-    }
+//    //8-8 수열 추측하기 - 강의 풀이
+//    public void guessPermutation(int level, int sum) {
+//        if(flag == true) return;
+//        if (level == n) {
+//            if(sum == f) {
+//                for (int i : p) {
+//                    System.out.print(i + " ");
+//                }
+//                flag = true;
+//            }
+//        } else {
+//            for (int i = 1; i <= n; i++) {
+//                if (ch[i] == 0) {
+//                    ch[i] = 1;
+//                    p[level] = i;
+//                    guessPermutation(level + 1, sum+(p[level] * b[level]));
+//                    ch[i] = 0;
+//                }
+//            }
+//        }
+//    }
+//
+//    //8-7 조합의 경우수 - 강의 풀이
+//    public int getNumOfCombinations(int n, int r){
+//        if(dy[n][r] > 0) return dy[n][r];
+//        if(n == r || r == 0) return 1;
+//        else return dy[n][r] = getNumOfCombinations(n - 1, r - 1) + getNumOfCombinations(n - 1, r);
+//    }
 
 //    //8-6 순열구하기 - 강의 풀이
 //    public void getPermutation(int level, int[] nums) {
