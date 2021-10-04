@@ -8,62 +8,92 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class Main {
-    static int answer = 0;
-    static int[][] maze = new int[7][7];
     static int[] dx = {-1, 0, 1, 0};
     static int[] dy = {0, 1, 0, -1};
+    static int[][] maze = new int[8][8];
+    static int[][] dis = new int[8][8];
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
 
         Main T = new Main();
-        for (int i = 0; i < maze.length; i++){
-            for (int j = 0; j < maze[0].length; j++){
+        for (int i = 1; i < maze.length; i++){
+            for (int j = 1; j < maze[0].length; j++){
                 maze[i][j] = sc.nextInt();
             }
         }
-        T.exploreMaze(0, 0);
-        System.out.println(answer);
+        T.findShortestDistance(1, 1);
+        if(dis[7][7] == 0) System.out.println(-1);
+        else System.out.println(dis[7][7]);
     }
 
-    //8-10 미로탐색
-    public void exploreMaze(int n, int m){
-        if (n == 6 && m == 6){
-            answer++;
-            return;
-        }else {
-            if(n < 7 && m < 7) {
-                if (maze[n][m] == 0) {
-                    maze[n][m] = 1;
-                    exploreMaze(n + 1, m);
-                    exploreMaze(n, m + 1);
-                    if(n > 1)
-                        exploreMaze(n - 1, m);
-                    if(m > 1)
-                        exploreMaze(n, m - 1);
-                    maze[n][m] = 0;
-                }
-            }
-        }
-    }
-
-    //8-10 미로탐색 - 강의 풀이
-    public void exploreMazeV2(int x, int y) {
-        if(x == 6 && y== 6)
-            answer++;
-        else {
+    //8-11 미로 최단거리 통로 - 강의 풀이
+    public void findShortestDistance(int x, int y) {
+        Queue<Point> queue = new LinkedList();
+        queue.offer(new Point(x, y));
+        maze[x][y] = 1;
+        while (!queue.isEmpty()) {
+            Point tmp = queue.poll();
             for (int i = 0; i < 4; i++) {
-                int nx = x + dx[i];
-                int ny = y + dx[i];
-                if(nx > 0 && nx < 7 && ny > 0 && ny < 6 && maze[nx][ny] == 0) {
+                int nx = tmp.x + dx[i];
+                int ny = tmp.y + dy[i];
+                if (nx > 0 && nx < 8 && ny > 0 && ny < 8 && maze[nx][ny] == 0) {
                     maze[nx][ny] = 1;
-                    exploreMazeV2(nx, ny);
-                    maze[nx][ny] = 0;
+                    queue.offer(new Point(nx, ny));
+                    dis[nx][ny] = dis[tmp.x][tmp.y] + 1;
                 }
             }
         }
     }
+
+    class Point{
+        public int x;
+        public int y;
+
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+//    //8-10 미로탐색
+//    public void exploreMaze(int n, int m){
+//        if (n == 6 && m == 6){
+//            answer++;
+//            return;
+//        }else {
+//            if(n < 7 && m < 7) {
+//                if (maze[n][m] == 0) {
+//                    maze[n][m] = 1;
+//                    exploreMaze(n + 1, m);
+//                    exploreMaze(n, m + 1);
+//                    if(n > 1)
+//                        exploreMaze(n - 1, m);
+//                    if(m > 1)
+//                        exploreMaze(n, m - 1);
+//                    maze[n][m] = 0;
+//                }
+//            }
+//        }
+//    }
+//
+//    //8-10 미로탐색 - 강의 풀이
+//    public void exploreMazeV2(int x, int y) {
+//        if(x == 6 && y== 6)
+//            answer++;
+//        else {
+//            for (int i = 0; i < 4; i++) {
+//                int nx = x + dx[i];
+//                int ny = y + dx[i];
+//                if(nx > 0 && nx < 7 && ny > 0 && ny < 6 && maze[nx][ny] == 0) {
+//                    maze[nx][ny] = 1;
+//                    exploreMazeV2(nx, ny);
+//                    maze[nx][ny] = 0;
+//                }
+//            }
+//        }
+//    }
 
 //    //8-9 조합 구하기 - 강의 풀이
 //    public void getCombination(int level, int start){
