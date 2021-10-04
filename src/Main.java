@@ -8,37 +8,78 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class Main {
-    static int n, m;
-    static int[] pm;
+    static int answer = 0;
+    static int[][] maze = new int[7][7];
+    static int[] dx = {-1, 0, 1, 0};
+    static int[] dy = {0, 1, 0, -1};
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
 
         Main T = new Main();
-        n = sc.nextInt();
-        m = sc.nextInt();
-        pm = new int[m];
-
-        T.getCombination(0,1);
-
-    }
-
-    //8-9 조합 구하기 - 강의 풀이
-    public void getCombination(int level, int start){
-        if(level == m){
-            for (int i : pm) {
-                System.out.print(i + " ");
-            }
-            System.out.println();
-        }else {
-            for (int i = start; i <= n; i++){
-                    pm[level] = i;
-                    getCombination(level + 1, i + 1);
+        for (int i = 0; i < maze.length; i++){
+            for (int j = 0; j < maze[0].length; j++){
+                maze[i][j] = sc.nextInt();
             }
         }
-
+        T.exploreMaze(0, 0);
+        System.out.println(answer);
     }
+
+    //8-10 미로탐색
+    public void exploreMaze(int n, int m){
+        if (n == 6 && m == 6){
+            answer++;
+            return;
+        }else {
+            if(n < 7 && m < 7) {
+                if (maze[n][m] == 0) {
+                    maze[n][m] = 1;
+                    exploreMaze(n + 1, m);
+                    exploreMaze(n, m + 1);
+                    if(n > 1)
+                        exploreMaze(n - 1, m);
+                    if(m > 1)
+                        exploreMaze(n, m - 1);
+                    maze[n][m] = 0;
+                }
+            }
+        }
+    }
+
+    //8-10 미로탐색 - 강의 풀이
+    public void exploreMazeV2(int x, int y) {
+        if(x == 6 && y== 6)
+            answer++;
+        else {
+            for (int i = 0; i < 4; i++) {
+                int nx = x + dx[i];
+                int ny = y + dx[i];
+                if(nx > 0 && nx < 7 && ny > 0 && ny < 6 && maze[nx][ny] == 0) {
+                    maze[nx][ny] = 1;
+                    exploreMazeV2(nx, ny);
+                    maze[nx][ny] = 0;
+                }
+            }
+        }
+    }
+
+//    //8-9 조합 구하기 - 강의 풀이
+//    public void getCombination(int level, int start){
+//        if(level == m){
+//            for (int i : pm) {
+//                System.out.print(i + " ");
+//            }
+//            System.out.println();
+//        }else {
+//            for (int i = start; i <= n; i++){
+//                    pm[level] = i;
+//                    getCombination(level + 1, i + 1);
+//            }
+//        }
+//
+//    }
 
 //    //8-8 수열 추측하기 - 강의 풀이
 //    public void guessPermutation(int level, int sum) {
@@ -144,7 +185,7 @@ public class Main {
 //    }
 
 
-//    //8-1 합이 같은 부분 집합(DFS)
+//    //8-1 합이 같은 부분 집합(DFS) - 강의 풀이
 //    public void sameSumSubSet(int level, int sum, int[] arr) {
 //        if(flag) return;
 //        if(sum > total/2) return;
