@@ -8,6 +8,10 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class Main {
+
+    static int[] b, p, ch;
+    static int n, f;
+    boolean flag = false;
     int[][] dy = new int[35][35];
 
     public static void main(String[] args) throws IOException {
@@ -15,12 +19,37 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         Main T = new Main();
-        int n, r;
         n = sc.nextInt();
-        r = sc.nextInt();
+        f = sc.nextInt();
+        b = new int[n];
+        p = new int[n];
+        ch = new int[n + 1];
+        for (int i = 0; i < n; i++) {
+            b[i] = T.getNumOfCombinations(n - 1, i);
+        }
+        T.guessPermutation(0, 0);
+    }
 
-        System.out.println(T.getNumOfCombinations(n, r));
-
+    //8-8 수열 추측하기 - 강의 풀이
+    public void guessPermutation(int level, int sum) {
+        if(flag == true) return;
+        if (level == n) {
+            if(sum == f) {
+                for (int i : p) {
+                    System.out.print(i + " ");
+                }
+                flag = true;
+            }
+        } else {
+            for (int i = 1; i <= n; i++) {
+                if (ch[i] == 0) {
+                    ch[i] = 1;
+                    p[level] = i;
+                    guessPermutation(level + 1, sum+(p[level] * b[level]));
+                    ch[i] = 0;
+                }
+            }
+        }
     }
 
     //8-7 조합의 경우수 - 강의 풀이
