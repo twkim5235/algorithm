@@ -8,43 +8,61 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class Main {
-    static int answer = Integer.MAX_VALUE;
-    static Integer[] coins;
-    static int n;
+    static int n, m;
+    static int[] pm;
+    static int[] check;
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
 
         Main T = new Main();
-        int value;
         n = sc.nextInt();
-        coins = new Integer[n];
+        m = sc.nextInt();
+        int[] nums = new int[n];
         for (int i = 0; i < n; i++) {
-            coins[i] = sc.nextInt();
+            nums[i] = sc.nextInt();
         }
-        Arrays.sort(coins, Collections.reverseOrder());
-        value = sc.nextInt();
-        
-        T.changeCoins(0, value);
+        check = new int[n];
+        pm = new int[m];
 
-        System.out.println(answer);
+        T.getPermutation(0, nums);
     }
 
-    //8-5 동전교환
-    public void changeCoins(int coin, int value) {
-        if(coin > answer) return;
-        if (value == 0) {
-            answer = Math.min(answer, coin);
+    //8-6 순열구하기
+    public void getPermutation(int level, int[] nums) {
+        if (level == m) {
+            for (int i : pm) {
+                System.out.print(i + " ");
+            }
+            System.out.println();
             return;
-        } else {
-            if (value > 0) {
-                for (int i = 0; i < n; i++) {
-                    changeCoins(coin + 1, value - coins[i]);
+        }else {
+            for (int i = 0; i < n; i++) {
+                if(check[i] == 0){
+                    check[i] = 1;
+                    pm[level] = nums[i];
+                    getPermutation(level + 1, nums);
+                    check[i] = 0;
                 }
-            } else return;
+            }
         }
     }
+
+//    //8-5 동전교환
+//    public void changeCoins(int coin, int value) {
+//        if(coin > answer) return;
+//        if (value == 0) {
+//            answer = Math.min(answer, coin);
+//            return;
+//        } else {
+//            if (value > 0) {
+//                for (int i = 0; i < n; i++) {
+//                    changeCoins(coin + 1, value - coins[i]);
+//                }
+//            } else return;
+//        }
+//    }
 
 //    //8-4 중복순열
 //    public void doublePermutation(int level) {
