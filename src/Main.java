@@ -9,15 +9,17 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class Main {
-    static int n, m;
+    static int n;
     static int answer;
     static int[] dx = {-1, -1, 0, 1, 1, 1, 0, -1};
     static int[] dy = {0, 1, 1, 1, 0, -1, -1, -1};
     static int[][] map;
+    static int[][] dis;
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
+        Queue<Point> queue = new LinkedList();
 
         Main T = new Main();
         n = sc.nextInt();
@@ -33,30 +35,61 @@ public class Main {
         System.out.println(answer);
     }
 
-    //13. 섬나라 아일랜드 DFS
-    public void findIslandDFS(int x, int y){
-        if(map[x][y] == 0) return;
-        else {
-            map[x][y] = 0;
-            for (int i = 0; i <dx.length; i++){
-                int nx = x + dx[i];
-                int ny = y + dy[i];
-                if(nx >= 0 && nx < n && ny >= 0 && ny < n)
-                findIslandDFS(nx, ny);
-            }
-        }
-    }
-
-    public void solution(){
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if(map[i][j] == 1){
-                    answer++;
-                    findIslandDFS(i, j);
+    //14. 섬나라 아일랜드(BFS)
+    public void findIslandBFS(int x, int y, Queue<Point> queue) {
+        while (!queue.isEmpty()) {
+            Point tmp = queue.poll();
+            for (int i = 0; i < dx.length; i++) {
+                int nx = tmp.x + dx[i];
+                int ny = tmp.y + dy[i];
+                if (nx >= 0 && nx < n && ny >= 0 && ny < n && map[nx][ny] == 1) {
+                    map[nx][ny] = 0;
+                    queue.offer(new Point(nx, ny));
                 }
             }
         }
     }
+
+    //14. 섬나라 아일랜드(BFS)
+    public void solution() {
+        Queue<Point> queue = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if(map[i][j] == 1){
+                    answer++;
+                    map[i][j] = 0;
+                    queue.offer(new Point(i, j));
+                    findIslandBFS(i, j, queue);
+                }
+            }
+        }
+    }
+
+//    //13. 섬나라 아일랜드(DFS)
+//    public void findIslandDFS(int x, int y){
+//        if(map[x][y] == 0) return;
+//        else {
+//            map[x][y] = 0;
+//            for (int i = 0; i <dx.length; i++){
+//                int nx = x + dx[i];
+//                int ny = y + dy[i];
+//                if(nx >= 0 && nx < n && ny >= 0 && ny < n)
+//                findIslandDFS(nx, ny);
+//            }
+//        }
+//    }
+//
+//    //13. 섬나라 아일랜드(DFS)
+//    public void solution(){
+//        for (int i = 0; i < n; i++) {
+//            for (int j = 0; j < n; j++) {
+//                if(map[i][j] == 1){
+//                    answer++;
+//                    findIslandDFS(i, j);
+//                }
+//            }
+//        }
+//    }
 
 //    //8-12 토마토 - 강의 풀이
 //    public void tomato(){
