@@ -10,71 +10,72 @@ import java.util.stream.IntStream;
 
 public class Main {
     static int n, m;
-    static int[] dx = {-1, 0, 1, 0};
-    static int[] dy = {0, 1, 0, -1};
-    static int[][] store;
-    static int[][] dis;
-    static Queue<Point> queue = new LinkedList<>();
+    static int answer;
+    static int[] dx = {-1, -1, 0, 1, 1, 1, 0, -1};
+    static int[] dy = {0, 1, 1, 1, 0, -1, -1, -1};
+    static int[][] map;
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
-        int answer = 0;
 
         Main T = new Main();
         n = sc.nextInt();
-        m = sc.nextInt();
-        store = new int[m][n];
-        dis = new int[m][n];
-        boolean storeFlag = true;
-        for (int i = 0; i < m; i++) {
+        map = new int[n][n];
+        for (int i = 0; i < n; i++){
             for (int j = 0; j < n; j++) {
-                store[i][j] = sc.nextInt();
-                if(store[i][j] == 1)
-                    queue.offer(new Point(i, j));
-                if(store[i][j] == 0)
-                    storeFlag = false;
+                map[i][j] = sc.nextInt();
             }
         }
 
-        if(storeFlag == true) {
-            System.out.println(0);
-            return;
-        }
-
-        T.tomato();
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if(store[i][j] == 0) {
-                    System.out.println(-1);
-                    return;
-                }else {
-                    answer = Math.max(answer, dis[i][j]);
-                }
-            }
-        }
+        T.solution();
 
         System.out.println(answer);
     }
 
-    //8-12 토마토 - 강의 풀이
-    public void tomato(){
-        int nx = 0;
-        int ny = 0;
+    //13. 섬나라 아일랜드 DFS
+    public void findIslandDFS(int x, int y){
+        if(map[x][y] == 0) return;
+        else {
+            map[x][y] = 0;
+            for (int i = 0; i <dx.length; i++){
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+                if(nx >= 0 && nx < n && ny >= 0 && ny < n)
+                findIslandDFS(nx, ny);
+            }
+        }
+    }
 
-        while (!queue.isEmpty()) {
-            Point tmp = queue.poll();
-            for (int i = 0; i < 4; i++) {
-                nx = tmp.x + dx[i];
-                ny = tmp.y + dy[i];
-                if(nx >= 0 && nx < m && ny >= 0 && ny < n && store[nx][ny] == 0){
-                    store[nx][ny] = 1;
-                    queue.offer(new Point(nx, ny));
-                    dis[nx][ny] = dis[tmp.x][tmp.y] + 1;
+    public void solution(){
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if(map[i][j] == 1){
+                    answer++;
+                    findIslandDFS(i, j);
                 }
             }
         }
     }
+
+//    //8-12 토마토 - 강의 풀이
+//    public void tomato(){
+//        int nx = 0;
+//        int ny = 0;
+//
+//        while (!queue.isEmpty()) {
+//            Point tmp = queue.poll();
+//            for (int i = 0; i < 4; i++) {
+//                nx = tmp.x + dx[i];
+//                ny = tmp.y + dy[i];
+//                if(nx >= 0 && nx < m && ny >= 0 && ny < n && store[nx][ny] == 0){
+//                    store[nx][ny] = 1;
+//                    queue.offer(new Point(nx, ny));
+//                    dis[nx][ny] = dis[tmp.x][tmp.y] + 1;
+//                }
+//            }
+//        }
+//    }
 
 //    //8-11 미로 최단거리 통로 - 강의 풀이
 //    public void findShortestDistance(int x, int y) {
