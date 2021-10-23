@@ -13,168 +13,252 @@ import java.util.stream.IntStream;
 
 public class Main {
 
-    //연결리스트를 위한 Node
-    static class Node{
-        private int data;
-        private Node next;
-
-        public Node(){
-
-        }
-
-        public Node(int data) {
-            this.data = data;
-            this.next = null;
-        }
-
-        public Node(int data, Node next) {
-            this.data = data;
-            this.next = next;
-        }
-
-        public int getData() {
-            return this.data;
-        }
-    }
-
-    //연결리스트
-    static class MyLinkedList {
-        Node head;
-        private int size;
-
-        public MyLinkedList() {
-            head = null;
-        }
-
-        //중간에 삽입
-        public void insertNode(Node preNode, int data) {
-            Node newNode = new Node(data);
-
-            //이전 노드의 next를 생성된 Node의 Next가 가르키게 함
-            newNode.next = preNode.next;
-
-            //이전 노드는 생성된 Node를 가르킴
-            preNode.next = newNode;
-            size++;
-        }
-
-        //마지막에 삽입
-        public void insertLastNode(int data) {
-            Node newNode = new Node(data);
-            if (head == null) {
-                this.head = newNode;
-            }else {
-                Node tempNode = head;
-
-                while (tempNode.next != null) {
-                    tempNode = tempNode.next;
-                }
-
-                tempNode.next = newNode;
-            }
-            size++;
-        }
-
-        //Node 삭제(중간 또는 첫번째)
-        public void deleteNode(int data) {
-            Node preNode = this.head;
-            Node tempNode = this.head.next;
-
-            if (data == preNode.getData()) {
-                this.head = preNode.next;
-                preNode.next = null;
-            } else {
-                while (data != tempNode.getData()) {
-                    preNode = tempNode;
-                    tempNode = tempNode.next;
-                }
-                preNode.next = tempNode.next;
-                tempNode.next = null;
-            }
-            size--;
-        }
-
-        public void deleteLastNode() {
-            Node preNode = this.head;
-            Node tempNode = this.head.next;
-
-            if (this.head == null) {
-                return;
-            }
-
-            if (this.head.next == null) {
-                this.head = null;
-            }else {
-                while (tempNode.next != null) {
-                    preNode = tempNode;
-                    tempNode = tempNode.next;
-                }
-                preNode.next = null;
-            }
-            size--;
-        }
-
-        public void reverseList(){
-            Node nextNode = head;
-            Node curNode = null;
-            Node preNode = null;
-
-            while (nextNode != null) {
-                preNode = curNode;
-                curNode = nextNode;
-                nextNode = nextNode.next;
-                curNode.next = preNode;
-            }
-
-            head = curNode;
-        }
-
-        public Node searchNode(int data) {
-            Node tempNode = this.head;
-
-            while (data != tempNode.getData()) {
-                tempNode = tempNode.next;
-            }
-
-            return tempNode;
-        }
-
-        public void printList() {
-            Node tempNode = this.head;
-
-            while (tempNode != null) {
-                System.out.print(tempNode.data + " ");
-                tempNode = tempNode.next;
-            }
-            System.out.println();
-        }
-
-        public int getSize(){
-            return size;
-        }
-    }
-
-
     public static void main(String[] args) throws IOException {
         Main T = new Main();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
 
-        MyLinkedList myLinkedList = new MyLinkedList();
-        myLinkedList.insertLastNode(1);
-        myLinkedList.insertLastNode(2);
-        myLinkedList.insertNode(myLinkedList.searchNode(1), 3);
-        myLinkedList.insertLastNode(3);
+        Stack stack = new ArrayStack(5);
 
-        myLinkedList.deleteNode(3);
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+        stack.push(4);
+        stack.push(5);
 
-        myLinkedList.printList();
+        stack.printStack();
 
-        myLinkedList.reverseList();
+        stack.pop();
+        stack.pop();
 
-        myLinkedList.printList();
+        stack.printStack();
+
+        stack.clear();
+
+        stack.printStack();
 
     }
+
+    interface Stack{
+        boolean isEmpty();
+        boolean isFull();
+        void push(int item);
+        int pop();
+        int peek();
+        void clear();
+        void printStack();
+    }
+
+    static class ArrayStack implements Stack {
+        private int top;
+        private int stackSize;
+        private int[] stackArr;
+
+        public ArrayStack(int stackSize) {
+            top = -1;
+            this.stackSize = stackSize;
+            stackArr = new int[this.stackSize];
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return (top == -1);
+        }
+
+        @Override
+        public boolean isFull() {
+            return (top == stackSize - 1);
+        }
+
+        @Override
+        public void push(int item) {
+            if (isFull()) {
+                System.out.println("stack is full");
+            }else {
+                stackArr[++top] = item;
+            }
+        }
+
+        @Override
+        public int pop() {
+            if (isEmpty()) {
+                System.out.println("stack is empty");
+                return 0;
+            }else {
+                return stackArr[top--];
+            }
+        }
+
+        @Override
+        public int peek() {
+            if(isEmpty()) {
+                System.out.println("stack is empty");
+                return 0;
+            }else {
+                return stackArr[top];
+            }
+        }
+
+        @Override
+        public void clear() {
+            top = -1;
+            stackArr = new int[stackSize];
+        }
+
+        @Override
+        public void printStack() {
+            if (isEmpty()) {
+                System.out.println("stack is empty");
+            }else {
+                for (int i = 0; i <= top; i++) {
+                    System.out.print(stackArr[i] + " ");
+                }
+                System.out.println();
+            }
+        }
+    }
+
+
+//    //연결리스트를 위한 Node
+//    static class Node{
+//        private int data;
+//        private Node next;
+//
+//        public Node(){
+//
+//        }
+//
+//        public Node(int data) {
+//            this.data = data;
+//            this.next = null;
+//        }
+//
+//        public Node(int data, Node next) {
+//            this.data = data;
+//            this.next = next;
+//        }
+//
+//        public int getData() {
+//            return this.data;
+//        }
+//    }
+//
+//    //연결리스트
+//    static class MyLinkedList {
+//        Node head;
+//        private int size;
+//
+//        public MyLinkedList() {
+//            head = null;
+//        }
+//
+//        //중간에 삽입
+//        public void insertNode(Node preNode, int data) {
+//            Node newNode = new Node(data);
+//
+//            //이전 노드의 next를 생성된 Node의 Next가 가르키게 함
+//            newNode.next = preNode.next;
+//
+//            //이전 노드는 생성된 Node를 가르킴
+//            preNode.next = newNode;
+//            size++;
+//        }
+//
+//        //마지막에 삽입
+//        public void insertLastNode(int data) {
+//            Node newNode = new Node(data);
+//            if (head == null) {
+//                this.head = newNode;
+//            }else {
+//                Node tempNode = head;
+//
+//                while (tempNode.next != null) {
+//                    tempNode = tempNode.next;
+//                }
+//
+//                tempNode.next = newNode;
+//            }
+//            size++;
+//        }
+//
+//        //Node 삭제(중간 또는 첫번째)
+//        public void deleteNode(int data) {
+//            Node preNode = this.head;
+//            Node tempNode = this.head.next;
+//
+//            if (data == preNode.getData()) {
+//                this.head = preNode.next;
+//                preNode.next = null;
+//            } else {
+//                while (data != tempNode.getData()) {
+//                    preNode = tempNode;
+//                    tempNode = tempNode.next;
+//                }
+//                preNode.next = tempNode.next;
+//                tempNode.next = null;
+//            }
+//            size--;
+//        }
+//
+//        public void deleteLastNode() {
+//            Node preNode = this.head;
+//            Node tempNode = this.head.next;
+//
+//            if (this.head == null) {
+//                return;
+//            }
+//
+//            if (this.head.next == null) {
+//                this.head = null;
+//            }else {
+//                while (tempNode.next != null) {
+//                    preNode = tempNode;
+//                    tempNode = tempNode.next;
+//                }
+//                preNode.next = null;
+//            }
+//            size--;
+//        }
+//
+//        public void reverseList(){
+//            Node nextNode = head;
+//            Node curNode = null;
+//            Node preNode = null;
+//
+//            while (nextNode != null) {
+//                preNode = curNode;
+//                curNode = nextNode;
+//                nextNode = nextNode.next;
+//                curNode.next = preNode;
+//            }
+//
+//            head = curNode;
+//        }
+//
+//        public Node searchNode(int data) {
+//            Node tempNode = this.head;
+//
+//            while (data != tempNode.getData()) {
+//                tempNode = tempNode.next;
+//            }
+//
+//            return tempNode;
+//        }
+//
+//        public void printList() {
+//            Node tempNode = this.head;
+//
+//            while (tempNode != null) {
+//                System.out.print(tempNode.data + " ");
+//                tempNode = tempNode.next;
+//            }
+//            System.out.println();
+//        }
+//
+//        public int getSize(){
+//            return size;
+//        }
+//    }
 
 //    //백준 - 2839번
 //    public Integer solution(int n) {
@@ -461,7 +545,6 @@ public class Main {
 //            heaviestRideDog(level + 1, sum, dogs);
 //        }
 //    }
-
 
     //    //8-1 합이 같은 부분 집합(DFS) - 강의 풀이
 //    public void sameSumSubSet(int level, int sum, int[] arr) {
