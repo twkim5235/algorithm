@@ -6,55 +6,209 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.List;
 import java.util.stream.IntStream;
 
+
+
 public class Main {
-    static int n, m, len, answer = Integer.MAX_VALUE;
-    static int[] combi;
-    static ArrayList<Point> hs, pz;
+
+    //연결리스트를 위한 Node
+    static class Node{
+        private int data;
+        private Node next;
+
+        public Node(){
+
+        }
+
+        public Node(int data) {
+            this.data = data;
+            this.next = null;
+        }
+
+        public Node(int data, Node next) {
+            this.data = data;
+            this.next = next;
+        }
+
+        public int getData() {
+            return this.data;
+        }
+    }
+
+    //연결리스트
+    static class MyLinkedList {
+        Node head;
+        private int size;
+
+        public MyLinkedList() {
+            head = null;
+        }
+
+        //중간에 삽입
+        public void insertNode(Node preNode, int data) {
+            Node newNode = new Node(data);
+
+            //이전 노드의 next를 생성된 Node의 Next가 가르키게 함
+            newNode.next = preNode.next;
+
+            //이전 노드는 생성된 Node를 가르킴
+            preNode.next = newNode;
+            size++;
+        }
+
+        //마지막에 삽입
+        public void insertLastNode(int data) {
+            Node newNode = new Node(data);
+            if (head == null) {
+                this.head = newNode;
+            }else {
+                Node tempNode = head;
+
+                while (tempNode.next != null) {
+                    tempNode = tempNode.next;
+                }
+
+                tempNode.next = newNode;
+            }
+            size++;
+        }
+
+        //Node 삭제(중간 또는 첫번째)
+        public void deleteNode(int data) {
+            Node preNode = this.head;
+            Node tempNode = this.head.next;
+
+            if (data == preNode.getData()) {
+                this.head = preNode.next;
+                preNode.next = null;
+            } else {
+                while (data != tempNode.getData()) {
+                    preNode = tempNode;
+                    tempNode = tempNode.next;
+                }
+                preNode.next = tempNode.next;
+                tempNode.next = null;
+            }
+            size--;
+        }
+
+        public void deleteLastNode() {
+            Node preNode = this.head;
+            Node tempNode = this.head.next;
+
+            if (this.head == null) {
+                return;
+            }
+
+            if (this.head.next == null) {
+                this.head = null;
+            }else {
+                while (tempNode.next != null) {
+                    preNode = tempNode;
+                    tempNode = tempNode.next;
+                }
+                preNode.next = null;
+            }
+            size--;
+        }
+
+        public void reverseList(){
+            Node nextNode = head;
+            Node curNode = null;
+            Node preNode = null;
+
+            while (nextNode != null) {
+                preNode = curNode;
+                curNode = nextNode;
+                nextNode = nextNode.next;
+                curNode.next = preNode;
+            }
+
+            head = curNode;
+        }
+
+        public Node searchNode(int data) {
+            Node tempNode = this.head;
+
+            while (data != tempNode.getData()) {
+                tempNode = tempNode.next;
+            }
+
+            return tempNode;
+        }
+
+        public void printList() {
+            Node tempNode = this.head;
+
+            while (tempNode != null) {
+                System.out.print(tempNode.data + " ");
+                tempNode = tempNode.next;
+            }
+            System.out.println();
+        }
+
+        public int getSize(){
+            return size;
+        }
+    }
+
 
     public static void main(String[] args) throws IOException {
+        Main T = new Main();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
-        Queue<Point> queue = new LinkedList();
 
-        Main T = new Main();
-        n = sc.nextInt();
-        m = sc.nextInt();
-        pz = new ArrayList<>();
-        hs = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                int tmp = sc.nextInt();
-                if(tmp == 1) hs.add(new Point(i, j));
-                else if(tmp == 2) pz.add(new Point(i, j));
-            }
-        }
-        len = pz.size();
-        combi = new int[m];
-        T.deliveryPizza(0, 0);
-        System.out.println(answer);
+        MyLinkedList myLinkedList = new MyLinkedList();
+        myLinkedList.insertLastNode(1);
+        myLinkedList.insertLastNode(2);
+        myLinkedList.insertNode(myLinkedList.searchNode(1), 3);
+        myLinkedList.insertLastNode(3);
+
+        myLinkedList.deleteNode(3);
+
+        myLinkedList.printList();
+
+        myLinkedList.reverseList();
+
+        myLinkedList.printList();
+
     }
 
-    //15. 피자 배달 거리(DFS) 강의 풀이
-    public void deliveryPizza(int level, int s) {
-        if(level == m){
-            int sum = 0;
-            for (Point h : hs) {
-                int dis = Integer.MAX_VALUE;
-                for (int i : combi) {
-                    dis = Math.min(dis, Math.abs(h.x - pz.get(i).x) + Math.abs(h.y - pz.get(i).y));
-                }
-                sum += dis;
-            }
-            answer = Math.min(answer, sum);
-        }else {
-            for (int i = s; i < len; i++) {
-                combi[level] = i;
-                deliveryPizza(level + 1, i+1);
-            }
-        }
-    }
+//    //백준 - 2839번
+//    public Integer solution(int n) {
+//        if(n == 4 || n == 7){
+//            return -1;
+//        }else if(n % 5 == 0){
+//            return n / 5;
+//        } else if (n % 5 == 1 || n % 5 == 3) {
+//            return n / 5 + 1;
+//        } else if (n % 5 == 2 || n % 5 == 4) {
+//            return n / 5 + 2;
+//        }
+//        return 0;
+//    }
+
+//    //15. 피자 배달 거리(DFS) 강의 풀이
+//    public void deliveryPizza(int level, int s) {
+//        if(level == m){
+//            int sum = 0;
+//            for (Point h : hs) {
+//                int dis = Integer.MAX_VALUE;
+//                for (int i : combi) {
+//                    dis = Math.min(dis, Math.abs(h.x - pz.get(i).x) + Math.abs(h.y - pz.get(i).y));
+//                }
+//                sum += dis;
+//            }
+//            answer = Math.min(answer, sum);
+//        }else {
+//            for (int i = s; i < len; i++) {
+//                combi[level] = i;
+//                deliveryPizza(level + 1, i+1);
+//            }
+//        }
+//    }
 
 //    //14. 섬나라 아일랜드(BFS)
 //    public void findIslandBFS(int x, int y, Queue<Point> queue) {
@@ -309,7 +463,7 @@ public class Main {
 //    }
 
 
-//    //8-1 합이 같은 부분 집합(DFS) - 강의 풀이
+    //    //8-1 합이 같은 부분 집합(DFS) - 강의 풀이
 //    public void sameSumSubSet(int level, int sum, int[] arr) {
 //        if(flag) return;
 //        if(sum > total/2) return;
@@ -2137,13 +2291,13 @@ public class Main {
 //        data = val;
 //        lt = rt = null;
 //    }
-static class Point{
-    public int x;
-    public int y;
+    static class Point {
+        public int x;
+        public int y;
 
-    public Point(int x, int y) {
-        this.x = x;
-        this.y = y;
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
     }
-}
 }
