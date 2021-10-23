@@ -18,105 +18,198 @@ public class Main {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
 
-        Stack stack = new ArrayStack(5);
+        Queue queue = new ArrayQueue(5);
 
-        stack.push(1);
-        stack.push(2);
-        stack.push(3);
-        stack.push(4);
-        stack.push(5);
+        queue.offer(1);
+        queue.offer(2);
+        queue.offer(3);
+        queue.offer(4);
+        queue.offer(5);
 
-        stack.printStack();
+        queue.printQueue();
 
-        stack.pop();
-        stack.pop();
+        queue.poll();
+        queue.poll();
+        queue.poll();
+        queue.poll();
+        queue.poll();
 
-        stack.printStack();
+        queue.offer(6);
 
-        stack.clear();
-
-        stack.printStack();
+        queue.printQueue();
 
     }
 
-    interface Stack{
+    interface Queue {
+        void offer(int data);
+        int poll();
         boolean isEmpty();
         boolean isFull();
-        void push(int item);
-        int pop();
-        int peek();
         void clear();
-        void printStack();
+        int peek();
+        void printQueue();
     }
 
-    static class ArrayStack implements Stack {
-        private int top;
-        private int stackSize;
-        private int[] stackArr;
+    static class ArrayQueue implements Queue {
+        int front, back;
+        int queueSize;
+        int[] queueArray;
 
-        public ArrayStack(int stackSize) {
-            top = -1;
-            this.stackSize = stackSize;
-            stackArr = new int[this.stackSize];
+        public ArrayQueue(int queueSize) {
+            front = back = -1;
+            this.queueSize = queueSize;
+            queueArray = new int[this.queueSize];
+        }
+
+        @Override
+        public void offer(int data) {
+            if (isFull()) {
+                System.out.println("queue is full");
+            }else {
+                queueArray[++back] = data;
+            }
+        }
+
+        @Override
+        public int poll() {
+            if (isEmpty()) {
+                System.out.println("queue is empty");
+                return 0;
+            }else {
+                int data;
+                front = (front + 1) % queueSize;
+                data = queueArray[front];
+                if (isEmpty()) {
+                    clear();
+                }
+                return data;
+            }
         }
 
         @Override
         public boolean isEmpty() {
-            return (top == -1);
+            if (front == back) {
+                front = -1;
+                back = -1;
+            }
+
+            return (front == back);
         }
 
         @Override
         public boolean isFull() {
-            return (top == stackSize - 1);
-        }
-
-        @Override
-        public void push(int item) {
-            if (isFull()) {
-                System.out.println("stack is full");
-            }else {
-                stackArr[++top] = item;
-            }
-        }
-
-        @Override
-        public int pop() {
-            if (isEmpty()) {
-                System.out.println("stack is empty");
-                return 0;
-            }else {
-                return stackArr[top--];
-            }
-        }
-
-        @Override
-        public int peek() {
-            if(isEmpty()) {
-                System.out.println("stack is empty");
-                return 0;
-            }else {
-                return stackArr[top];
-            }
+            return (back == this.queueSize - 1);
         }
 
         @Override
         public void clear() {
-            top = -1;
-            stackArr = new int[stackSize];
+            front = back = -1;
+            queueArray = new int[queueSize];
         }
 
         @Override
-        public void printStack() {
-            if (isEmpty()) {
-                System.out.println("stack is empty");
+        public int peek() {
+            if (front == back) {
+                System.out.println("queue is empty");
+                return 0;
             }else {
-                for (int i = 0; i <= top; i++) {
-                    System.out.print(stackArr[i] + " ");
+                return queueArray[front + 1];
+            }
+        }
+
+        @Override
+        public void printQueue() {
+            if (isEmpty()) {
+                System.out.println("queue is empty");
+            }else {
+                for (int i = front + 1; i <= back; i++) {
+                    System.out.print(queueArray[i] + " ");
                 }
                 System.out.println();
             }
         }
     }
+
+
+
+//    interface Stack{
+//        boolean isEmpty();
+//        boolean isFull();
+//        void push(int item);
+//        int pop();
+//        int peek();
+//        void clear();
+//        void printStack();
+//    }
+//
+//    static class ArrayStack implements Stack {
+//        private int top;
+//        private int stackSize;
+//        private int[] stackArr;
+//
+//        public ArrayStack(int stackSize) {
+//            top = -1;
+//            this.stackSize = stackSize;
+//            stackArr = new int[this.stackSize];
+//        }
+//
+//        @Override
+//        public boolean isEmpty() {
+//            return (top == -1);
+//        }
+//
+//        @Override
+//        public boolean isFull() {
+//            return (top == stackSize - 1);
+//        }
+//
+//        @Override
+//        public void push(int item) {
+//            if (isFull()) {
+//                System.out.println("stack is full");
+//            }else {
+//                stackArr[++top] = item;
+//            }
+//        }
+//
+//        @Override
+//        public int pop() {
+//            if (isEmpty()) {
+//                System.out.println("stack is empty");
+//                return 0;
+//            }else {
+//                return stackArr[top--];
+//            }
+//        }
+//
+//        @Override
+//        public int peek() {
+//            if(isEmpty()) {
+//                System.out.println("stack is empty");
+//                return 0;
+//            }else {
+//                return stackArr[top];
+//            }
+//        }
+//
+//        @Override
+//        public void clear() {
+//            top = -1;
+//            stackArr = new int[stackSize];
+//        }
+//
+//        @Override
+//        public void printStack() {
+//            if (isEmpty()) {
+//                System.out.println("stack is empty");
+//            }else {
+//                for (int i = 0; i <= top; i++) {
+//                    System.out.print(stackArr[i] + " ");
+//                }
+//                System.out.println();
+//            }
+//        }
+//    }
 
 
 //    //연결리스트를 위한 Node
