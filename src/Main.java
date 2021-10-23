@@ -18,119 +18,169 @@ public class Main {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
 
-        Queue queue = new ArrayQueue(5);
+        Queue queue = new Queue();
 
         queue.offer(1);
         queue.offer(2);
         queue.offer(3);
         queue.offer(4);
-        queue.offer(5);
 
-        queue.printQueue();
-
-        queue.poll();
-        queue.poll();
-        queue.poll();
-        queue.poll();
-        queue.poll();
-
-        queue.offer(6);
-
-        queue.printQueue();
-
-    }
-
-    interface Queue {
-        void offer(int data);
-        int poll();
-        boolean isEmpty();
-        boolean isFull();
-        void clear();
-        int peek();
-        void printQueue();
-    }
-
-    static class ArrayQueue implements Queue {
-        int front, back;
-        int queueSize;
-        int[] queueArray;
-
-        public ArrayQueue(int queueSize) {
-            front = back = -1;
-            this.queueSize = queueSize;
-            queueArray = new int[this.queueSize];
+        while (!queue.isEmpty()) {
+            System.out.print(queue.poll() + " ");
         }
 
-        @Override
+        queue.poll();
+    }
+
+    static class Node{
+        private int data;
+        private Node next;
+
+        public Node(){
+
+        }
+
+        public Node(int data) {
+            this.data = data;
+            this.next = null;
+        }
+
+        public Node(int data, Node next) {
+            this.data = data;
+            this.next = next;
+        }
+
+        public int getData() {
+            return this.data;
+        }
+    }
+
+    static class Queue {
+        Node firstNode;
+        Node lastNode;
+
         public void offer(int data) {
-            if (isFull()) {
-                System.out.println("queue is full");
-            }else {
-                queueArray[++back] = data;
-            }
+            Node newNode = new Node(data);
+
+            if(lastNode != null) lastNode.next = newNode;
+            lastNode = newNode;
+            if (firstNode == null) firstNode = lastNode;
         }
 
-        @Override
         public int poll() {
-            if (isEmpty()) {
-                System.out.println("queue is empty");
-                return 0;
-            }else {
-                int data;
-                front = (front + 1) % queueSize;
-                data = queueArray[front];
-                if (isEmpty()) {
-                    clear();
-                }
-                return data;
-            }
+            if(firstNode == null) throw new NoSuchElementException();
+
+            int data = firstNode.getData();
+            firstNode = firstNode.next;
+
+            if(firstNode == null) lastNode = null;
+            return data;
         }
 
-        @Override
-        public boolean isEmpty() {
-            if (front == back) {
-                front = -1;
-                back = -1;
-            }
-
-            return (front == back);
-        }
-
-        @Override
-        public boolean isFull() {
-            return (back == this.queueSize - 1);
-        }
-
-        @Override
-        public void clear() {
-            front = back = -1;
-            queueArray = new int[queueSize];
-        }
-
-        @Override
         public int peek() {
-            if (front == back) {
-                System.out.println("queue is empty");
-                return 0;
-            }else {
-                return queueArray[front + 1];
-            }
+            if(firstNode == null) throw new NoSuchElementException();
+
+            return firstNode.getData();
         }
 
-        @Override
-        public void printQueue() {
-            if (isEmpty()) {
-                System.out.println("queue is empty");
-            }else {
-                for (int i = front + 1; i <= back; i++) {
-                    System.out.print(queueArray[i] + " ");
-                }
-                System.out.println();
-            }
+        public boolean isEmpty() {
+            return (firstNode == null);
+        }
+
+        public void clear() {
+            firstNode = lastNode = null;
         }
     }
 
-
+//    interface Queue {
+//        void offer(int data);
+//        int poll();
+//        boolean isEmpty();
+//        boolean isFull();
+//        void clear();
+//        int peek();
+//        void printQueue();
+//    }
+//
+//    static class ArrayQueue implements Queue {
+//        int front, back;
+//        int queueSize;
+//        int[] queueArray;
+//
+//        public ArrayQueue(int queueSize) {
+//            front = back = -1;
+//            this.queueSize = queueSize;
+//            queueArray = new int[this.queueSize];
+//        }
+//
+//        @Override
+//        public void offer(int data) {
+//            if (isFull()) {
+//                System.out.println("queue is full");
+//            }else {
+//                queueArray[++back] = data;
+//            }
+//        }
+//
+//        @Override
+//        public int poll() {
+//            if (isEmpty()) {
+//                System.out.println("queue is empty");
+//                return 0;
+//            }else {
+//                int data;
+//                front = (front + 1) % queueSize;
+//                data = queueArray[front];
+//                if (isEmpty()) {
+//                    clear();
+//                }
+//                return data;
+//            }
+//        }
+//
+//        @Override
+//        public boolean isEmpty() {
+//            if (front == back) {
+//                front = -1;
+//                back = -1;
+//            }
+//
+//            return (front == back);
+//        }
+//
+//        @Override
+//        public boolean isFull() {
+//            return (back == this.queueSize - 1);
+//        }
+//
+//        @Override
+//        public void clear() {
+//            front = back = -1;
+//            queueArray = new int[queueSize];
+//        }
+//
+//        @Override
+//        public int peek() {
+//            if (front == back) {
+//                System.out.println("queue is empty");
+//                return 0;
+//            }else {
+//                return queueArray[front + 1];
+//            }
+//        }
+//
+//        @Override
+//        public void printQueue() {
+//            if (isEmpty()) {
+//                System.out.println("queue is empty");
+//            }else {
+//                for (int i = front + 1; i <= back; i++) {
+//                    System.out.print(queueArray[i] + " ");
+//                }
+//                System.out.println();
+//            }
+//        }
+//    }
 
 //    interface Stack{
 //        boolean isEmpty();
