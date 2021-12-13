@@ -1,14 +1,11 @@
 import org.w3c.dom.Node;
 
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.List;
 import java.util.stream.IntStream;
-
 
 
 public class Main {
@@ -16,81 +13,228 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Main T = new Main();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        Scanner sc = new Scanner(System.in);
 
-        Queue queue = new Queue();
-
-        queue.offer(1);
-        queue.offer(2);
-        queue.offer(3);
-        queue.offer(4);
-
-        while (!queue.isEmpty()) {
-            System.out.print(queue.poll() + " ");
+        Integer num = 0;
+        for (int i = 0; i < 3; i++) {
+            int inputNum = Integer.parseInt(bf.readLine());
+            if(i == 0) num = inputNum;
+            else num *= inputNum;
         }
 
-        queue.poll();
+        T.solution(num);
     }
 
-    static class Node{
-        private int data;
-        private Node next;
-
-        public Node(){
-
+    //백준 2577번
+    public void solution(Integer num) {
+        Map<Integer, Integer> numMap = new HashMap<>();
+        while (num != 0) {
+            numMap.put(num % 10, numMap.getOrDefault(num % 10, 0) + 1);
+            num /= 10;
         }
 
-        public Node(int data) {
-            this.data = data;
-            this.next = null;
-        }
-
-        public Node(int data, Node next) {
-            this.data = data;
-            this.next = next;
-        }
-
-        public int getData() {
-            return this.data;
+        for (int i = 0; i < 10; i++) {
+            if(numMap.containsKey(i)) System.out.println(numMap.get(i));
+            else System.out.println(0);
         }
     }
 
-    static class Queue {
-        Node firstNode;
-        Node lastNode;
+//    백준 2869번
+//    public void solution(int a, int b, int v) {
+//        double sum = 0;
+//        int count = 0;
+//
+//        count = (v - b) / (a - b);
+//        if ((v - b) % (a - b) != 0) {
+//            count++;
+//        }
+//
+//
+//        System.out.println(count);
+//    }
 
-        public void offer(int data) {
-            Node newNode = new Node(data);
+//    백준 1924번
+//    public String solution(int n, int m) {
+//
+//        int[] month = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+//        int sum = 0;
+//        String answer = "";
+//
+//        if (n > 1) {
+//            for (int i = 0; i < n - 1; i++) {
+//                sum += month[i];
+//            }
+//        }
+//
+//        sum += m;
+//        switch (sum % 7) {
+//            case 0:
+//                answer = "SUN";
+//                break;
+//            case 1:
+//                answer = "MON";
+//                break;
+//            case 2:
+//                answer = "TUE";
+//                break;
+//            case 3:
+//                answer = "WED";
+//                break;
+//            case 4:
+//                answer = "THU";
+//                break;
+//            case 5:
+//                answer = "FRI";
+//                break;
+//            case 6:
+//                answer = "SAT";
+//                break;
+//        }
+//
+//        return answer;
+//    }
 
-            if(lastNode != null) lastNode.next = newNode;
-            lastNode = newNode;
-            if (firstNode == null) firstNode = lastNode;
-        }
+//    public void solution(int n, String[] lines) {
+//        for (int i = 0; i < n; i++) {
+//            String[] s = lines[i].split(" ");
+//            int sum = 0;
+//            int num = Integer.parseInt(s[0]);
+//            for (int j = 1; j < s.length; j++) {
+//                sum += Integer.parseInt(s[j]);
+//            }
+//            int avg = sum / num;
+//            int cnt = 0;
+//            for (int j = 1; j < s.length; j++) {
+//                if (avg < Integer.parseInt(s[j])) {
+//                    cnt++;
+//                }
+//            }
+//
+//            float ratio = (float) cnt / num * 100;
+//            System.out.println(String.format("%.3f", ratio) + "%");
+//        }
+//    }
 
-        public int poll() {
-            if(firstNode == null) throw new NoSuchElementException();
+//    //오늘의 집 코테2
+//    public int solution2(String str) {
+//        int answer = 0;
+//        int length = str.length();
+//        boolean[] colorCheck = new boolean[str.length()];
+//        String check = "";
+//
+//        for (int i = 0; i < length; i++) {
+//            if (str.charAt(i) == 'o' && colorCheck[i] == false) {
+//                check += str.charAt(i);
+//                colorCheck[i] = true;
+//                int j;
+//                for (j = i + 1; j < length; j++) {
+//                    if(str.charAt(i) != str.charAt(j) && colorCheck[j] == false){
+//                        colorCheck[j] = true;
+//                        check += str.charAt(j);
+//                        break;
+//                    }
+//                }
+//
+//                for (int k = length - 1; k > j; k--) {
+//                    if(str.charAt(j) != str.charAt(k) && colorCheck[k] == false){
+//                        colorCheck[k] = true;
+//                        check += str.charAt(k);
+//
+//                        System.out.println("i: " + i + ", j: " + j + ", k: " + k);
+//
+//                        if(check.equals("oho")) {
+//                            answer++;
+//                            check = "";
+//                            break;
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//
+//        return answer;
+//    }
+//
+//    //오늘의 집 코테1
+//    public long solution1(int N, int[] height) {
+//        long answer = 0;
+//
+//        for (int i = 0; i < N - 1; i++) {
+//            for (int j = N - 1; j >= i + 1; j--) {
+//                boolean flag2 = false;
+//                for (int k = j - 1; k >= i + 1; k--) {
+//                    if(height[i] > height[k] && height[j] > height [k]){
+//                        flag2 = true;
+//                    }else {
+//                        flag2 = false;
+//                        break;
+//                    }
+//                }
+//                if(flag2 == true) answer++;
+//            }
+//        }
+//
+//        return answer + (N - 1);
+//    }
 
-            int data = firstNode.getData();
-            firstNode = firstNode.next;
-
-            if(firstNode == null) lastNode = null;
-            return data;
-        }
-
-        public int peek() {
-            if(firstNode == null) throw new NoSuchElementException();
-
-            return firstNode.getData();
-        }
-
-        public boolean isEmpty() {
-            return (firstNode == null);
-        }
-
-        public void clear() {
-            firstNode = lastNode = null;
-        }
-    }
+//    static class Node{
+//        private int data;
+//        private Node next;
+//
+//        public Node(){
+//
+//        }
+//
+//        public Node(int data) {
+//            this.data = data;
+//            this.next = null;
+//        }
+//
+//        public Node(int data, Node next) {
+//            this.data = data;
+//            this.next = next;
+//        }
+//
+//        public int getData() {
+//            return this.data;
+//        }
+//    }
+//
+//    static class Queue {
+//        Node firstNode;
+//        Node lastNode;
+//
+//        public void offer(int data) {
+//            Node newNode = new Node(data);
+//
+//            if(lastNode != null) lastNode.next = newNode;
+//            lastNode = newNode;
+//            if (firstNode == null) firstNode = lastNode;
+//        }
+//
+//        public int poll() {
+//            if(firstNode == null) throw new NoSuchElementException();
+//
+//            int data = firstNode.getData();
+//            firstNode = firstNode.next;
+//
+//            if(firstNode == null) lastNode = null;
+//            return data;
+//        }
+//
+//        public int peek() {
+//            if(firstNode == null) throw new NoSuchElementException();
+//
+//            return firstNode.getData();
+//        }
+//
+//        public boolean isEmpty() {
+//            return (firstNode == null);
+//        }
+//
+//        public void clear() {
+//            firstNode = lastNode = null;
+//        }
+//    }
 
 //    interface Queue {
 //        void offer(int data);
