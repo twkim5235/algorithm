@@ -8,33 +8,83 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 
+class Player implements Comparable<Player>{
+    int height;
+    int weight;
+
+    public Player(int height, int weight) {
+        this.height = height;
+        this.weight = weight;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    @Override
+    public int compareTo(Player o) {
+        return o.height - this.height;
+    }
+}
+
 public class Main {
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        Scanner sc = new Scanner(System.in);
 
-        T.solution(bf);
+        int playerNum = sc.nextInt();
+        List<Player> players = new ArrayList();
+        for (int i = 0; i < playerNum; i++) {
+            int height = sc.nextInt();
+            int weight = sc.nextInt();
+            players.add(new Player(height, weight));
+        }
+
+        T.solution(playerNum, players);
+
     }
+
+    //씨름선수(그리디 알고리즘)
+    public void solution(int playerNum, List<Player> players) {
+        int max = Integer.MIN_VALUE;
+        int cnt = 0;
+
+        Collections.sort(players);
+        for (int i = 0; i < players.size(); i++) {
+            if(players.get(i).weight > max){
+                cnt++;
+                max = players.get(i).weight;
+            }
+        }
+
+        System.out.println(cnt);
+    }
+
 
     //백준 1259번 팰린드롬수
-    public void solution(BufferedReader bf) throws IOException {
-        while (true) {
-            String answer = "yes";
-            String num = bf.readLine();
-            if(num.equals("0")) break;
-
-            int length = num.length() - 1;
-            for (int i = 0; i < num.length() / 2; i++) {
-                if (num.charAt(i) != num.charAt(length - i)) {
-                    answer = "no";
-                    break;
-                }
-            }
-
-            System.out.println(answer);
-        }
-    }
+//    public void solution(BufferedReader bf) throws IOException {
+//        while (true) {
+//            String answer = "yes";
+//            String num = bf.readLine();
+//            if(num.equals("0")) break;
+//
+//            int length = num.length() - 1;
+//            for (int i = 0; i < num.length() / 2; i++) {
+//                if (num.charAt(i) != num.charAt(length - i)) {
+//                    answer = "no";
+//                    break;
+//                }
+//            }
+//
+//            System.out.println(answer);
+//        }
+//    }
 
     //백준 2577번
 //    public void solution(Integer num) {
