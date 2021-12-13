@@ -14,29 +14,41 @@ public class Main {
         Main T = new Main();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
-        Integer num = 0;
-        for (int i = 0; i < 3; i++) {
-            int inputNum = Integer.parseInt(bf.readLine());
-            if(i == 0) num = inputNum;
-            else num *= inputNum;
-        }
+        T.solution(bf);
+    }
 
-        T.solution(num);
+    //백준 1259번 팰린드롬수
+    public void solution(BufferedReader bf) throws IOException {
+        while (true) {
+            String answer = "yes";
+            String num = bf.readLine();
+            if(num.equals("0")) break;
+
+            int length = num.length() - 1;
+            for (int i = 0; i < num.length() / 2; i++) {
+                if (num.charAt(i) != num.charAt(length - i)) {
+                    answer = "no";
+                    break;
+                }
+            }
+
+            System.out.println(answer);
+        }
     }
 
     //백준 2577번
-    public void solution(Integer num) {
-        Map<Integer, Integer> numMap = new HashMap<>();
-        while (num != 0) {
-            numMap.put(num % 10, numMap.getOrDefault(num % 10, 0) + 1);
-            num /= 10;
-        }
-
-        for (int i = 0; i < 10; i++) {
-            if(numMap.containsKey(i)) System.out.println(numMap.get(i));
-            else System.out.println(0);
-        }
-    }
+//    public void solution(Integer num) {
+//        Map<Integer, Integer> numMap = new HashMap<>();
+//        while (num != 0) {
+//            numMap.put(num % 10, numMap.getOrDefault(num % 10, 0) + 1);
+//            num /= 10;
+//        }
+//
+//        for (int i = 0; i < 10; i++) {
+//            if(numMap.containsKey(i)) System.out.println(numMap.get(i));
+//            else System.out.println(0);
+//        }
+//    }
 
 //    백준 2869번
 //    public void solution(int a, int b, int v) {
