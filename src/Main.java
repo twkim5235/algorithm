@@ -8,28 +8,28 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 
-class Player implements Comparable<Player>{
-    int height;
-    int weight;
-
-    public Player(int height, int weight) {
-        this.height = height;
-        this.weight = weight;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-
-    @Override
-    public int compareTo(Player o) {
-        return o.height - this.height;
-    }
-}
+//class Player implements Comparable<Player>{
+//    int height;
+//    int weight;
+//
+//    public Player(int height, int weight) {
+//        this.height = height;
+//        this.weight = weight;
+//    }
+//
+//    public int getHeight() {
+//        return height;
+//    }
+//
+//    public int getWeight() {
+//        return weight;
+//    }
+//
+//    @Override
+//    public int compareTo(Player o) {
+//        return o.height - this.height;
+//    }
+//}
 
 public class Main {
 
@@ -38,33 +38,57 @@ public class Main {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
 
-        int playerNum = sc.nextInt();
-        List<Player> players = new ArrayList();
-        for (int i = 0; i < playerNum; i++) {
-            int height = sc.nextInt();
-            int weight = sc.nextInt();
-            players.add(new Player(height, weight));
+        int num = Integer.parseInt(bf.readLine());
+        String[] words = new String[num];
+        for (int i = 0; i < num; i++) {
+            words[i] = bf.readLine();
         }
 
-        T.solution(playerNum, players);
+        T.solution(num, words);
 
     }
 
-    //씨름선수(그리디 알고리즘)
-    public void solution(int playerNum, List<Player> players) {
-        int max = Integer.MIN_VALUE;
-        int cnt = 0;
 
-        Collections.sort(players);
-        for (int i = 0; i < players.size(); i++) {
-            if(players.get(i).weight > max){
-                cnt++;
-                max = players.get(i).weight;
+    //백준 1181번 단어의 정렬 문제
+    public void solution(int num, String[] words) {
+
+        Arrays.sort(words, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                if(s1.length() == s2.length()) {
+                    return s1.compareTo(s2);
+                }else {
+                    return s1.length() - s2.length();
+                }
+
+            }
+        });
+
+        System.out.println(words[0]);
+
+        for (int i = 1; i < num; i++) {
+            // 중복되지 않는 단어만 출력
+            if (!words[i].equals(words[i - 1])) {
+                System.out.println(words[i]);
             }
         }
-
-        System.out.println(cnt);
     }
+
+//    //씨름선수(그리디 알고리즘)
+//    public void solution(int playerNum, List<Player> players) {
+//        int max = Integer.MIN_VALUE;
+//        int cnt = 0;
+//
+//        Collections.sort(players);
+//        for (int i = 0; i < players.size(); i++) {
+//            if(players.get(i).weight > max){
+//                cnt++;
+//                max = players.get(i).weight;
+//            }
+//        }
+//
+//        System.out.println(cnt);
+//    }
 
 
     //백준 1259번 팰린드롬수
