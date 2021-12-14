@@ -39,40 +39,53 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         int num = Integer.parseInt(bf.readLine());
-        String[] words = new String[num];
-        for (int i = 0; i < num; i++) {
-            words[i] = bf.readLine();
+
+
+        T.solution(num);
+
+    }
+
+    //백준 1436번 영화감독 숌 풀이
+    public void solution(int num) {
+        int endNum = 666;
+        int count = 1;
+
+        while (count != num) {
+            endNum++;
+
+            if (String.valueOf(endNum).contains("666")) {
+                count++;
+            }
         }
 
-        T.solution(num, words);
-
+        System.out.println(endNum);
     }
 
 
     //백준 1181번 단어의 정렬 문제
-    public void solution(int num, String[] words) {
-
-        Arrays.sort(words, new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-                if(s1.length() == s2.length()) {
-                    return s1.compareTo(s2);
-                }else {
-                    return s1.length() - s2.length();
-                }
-
-            }
-        });
-
-        System.out.println(words[0]);
-
-        for (int i = 1; i < num; i++) {
-            // 중복되지 않는 단어만 출력
-            if (!words[i].equals(words[i - 1])) {
-                System.out.println(words[i]);
-            }
-        }
-    }
+//    public void solution(int num, String[] words) {
+//
+//        Arrays.sort(words, new Comparator<String>() {
+//            @Override
+//            public int compare(String s1, String s2) {
+//                if(s1.length() == s2.length()) {
+//                    return s1.compareTo(s2); //사전 순
+//                }else {
+//                    return s1.length() - s2.length(); //길이 순
+//                }
+//
+//            }
+//        });
+//
+//        System.out.println(words[0]);
+//
+//        for (int i = 1; i < num; i++) {
+//            // 중복되지 않는 단어만 출력
+//            if (!words[i].equals(words[i - 1])) {
+//                System.out.println(words[i]);
+//            }
+//        }
+//    }
 
 //    //씨름선수(그리디 알고리즘)
 //    public void solution(int playerNum, List<Player> players) {
