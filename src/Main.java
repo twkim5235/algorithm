@@ -38,56 +38,72 @@ public class Main {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
 
-        String[] nums = bf.readLine().split(" ");
-        int num1 = Integer.parseInt(nums[0]);
-        int num2 = Integer.parseInt(nums[1]);
+        int N = Integer.parseInt(bf.readLine());
+        ArrayList<Integer> nums = new ArrayList<>();
+        for (int i = 0; i < N; i++) {
+            nums.add(Integer.parseInt(bf.readLine()));
+        }
 
-        T.solution(num1, num2);
+        T.solution(nums);
     }
+
+    //백준 2751 수정렬하기 2번
+    public void solution(ArrayList<Integer> nums) {
+        StringBuilder sb = new StringBuilder();
+
+        Collections.sort(nums);
+
+        for (Integer num : nums) {
+            sb.append(num).append("\n");
+        }
+
+        System.out.println(sb);
+    }
+
 
     //백준 2609 최대공약수, 최소공배수
-    public void solution(int num1, int num2) {
-        //내가 풀은 풀이 시간초과로 틀림
-        /*
-        int comFactor = 0;
-        int comMultiple = 0;
-        int cnt = 2;
-        boolean factorFlag = false;
-        while (true) {
-            if (num1 % cnt == 0 && num2 % cnt == 0) {
-                num1 /= cnt;
-                num2 /= cnt;
-                if(comFactor != 0) comFactor *= cnt;
-                else comFactor = cnt;
-
-                if (num1 == 1 || num2 == 1) {
-                    factorFlag = true;
-                }else if(num1 <= cnt || num2 <= cnt){
-                    factorFlag = true;
-                }
-            }else {
-                cnt++;
-            }
-
-            if (factorFlag == true) {
-                comMultiple = num1 * num2 * comFactor;
-                System.out.println(comFactor);
-                System.out.println(comMultiple);
-                break;
-            }
-        }*/
-
-        //예제 풀이 GCD 공식을 사용 GCD(A,B) = GCD(B,R(A % B)) 의 최대 공약수는 같다.
-        int numA = num1;
-        int numB = num2;
-        while (num2 != 0) {
-            int r = num1 % num2;
-            num1 = num2;
-            num2 = r;
-        }
-        System.out.println(num1);
-        System.out.println((numA / num1) * (numB/num1) * num1);
-    }
+//    public void solution(int num1, int num2) {
+//        //내가 풀은 풀이 시간초과로 틀림
+//        /*
+//        int comFactor = 0;
+//        int comMultiple = 0;
+//        int cnt = 2;
+//        boolean factorFlag = false;
+//        while (true) {
+//            if (num1 % cnt == 0 && num2 % cnt == 0) {
+//                num1 /= cnt;
+//                num2 /= cnt;
+//                if(comFactor != 0) comFactor *= cnt;
+//                else comFactor = cnt;
+//
+//                if (num1 == 1 || num2 == 1) {
+//                    factorFlag = true;
+//                }else if(num1 <= cnt || num2 <= cnt){
+//                    factorFlag = true;
+//                }
+//            }else {
+//                cnt++;
+//            }
+//
+//            if (factorFlag == true) {
+//                comMultiple = num1 * num2 * comFactor;
+//                System.out.println(comFactor);
+//                System.out.println(comMultiple);
+//                break;
+//            }
+//        }*/
+//
+//        //예제 풀이 GCD 공식을 사용 GCD(A,B) = GCD(B,R(A % B)) 의 최대 공약수는 같다.
+//        int numA = num1;
+//        int numB = num2;
+//        while (num2 != 0) {
+//            int r = num1 % num2;
+//            num1 = num2;
+//            num2 = r;
+//        }
+//        System.out.println(num1);
+//        System.out.println((numA / num1) * (numB/num1) * num1);
+//    }
 
 
     //백준 1436번 영화감독 숌 풀이
