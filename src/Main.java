@@ -39,26 +39,75 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         int N = Integer.parseInt(bf.readLine());
-        ArrayList<Integer> nums = new ArrayList<>();
+        Person[] people = new Person[N];
+        Person[] comPeople = new Person[N];
+
         for (int i = 0; i < N; i++) {
-            nums.add(Integer.parseInt(bf.readLine()));
+            String[] person = bf.readLine().split(" ");
+            int weight = Integer.parseInt(person[0]);
+            int height = Integer.parseInt(person[1]);
+            comPeople[i] = new Person(weight, height);
+            people[i] = new Person(weight, height);
         }
 
-        T.solution(nums);
+        T.solution(people);
     }
 
-    //백준 2751 수정렬하기 2번
-    public void solution(ArrayList<Integer> nums) {
+    //백준 7568문제 풀이 덩치 - 브루트포스
+    public void solution(Person[] people) {
         StringBuilder sb = new StringBuilder();
 
-        Collections.sort(nums);
+        int max = Integer.MIN_VALUE;
+        int cnt = 1;
 
-        for (Integer num : nums) {
-            sb.append(num).append("\n");
+        for (Person person : people) {
+            int rank = 1;
+
+            for (Person comPerson : people) {
+                if (person == comPerson) continue;
+
+                if (person.weight < comPerson.weight && person.height < comPerson.height) {
+                    rank++;
+                }
+            }
+            sb.append(rank).append(" ");
         }
+
 
         System.out.println(sb);
     }
+
+    static class Person {
+        int weight;
+        int height;
+
+        public Person(int weight, int height) {
+            this.weight = weight;
+            this.height = height;
+        }
+
+        @Override
+        public String toString() {
+            return "Person{" +
+                    "weight=" + weight +
+                    ", height=" + height +
+                    '}';
+        }
+    }
+
+
+    //백준 2751 수정렬하기 2번
+//    public void solution(ArrayList<Integer> nums) {
+//        StringBuilder sb = new StringBuilder();
+//
+//        Collections.sort(nums);
+//
+//        for (Integer num : nums) {
+//            sb.append(num).append("\n");
+//        }
+//
+//        System.out.println(sb);
+//    }
 
 
     //백준 2609 최대공약수, 최소공배수
@@ -2821,13 +2870,13 @@ public class Main {
 //        data = val;
 //        lt = rt = null;
 //    }
-    static class Point {
-        public int x;
-        public int y;
-
-        public Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
+//    static class Point {
+//        public int x;
+//        public int y;
+//
+//        public Point(int x, int y) {
+//            this.x = x;
+//            this.y = y;
+//        }
+//    }
 }
