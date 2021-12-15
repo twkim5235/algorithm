@@ -27,52 +27,100 @@ import java.util.*;
 //}
 
 public class Main {
+    public static Boolean[][] map;
+    public static int min = 64;
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
 
-        int N = Integer.parseInt(bf.readLine());
-        Person[] people = new Person[N];
+        String[] nums = bf.readLine().split(" ");
+        int N = Integer.parseInt(nums[0]);
+        int M = Integer.parseInt(nums[1]);
+
+        map = new Boolean[N][M];
+
         for (int i = 0; i < N; i++) {
-            String[] personInfo = bf.readLine().split(" ");
-            int age = Integer.parseInt(personInfo[0]);
-            String name = personInfo[1];
-            people[i] = new Person(age, name);
+            String s = bf.readLine();
+            for (int j = 0; j < M; j++) {
+                if(s.charAt(j) == 'W') map[i][j] = true;
+                else map[i][j] = false;
+            }
         }
 
-        T.solution(people);
+        T.solution(N, M, map);
+
+    }
+
+    //백준 1018번 체스판 다시칠하기 문제풀이
+    public void solution(int N, int M, Boolean[][] map) {
+        //경우의 수
+        int N_row = N - 7;
+        int M_row = M - 7;
+
+        for (int i = 0; i < N_row; i++) {
+            for (int j = 0; j < M_row; j++) {
+                find(i, j);
+            }
+        }
+
+        System.out.println(min);
+    }
+
+    public void find(int x, int y) {
+        int end_x = x + 8;
+        int end_y = y + 8;
+        int cnt = 0;
+
+        boolean TF = map[x][y]; //첫 번재 칸의 색
+
+        for (int i = x; i < end_x; i++) {
+            for (int j = y; j < end_y; j++) {
+                if (map[i][j] != TF) {
+                    cnt++;
+                }
+
+                //다음 칸에 색이 바뀌므로 toggle
+                TF = (!TF);
+            }
+            //줄마다 색이 바뀌므로 toggle
+            TF = !TF;
+        }
+
+        cnt = Math.min(cnt, 64 - cnt);
+
+        min = Math.min(min, cnt);
     }
 
     //백준 10841번 나이순 정렬
-    public void solution(Person[] people) {
-        StringBuilder sb = new StringBuilder();
-        Person key;
-
-        Arrays.sort(people);
-
-        for (Person person : people) {
-            sb.append(person.age).append(" ").append(person.name).append("\n");
-        }
-
-        System.out.println(sb);
-    }
-
-    static class Person implements Comparable<Person>{
-        int age;
-        String name;
-
-        public Person(int age, String name) {
-            this.age = age;
-            this.name = name;
-        }
-
-        @Override
-        public int compareTo(Person o) {
-            return this.age - o.age;
-        }
-    }
+//    public void solution(Person[] people) {
+//        StringBuilder sb = new StringBuilder();
+//        Person key;
+//
+//        Arrays.sort(people);
+//
+//        for (Person person : people) {
+//            sb.append(person.age).append(" ").append(person.name).append("\n");
+//        }
+//
+//        System.out.println(sb);
+//    }
+//
+//    static class Person implements Comparable<Person>{
+//        int age;
+//        String name;
+//
+//        public Person(int age, String name) {
+//            this.age = age;
+//            this.name = name;
+//        }
+//
+//        @Override
+//        public int compareTo(Person o) {
+//            return this.age - o.age;
+//        }
+//    }
 
 
     //백준 7568문제 풀이 덩치 - 브루트포스
