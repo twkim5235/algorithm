@@ -1,11 +1,6 @@
-import org.w3c.dom.Node;
-
-import java.awt.*;
 import java.io.*;
 import java.lang.reflect.Array;
 import java.util.*;
-import java.util.List;
-import java.util.stream.IntStream;
 
 
 //class Player implements Comparable<Player>{
@@ -40,60 +35,87 @@ public class Main {
 
         int N = Integer.parseInt(bf.readLine());
         Person[] people = new Person[N];
-        Person[] comPeople = new Person[N];
-
         for (int i = 0; i < N; i++) {
-            String[] person = bf.readLine().split(" ");
-            int weight = Integer.parseInt(person[0]);
-            int height = Integer.parseInt(person[1]);
-            comPeople[i] = new Person(weight, height);
-            people[i] = new Person(weight, height);
+            String[] personInfo = bf.readLine().split(" ");
+            int age = Integer.parseInt(personInfo[0]);
+            String name = personInfo[1];
+            people[i] = new Person(age, name);
         }
 
         T.solution(people);
     }
 
-    //백준 7568문제 풀이 덩치 - 브루트포스
+    //백준 10841번 나이순 정렬
     public void solution(Person[] people) {
         StringBuilder sb = new StringBuilder();
+        Person key;
 
-        int max = Integer.MIN_VALUE;
-        int cnt = 1;
+        Arrays.sort(people);
 
         for (Person person : people) {
-            int rank = 1;
-
-            for (Person comPerson : people) {
-                if (person == comPerson) continue;
-
-                if (person.weight < comPerson.weight && person.height < comPerson.height) {
-                    rank++;
-                }
-            }
-            sb.append(rank).append(" ");
+            sb.append(person.age).append(" ").append(person.name).append("\n");
         }
-
 
         System.out.println(sb);
     }
 
-    static class Person {
-        int weight;
-        int height;
+    static class Person implements Comparable<Person>{
+        int age;
+        String name;
 
-        public Person(int weight, int height) {
-            this.weight = weight;
-            this.height = height;
+        public Person(int age, String name) {
+            this.age = age;
+            this.name = name;
         }
 
         @Override
-        public String toString() {
-            return "Person{" +
-                    "weight=" + weight +
-                    ", height=" + height +
-                    '}';
+        public int compareTo(Person o) {
+            return this.age - o.age;
         }
     }
+
+
+    //백준 7568문제 풀이 덩치 - 브루트포스
+//    public void solution(Person[] people) {
+//        StringBuilder sb = new StringBuilder();
+//
+//        int max = Integer.MIN_VALUE;
+//        int cnt = 1;
+//
+//        for (Person person : people) {
+//            int rank = 1;
+//
+//            for (Person comPerson : people) {
+//                if (person == comPerson) continue;
+//
+//                if (person.weight < comPerson.weight && person.height < comPerson.height) {
+//                    rank++;
+//                }
+//            }
+//            sb.append(rank).append(" ");
+//        }
+//
+//
+//        System.out.println(sb);
+//    }
+//
+//    static class Person {
+//        int weight;
+//        int height;
+//
+//        public Person(int weight, int height) {
+//            this.weight = weight;
+//            this.height = height;
+//        }
+//
+//        @Override
+//        public String toString() {
+//            return "Person{" +
+//                    "weight=" + weight +
+//                    ", height=" + height +
+//                    '}';
+//        }
+//    }
 
 
     //백준 2751 수정렬하기 2번
