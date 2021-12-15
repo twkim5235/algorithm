@@ -27,71 +27,96 @@ import java.util.*;
 //}
 
 public class Main {
-    public static Boolean[][] map;
-    public static int min = 64;
+//    public static Boolean[][] map;
+//    public static int min = 64;
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
 
-        String[] nums = bf.readLine().split(" ");
-        int N = Integer.parseInt(nums[0]);
-        int M = Integer.parseInt(nums[1]);
+        StringBuilder sb = new StringBuilder();
 
-        map = new Boolean[N][M];
+        int N = Integer.parseInt(bf.readLine());
+        Point[] points = new Point[N];
 
         for (int i = 0; i < N; i++) {
-            String s = bf.readLine();
-            for (int j = 0; j < M; j++) {
-                if(s.charAt(j) == 'W') map[i][j] = true;
-                else map[i][j] = false;
-            }
+            String[] nums = bf.readLine().split(" ");
+            int x = Integer.parseInt(nums[0]);
+            int y = Integer.parseInt(nums[1]);
+            points[i] = new Point(x, y);
         }
 
-        T.solution(N, M, map);
+        Arrays.sort(points);
 
+        for (Point point : points) {
+            sb.append(point.x).append(" ").append(point.y).append("\n");
+        }
+
+        System.out.println(sb);
     }
+
+    //백준 11650번 좌표정렬하기 문제풀이
+    static class Point implements Comparable<Point>{
+        int x;
+        int y;
+
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public int compareTo(Point o) {
+            if(this.x > o.x) {
+                return 1;
+            } else if(this.x == o.x){
+                if(this.y > o.y) return 1;
+                else return -1;
+            } else return -1;
+        }
+    }
+
 
     //백준 1018번 체스판 다시칠하기 문제풀이
-    public void solution(int N, int M, Boolean[][] map) {
-        //경우의 수
-        int N_row = N - 7;
-        int M_row = M - 7;
-
-        for (int i = 0; i < N_row; i++) {
-            for (int j = 0; j < M_row; j++) {
-                find(i, j);
-            }
-        }
-
-        System.out.println(min);
-    }
-
-    public void find(int x, int y) {
-        int end_x = x + 8;
-        int end_y = y + 8;
-        int cnt = 0;
-
-        boolean TF = map[x][y]; //첫 번재 칸의 색
-
-        for (int i = x; i < end_x; i++) {
-            for (int j = y; j < end_y; j++) {
-                if (map[i][j] != TF) {
-                    cnt++;
-                }
-
-                //다음 칸에 색이 바뀌므로 toggle
-                TF = (!TF);
-            }
-            //줄마다 색이 바뀌므로 toggle
-            TF = !TF;
-        }
-
-        cnt = Math.min(cnt, 64 - cnt);
-
-        min = Math.min(min, cnt);
-    }
+//    public void solution(int N, int M, Boolean[][] map) {
+//        //경우의 수
+//        int N_row = N - 7;
+//        int M_row = M - 7;
+//
+//        for (int i = 0; i < N_row; i++) {
+//            for (int j = 0; j < M_row; j++) {
+//                find(i, j);
+//            }
+//        }
+//
+//        System.out.println(min);
+//    }
+//
+//    public void find(int x, int y) {
+//        int end_x = x + 8;
+//        int end_y = y + 8;
+//        int cnt = 0;
+//
+//        boolean TF = map[x][y]; //첫 번재 칸의 색
+//
+//        for (int i = x; i < end_x; i++) {
+//            for (int j = y; j < end_y; j++) {
+//                if (map[i][j] != TF) {
+//                    cnt++;
+//                }
+//
+//                //다음 칸에 색이 바뀌므로 toggle
+//                TF = (!TF);
+//            }
+//            //줄마다 색이 바뀌므로 toggle
+//            TF = !TF;
+//        }
+//
+//        cnt = Math.min(cnt, 64 - cnt);
+//
+//        min = Math.min(min, cnt);
+//    }
 
     //백준 10841번 나이순 정렬
 //    public void solution(Person[] people) {
