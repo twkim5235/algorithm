@@ -52,95 +52,163 @@ public class Main {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
+        Stack<Integer> stack = new Stack();
         int N = Integer.parseInt(bf.readLine());
-        Stack stack = new Stack();
+
+        T.solution(bf, N, stack);
+
+
+        //10816번 문제 아직 못풀음
+//        Map<Integer, Integer> map = new HashMap<>();
+//
+//        int N = Integer.parseInt(bf.readLine());
+//        String[] sangCards = bf.readLine().split(" ");
+//        int[] sangNums = new int[N];
+//        for (int i = 0; i < N; i++) {
+//            sangNums[i] = Integer.parseInt(sangCards[i]);
+//        }
+//
+//        int M = Integer.parseInt(bf.readLine());
+//        String[] cards = bf.readLine().split(" ");
+//        int[] cardNums = new int[M];
+//        for (int i = 0; i < M; i++) {
+//            cardNums[i] = Integer.parseInt(cards[i]);
+//            map.put(cardNums[i], 0);
+//        }
+//
+//        T.solution(N, M, sangNums, cardNums, map);
+    }
+
+    // 백준 10773번 제로(스택)
+    public void solution(BufferedReader bf,int N, Stack<Integer> stack) throws IOException {
+
         for (int i = 0; i < N; i++) {
-            String[] strings = bf.readLine().split(" ");
-            T.solution(stack, strings);
+            int num = Integer.parseInt(bf.readLine());
+            if (num == 0) stack.pop();
+            else stack.push(num);
         }
 
+        int result = 0;
+        for (Integer integer : stack) {
+            result += integer;
+        }
+
+        System.out.println(result);
     }
+
+    //10816번 문제 아직 못풀음
+//    public void solution(int N, int M, int[] sangNums, int[] cardNums, Map<Integer, Integer> map) {
+//        StringBuilder sb = new StringBuilder();
+//        int[] temp = cardNums.clone();
+//
+//        Arrays.sort(sangNums);
+//        Arrays.sort(cardNums);
+//
+//        int p1 = 0, p2 = 0;
+//        while (p1 < N) {
+//            if (p2 >= M) {
+//                break;
+//            }
+//
+//            if (sangNums[p1] == cardNums[p2]) {
+//                map.put(cardNums[p2], map.getOrDefault(cardNums[p2], 0) + 1);
+//                p1++;
+//            } else if (sangNums[p1] > sangNums[p2]) {
+//                p2++;
+//            } else {
+//                p1++;
+//            }
+//        }
+//
+//        for (int i = 0; i < M; i++) {
+//            if(i == M-1) sb.append(map.get(temp[i]));
+//            else sb.append(map.get(temp[i])).append(" ");
+//
+//        }
+//
+//        System.out.println(sb);
+//    }
 
     //백준 10828번 스택
-    public void solution(Stack stack, String[] strings) {
-        String command = strings[0];
-
-        Integer num;
-        switch (command) {
-            case "push":
-                num = Integer.parseInt(strings[1]);
-                stack.push(num);
-                break;
-            case "pop":
-                System.out.println(stack.pop());
-                break;
-            case "size":
-                System.out.println(stack.size());
-                break;
-            case "empty":
-                System.out.println(stack.empty());
-                break;
-            case "top":
-                System.out.println(stack.top());
-                break;
-        }
-    }
-
-    static class Stack{
-        Node head;
-        Node top;
-        int size;
-
-        public Stack() {
-            top = null;
-            size = 0;
-        }
-
-        public void push(int data) {
-            Node node = new Node(data);
-            if(top == null) top = node;
-            else {
-                top.nextNode = node;
-                top = top.nextNode;
-            }
-
-            if(head == null) head = top;
-            size++;
-        }
-
-        public int pop() {
-            if(size == 0) return -1;
-
-            int num = top.num;
-
-            Node temp = head;
-            if(temp == top){
-                head = null;
-            }else {
-                while (temp.nextNode != top) {
-                    temp = temp.nextNode;
-                }
-                top = temp;
-            }
-
-            size--;
-            return num;
-        }
-
-        public int size() {
-            return size;
-        }
-
-        public int empty() {
-            if(size == 0) return 1;
-            return 0;
-        }
-
-        public int top() {
-            if(size == 0) return -1;
-            else return top.num;
-        }
-    }
+//    public void solution(Stack stack, String[] strings) {
+//        String command = strings[0];
+//
+//        Integer num;
+//        switch (command) {
+//            case "push":
+//                num = Integer.parseInt(strings[1]);
+//                stack.push(num);
+//                break;
+//            case "pop":
+//                System.out.println(stack.pop());
+//                break;
+//            case "size":
+//                System.out.println(stack.size());
+//                break;
+//            case "empty":
+//                System.out.println(stack.empty());
+//                break;
+//            case "top":
+//                System.out.println(stack.top());
+//                break;
+//        }
+//    }
+//
+//    static class Stack{
+//        Node head;
+//        Node top;
+//        int size;
+//
+//        public Stack() {
+//            top = null;
+//            size = 0;
+//        }
+//
+//        public void push(int data) {
+//            Node node = new Node(data);
+//            if(top == null) top = node;
+//            else {
+//                top.nextNode = node;
+//                top = top.nextNode;
+//            }
+//
+//            if(head == null) head = top;
+//            size++;
+//        }
+//
+//        public int pop() {
+//            if(size == 0) return -1;
+//
+//            int num = top.num;
+//
+//            Node temp = head;
+//            if(temp == top){
+//                head = null;
+//            }else {
+//                while (temp.nextNode != top) {
+//                    temp = temp.nextNode;
+//                }
+//                top = temp;
+//            }
+//
+//            size--;
+//            return num;
+//        }
+//
+//        public int size() {
+//            return size;
+//        }
+//
+//        public int empty() {
+//            if(size == 0) return 1;
+//            return 0;
+//        }
+//
+//        public int top() {
+//            if(size == 0) return -1;
+//            else return top.num;
+//        }
+//    }
 
     //백준 10845번 큐
 //    public void solution(Queue queue, String[] strings) {
