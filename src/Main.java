@@ -52,63 +52,43 @@ public class Main {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
-//        int N = Integer.parseInt(bf.readLine());
-//        String[] brackets = new String[N];
-//        for (int i = 0; i < N; i++) {
-//            brackets[i] = bf.readLine();
-//        }
-//        T.solution(brackets);
-
-        //백준 10816번 숫자카드 2
-        Map<Integer, Integer> map = new HashMap<>();
-
         int N = Integer.parseInt(bf.readLine());
-        String[] sangCards = bf.readLine().split(" ");
-        int[] sangNums = new int[N];
+        String[] brackets = new String[N];
         for (int i = 0; i < N; i++) {
-            sangNums[i] = Integer.parseInt(sangCards[i]);
+            brackets[i] = bf.readLine();
         }
+        T.solution(brackets);
 
-        int M = Integer.parseInt(bf.readLine());
-        String[] cards = bf.readLine().split(" ");
-        int[] cardNums = new int[M];
-        for (int i = 0; i < M; i++) {
-            cardNums[i] = Integer.parseInt(cards[i]);
-            map.put(cardNums[i], 0);
-        }
-
-        T.solution(N, M, sangNums, cardNums, map);
     }
 
-//    public void solution(String[] brackets) {
-//        for (int i = 0; i < brackets.length; i++) {
-//            String bracket = brackets[i];
-//            String answer = "YES";
-//            Stack<String> stack = new Stack();
-//
-//            String[] split = bracket.split("");
-//            for (int j = 0; j < split.length; j++) {
-//                String st = split[i];
-//                if (st == "(") {
-//                    stack.push(st);
-//                }else {
-//                    if(stack.isEmpty()) {
-//                        answer = "NO";
-//                        break;
-//                    }else {
-//                        if(stack.peek() == "(") {
-//                            stack.pop();
-//                        }
-//                        else {
-//                            answer = "NO";
-//                            break;
-//                        }
-//                    }
-//                }
-//            }
-//            System.out.println(answer);
-//        }
-//    }
+    //백준 9012번 괄호
+    public void solution(String[] brackets) {
+        for (int i = 0; i < brackets.length; i++) {
+            String bracket = brackets[i];
+            String answer = "YES";
+            Stack<String> stack = new Stack();
+
+            String[] split = bracket.split("");
+            for (int j = 0; j < split.length; j++) {
+                String st = split[j];
+                if (st.equals("(")) {
+                    stack.push(st);
+                }else {
+                    if(stack.isEmpty()) {
+                        answer = "NO";
+                        break;
+                    }else {
+                        if(stack.peek().equals("(")) {
+                            stack.pop();
+                        }
+                    }
+                }
+            }
+            if(!stack.isEmpty()) answer = "NO";
+
+            System.out.println(answer);
+        }
+    }
 
     // 백준 10773번 제로(스택)
 //    public void solution(BufferedReader bf,int N, Stack<Integer> stack) throws IOException {
@@ -127,22 +107,22 @@ public class Main {
 //        System.out.println(result);
 //    }
 
-    //10816번 문제 아직 못풀음
-    public void solution(int N, int M, int[] sangNums, int[] cardNums, Map<Integer, Integer> map) {
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < N; i++) {
-            if(map.containsKey(sangNums[i])) map.put(sangNums[i], map.getOrDefault(sangNums[i], 0) + 1);
-        }
-
-        for (int i = 0; i < M; i++) {
-            if(i == M-1) sb.append(map.get(cardNums[i]));
-            else sb.append(map.get(cardNums[i])).append(" ");
-
-        }
-
-        System.out.println(sb);
-    }
+    //백준 10816번 숫자카드2
+//    public void solution(int N, int M, int[] sangNums, int[] cardNums, Map<Integer, Integer> map) {
+//        StringBuilder sb = new StringBuilder();
+//
+//        for (int i = 0; i < N; i++) {
+//            if(map.containsKey(sangNums[i])) map.put(sangNums[i], map.getOrDefault(sangNums[i], 0) + 1);
+//        }
+//
+//        for (int i = 0; i < M; i++) {
+//            if(i == M-1) sb.append(map.get(cardNums[i]));
+//            else sb.append(map.get(cardNums[i])).append(" ");
+//
+//        }
+//
+//        System.out.println(sb);
+//    }
 
     //백준 10828번 스택
 //    public void solution(Stack stack, String[] strings) {
