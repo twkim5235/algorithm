@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.io.*;
 import java.lang.reflect.Array;
 import java.util.*;
@@ -32,50 +33,66 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
-
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
-        int N = Integer.parseInt(bf.readLine());
-        Point[] points = new Point[N];
+        String[] nums = bf.readLine().split(" ");
+        int N = Integer.parseInt(nums[0]);
+        int K = Integer.parseInt(nums[1]);
 
-        for (int i = 0; i < N; i++) {
-            String[] nums = bf.readLine().split(" ");
-            int x = Integer.parseInt(nums[0]);
-            int y = Integer.parseInt(nums[1]);
-            points[i] = new Point(x, y);
+        Queue<Integer> queue = new LinkedList();
+        for (int i = 1; i <= N; i++) {
+            queue.offer(i);
         }
 
-        Arrays.sort(points);
+        T.solution(queue, K);
 
-        for (Point point : points) {
-            sb.append(point.x).append(" ").append(point.y).append("\n");
+    }
+
+    //백준 11866번 요세푸스문제 큐
+    public void solution(Queue<Integer> queue, int K) {
+        int cnt = 0;
+        StringBuilder sb = new StringBuilder();
+        sb.append("<");
+        while (queue.size() != 0) {
+            cnt++;
+            if (cnt == K) {
+                int num = queue.poll();
+                if (queue.size() != 0) {
+                    sb.append(num).append(", ");
+                }else {
+                    sb.append(num).append(">");
+                }
+                cnt = 0;
+            }else {
+                queue.offer(queue.poll());
+            }
         }
 
         System.out.println(sb);
     }
 
     //백준 11650번 좌표정렬하기 문제풀이
-    static class Point implements Comparable<Point>{
-        int x;
-        int y;
-
-        public Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        @Override
-        public int compareTo(Point o) {
-            if(this.x > o.x) {
-                return 1;
-            } else if(this.x == o.x){
-                if(this.y > o.y) return 1;
-                else return -1;
-            } else return -1;
-        }
-    }
+//    static class Point implements Comparable<Point>{
+//        int x;
+//        int y;
+//
+//        public Point(int x, int y) {
+//            this.x = x;
+//            this.y = y;
+//        }
+//
+//        @Override
+//        public int compareTo(Point o) {
+//            if(this.x > o.x) {
+//                return 1;
+//            } else if(this.x == o.x){
+//                if(this.y > o.y) return 1;
+//                else return -1;
+//            } else return -1;
+//        }
+//    }
 
 
     //백준 1018번 체스판 다시칠하기 문제풀이
