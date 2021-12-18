@@ -37,41 +37,77 @@ public class Main {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
-        String[] nums = bf.readLine().split(" ");
-        int N = Integer.parseInt(nums[0]);
-        int K = Integer.parseInt(nums[1]);
+        int N = Integer.parseInt(bf.readLine());
 
-        Queue<Integer> queue = new LinkedList();
-        for (int i = 1; i <= N; i++) {
-            queue.offer(i);
+        Deque<Integer> deque = new ArrayDeque();
+        for (int i = 0; i < N; i++) {
+            String[] strings = bf.readLine().split(" ");
+            T.solution(deque, strings);
         }
+    }
 
-        T.solution(queue, K);
+    //백준 10866번 덱 문제
+    public void solution(Deque<Integer> deque, String[] strings) {
+        String command = strings[0];
+        Integer num = 0;
+        switch (command) {
+            case "push_front":
+                num = Integer.parseInt(strings[1]);
+                deque.addFirst(num);
+                break;
+            case "push_back":
+                num = Integer.parseInt(strings[1]);
+                deque.addLast(num);
+                break;
+            case "pop_front":
+                if(deque.isEmpty()) System.out.println(-1);
+                else System.out.println(deque.pollFirst());
+                break;
+            case "pop_back":
+                if(deque.isEmpty()) System.out.println(-1);
+                else System.out.println(deque.pollLast());
+                break;
+            case "size":
+                System.out.println(deque.size());
+                break;
+            case "empty":
+                if(deque.isEmpty()) System.out.println(1);
+                else System.out.println(0);
+                break;
+            case "front":
+                if(deque.isEmpty()) System.out.println(-1);
+                else System.out.println(deque.getFirst());
+                break;
+            case "back":
+                if(deque.isEmpty()) System.out.println(-1);
+                else System.out.println(deque.getLast());
+                break;
+        }
 
     }
 
     //백준 11866번 요세푸스문제 큐
-    public void solution(Queue<Integer> queue, int K) {
-        int cnt = 0;
-        StringBuilder sb = new StringBuilder();
-        sb.append("<");
-        while (queue.size() != 0) {
-            cnt++;
-            if (cnt == K) {
-                int num = queue.poll();
-                if (queue.size() != 0) {
-                    sb.append(num).append(", ");
-                }else {
-                    sb.append(num).append(">");
-                }
-                cnt = 0;
-            }else {
-                queue.offer(queue.poll());
-            }
-        }
-
-        System.out.println(sb);
-    }
+//    public void solution(Queue<Integer> queue, int K) {
+//        int cnt = 0;
+//        StringBuilder sb = new StringBuilder();
+//        sb.apend("<");
+//        while (queue.size() != 0) {
+//            int num = queue.poll();
+//            cnt++;
+//            if (cnt == K) {
+//                if (queue.size() != 0) {
+//                    sb.append(num).append(", ");
+//                }else {
+//                    sb.append(num).append(">");
+//                }
+//                cnt = 0;
+//            }else {
+//                queue.offer(num);
+//            }
+//        }
+//
+//        System.out.println(sb);
+//    }
 
     //백준 11650번 좌표정렬하기 문제풀이
 //    static class Point implements Comparable<Point>{
