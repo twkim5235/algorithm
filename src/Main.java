@@ -27,6 +27,21 @@ import java.util.*;
 //    }
 //}
 
+class Node{
+    public int num;
+    public Node nextNode;
+
+    public Node(int num) {
+        this.num = num;
+        this.nextNode = null;
+    }
+
+    public Node(int num, Node nextNode) {
+        this.num = num;
+        this.nextNode = nextNode;
+    }
+}
+
 public class Main {
 //    public static Boolean[][] map;
 //    public static int min = 64;
@@ -38,53 +53,135 @@ public class Main {
         StringBuilder sb = new StringBuilder();
 
         int N = Integer.parseInt(bf.readLine());
-
-        Deque<Integer> deque = new ArrayDeque();
+        Queue queue = new Queue();
         for (int i = 0; i < N; i++) {
             String[] strings = bf.readLine().split(" ");
-            T.solution(deque, strings);
+            T.solution(queue, strings);
         }
+
     }
 
-    //백준 10866번 덱 문제
-    public void solution(Deque<Integer> deque, String[] strings) {
+    //백준 10845번 큐
+    public void solution(Queue queue, String[] strings) {
         String command = strings[0];
+
         Integer num = 0;
         switch (command) {
-            case "push_front":
+            case "push":
                 num = Integer.parseInt(strings[1]);
-                deque.addFirst(num);
+                queue.push(num);
                 break;
-            case "push_back":
-                num = Integer.parseInt(strings[1]);
-                deque.addLast(num);
-                break;
-            case "pop_front":
-                if(deque.isEmpty()) System.out.println(-1);
-                else System.out.println(deque.pollFirst());
-                break;
-            case "pop_back":
-                if(deque.isEmpty()) System.out.println(-1);
-                else System.out.println(deque.pollLast());
+            case "pop":
+                num = queue.pop();
+                System.out.println(num);
                 break;
             case "size":
-                System.out.println(deque.size());
+                System.out.println(queue.size);
                 break;
             case "empty":
-                if(deque.isEmpty()) System.out.println(1);
-                else System.out.println(0);
+                System.out.println(queue.empty());
                 break;
             case "front":
-                if(deque.isEmpty()) System.out.println(-1);
-                else System.out.println(deque.getFirst());
+                System.out.println(queue.front());
                 break;
             case "back":
-                if(deque.isEmpty()) System.out.println(-1);
-                else System.out.println(deque.getLast());
+                System.out.println(queue.back());
                 break;
         }
-
     }
+
+    static class Queue {
+        Node head;
+        Node tail;
+        int size = 0;
+
+        public Queue() {
+            this.head = null;
+            this.tail = null;
+            this.size = 0;
+        }
+
+        public void push(int data) {
+            Node node = new Node(data);
+            if(tail == null) tail = node;
+            else {
+                tail.nextNode = node;
+                tail = tail.nextNode;
+            }
+
+            if(head == null) head = tail;
+            size++;
+        }
+
+        public int pop() {
+            if(size == 0) return -1;
+            Node temp = head.nextNode;
+            int num = head.num;
+            head = null;
+            head = temp;
+            size--;
+            return num;
+        }
+
+        public int size() {
+            return size;
+        }
+
+        public int empty() {
+            if(size == 0) return 1;
+            return 0;
+        }
+
+        public int front() {
+            if(size == 0) return -1;
+            return head.num;
+        }
+
+        public int back() {
+            if(size == 0) return -1;
+            return tail.num;
+        }
+    }
+
+
+    //백준 10866번 덱 문제
+//    public void solution(Deque<Integer> deque, String[] strings) {
+//        String command = strings[0];
+//        Integer num = 0;
+//        switch (command) {
+//            case "push_front":
+//                num = Integer.parseInt(strings[1]);
+//                deque.addFirst(num);
+//                break;
+//            case "push_back":
+//                num = Integer.parseInt(strings[1]);
+//                deque.addLast(num);
+//                break;
+//            case "pop_front":
+//                if(deque.isEmpty()) System.out.println(-1);
+//                else System.out.println(deque.pollFirst());
+//                break;
+//            case "pop_back":
+//                if(deque.isEmpty()) System.out.println(-1);
+//                else System.out.println(deque.pollLast());
+//                break;
+//            case "size":
+//                System.out.println(deque.size());
+//                break;
+//            case "empty":
+//                if(deque.isEmpty()) System.out.println(1);
+//                else System.out.println(0);
+//                break;
+//            case "front":
+//                if(deque.isEmpty()) System.out.println(-1);
+//                else System.out.println(deque.getFirst());
+//                break;
+//            case "back":
+//                if(deque.isEmpty()) System.out.println(-1);
+//                else System.out.println(deque.getLast());
+//                break;
+//        }
+//    }
 
     //백준 11866번 요세푸스문제 큐
 //    public void solution(Queue<Integer> queue, int K) {
