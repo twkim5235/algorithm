@@ -27,20 +27,20 @@ import java.util.*;
 //    }
 //}
 
-class Node{
-    public int num;
-    public Node nextNode;
-
-    public Node(int num) {
-        this.num = num;
-        this.nextNode = null;
-    }
-
-    public Node(int num, Node nextNode) {
-        this.num = num;
-        this.nextNode = nextNode;
-    }
-}
+//class Node{
+//    public int num;
+//    public Node nextNode;
+//
+//    public Node(int num) {
+//        this.num = num;
+//        this.nextNode = null;
+//    }
+//
+//    public Node(int num, Node nextNode) {
+//        this.num = num;
+//        this.nextNode = nextNode;
+//    }
+//}
 
 public class Main {
 //    public static Boolean[][] map;
@@ -52,43 +52,71 @@ public class Main {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
-        int N = Integer.parseInt(bf.readLine());
-        String[] brackets = new String[N];
-        for (int i = 0; i < N; i++) {
-            brackets[i] = bf.readLine();
+        while (true) {
+            String string = bf.readLine();
+            if (string.equals(".")) return;
+            else {
+                T.solution(string);
+            }
         }
-        T.solution(brackets);
+    }
 
+    //백준 4949번 균형잡힌 세상
+    public void solution(String string) {
+        Stack<Character> stack = new Stack();
+        String answer = "yes";
+        for (int i = 0; i < string.length(); i++) {
+            if (string.charAt(i) == '(' || string.charAt(i) == '[') {
+                stack.push(string.charAt(i));
+            } else if (string.charAt(i) == ')') {
+                if(stack.isEmpty() || stack.peek() == '[') {
+                    answer = "no";
+                    break;
+                }else if (stack.peek() == '(') {
+                    stack.pop();
+                }
+            } else if (string.charAt(i) == ']') {
+                if(stack.isEmpty() || stack.peek() == '('){
+                    answer = "no";
+                    break;
+                }else if (stack.peek() == '[') {
+                    stack.pop();
+                }
+            }
+        }
+        if(!stack.isEmpty()) answer = "no";
+
+        System.out.println(answer);
     }
 
     //백준 9012번 괄호
-    public void solution(String[] brackets) {
-        for (int i = 0; i < brackets.length; i++) {
-            String bracket = brackets[i];
-            String answer = "YES";
-            Stack<String> stack = new Stack();
-
-            String[] split = bracket.split("");
-            for (int j = 0; j < split.length; j++) {
-                String st = split[j];
-                if (st.equals("(")) {
-                    stack.push(st);
-                }else {
-                    if(stack.isEmpty()) {
-                        answer = "NO";
-                        break;
-                    }else {
-                        if(stack.peek().equals("(")) {
-                            stack.pop();
-                        }
-                    }
-                }
-            }
-            if(!stack.isEmpty()) answer = "NO";
-
-            System.out.println(answer);
-        }
-    }
+//    public void solution(String[] brackets) {
+//        for (int i = 0; i < brackets.length; i++) {
+//            String bracket = brackets[i];
+//            String answer = "YES";
+//            Stack<String> stack = new Stack();
+//
+//            String[] split = bracket.split("");
+//            for (int j = 0; j < split.length; j++) {
+//                String st = split[j];
+//                if (st.equals("(")) {
+//                    stack.push(st);
+//                }else {
+//                    if(stack.isEmpty()) {
+//                        answer = "NO";
+//                        break;
+//                    }else {
+//                        if(stack.peek().equals("(")) {
+//                            stack.pop();
+//                        }
+//                    }
+//                }
+//            }
+//            if(!stack.isEmpty()) answer = "NO";
+//
+//            System.out.println(answer);
+//        }
+//    }
 
     // 백준 10773번 제로(스택)
 //    public void solution(BufferedReader bf,int N, Stack<Integer> stack) throws IOException {
