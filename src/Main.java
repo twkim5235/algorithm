@@ -52,82 +52,97 @@ public class Main {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
-        Stack<Integer> stack = new Stack();
-        int N = Integer.parseInt(bf.readLine());
-
-        T.solution(bf, N, stack);
-
-
-        //10816번 문제 아직 못풀음
-//        Map<Integer, Integer> map = new HashMap<>();
-//
 //        int N = Integer.parseInt(bf.readLine());
-//        String[] sangCards = bf.readLine().split(" ");
-//        int[] sangNums = new int[N];
+//        String[] brackets = new String[N];
 //        for (int i = 0; i < N; i++) {
-//            sangNums[i] = Integer.parseInt(sangCards[i]);
+//            brackets[i] = bf.readLine();
 //        }
-//
-//        int M = Integer.parseInt(bf.readLine());
-//        String[] cards = bf.readLine().split(" ");
-//        int[] cardNums = new int[M];
-//        for (int i = 0; i < M; i++) {
-//            cardNums[i] = Integer.parseInt(cards[i]);
-//            map.put(cardNums[i], 0);
-//        }
-//
-//        T.solution(N, M, sangNums, cardNums, map);
+//        T.solution(brackets);
+
+        //백준 10816번 숫자카드 2
+        Map<Integer, Integer> map = new HashMap<>();
+
+        int N = Integer.parseInt(bf.readLine());
+        String[] sangCards = bf.readLine().split(" ");
+        int[] sangNums = new int[N];
+        for (int i = 0; i < N; i++) {
+            sangNums[i] = Integer.parseInt(sangCards[i]);
+        }
+
+        int M = Integer.parseInt(bf.readLine());
+        String[] cards = bf.readLine().split(" ");
+        int[] cardNums = new int[M];
+        for (int i = 0; i < M; i++) {
+            cardNums[i] = Integer.parseInt(cards[i]);
+            map.put(cardNums[i], 0);
+        }
+
+        T.solution(N, M, sangNums, cardNums, map);
     }
+
+//    public void solution(String[] brackets) {
+//        for (int i = 0; i < brackets.length; i++) {
+//            String bracket = brackets[i];
+//            String answer = "YES";
+//            Stack<String> stack = new Stack();
+//
+//            String[] split = bracket.split("");
+//            for (int j = 0; j < split.length; j++) {
+//                String st = split[i];
+//                if (st == "(") {
+//                    stack.push(st);
+//                }else {
+//                    if(stack.isEmpty()) {
+//                        answer = "NO";
+//                        break;
+//                    }else {
+//                        if(stack.peek() == "(") {
+//                            stack.pop();
+//                        }
+//                        else {
+//                            answer = "NO";
+//                            break;
+//                        }
+//                    }
+//                }
+//            }
+//            System.out.println(answer);
+//        }
+//    }
 
     // 백준 10773번 제로(스택)
-    public void solution(BufferedReader bf,int N, Stack<Integer> stack) throws IOException {
-
-        for (int i = 0; i < N; i++) {
-            int num = Integer.parseInt(bf.readLine());
-            if (num == 0) stack.pop();
-            else stack.push(num);
-        }
-
-        int result = 0;
-        for (Integer integer : stack) {
-            result += integer;
-        }
-
-        System.out.println(result);
-    }
+//    public void solution(BufferedReader bf,int N, Stack<Integer> stack) throws IOException {
+//
+//        for (int i = 0; i < N; i++) {
+//            int num = Integer.parseInt(bf.readLine());
+//            if (num == 0) stack.pop();
+//            else stack.push(num);
+//        }
+//
+//        int result = 0;
+//        for (Integer integer : stack) {
+//            result += integer;
+//        }
+//
+//        System.out.println(result);
+//    }
 
     //10816번 문제 아직 못풀음
-//    public void solution(int N, int M, int[] sangNums, int[] cardNums, Map<Integer, Integer> map) {
-//        StringBuilder sb = new StringBuilder();
-//        int[] temp = cardNums.clone();
-//
-//        Arrays.sort(sangNums);
-//        Arrays.sort(cardNums);
-//
-//        int p1 = 0, p2 = 0;
-//        while (p1 < N) {
-//            if (p2 >= M) {
-//                break;
-//            }
-//
-//            if (sangNums[p1] == cardNums[p2]) {
-//                map.put(cardNums[p2], map.getOrDefault(cardNums[p2], 0) + 1);
-//                p1++;
-//            } else if (sangNums[p1] > sangNums[p2]) {
-//                p2++;
-//            } else {
-//                p1++;
-//            }
-//        }
-//
-//        for (int i = 0; i < M; i++) {
-//            if(i == M-1) sb.append(map.get(temp[i]));
-//            else sb.append(map.get(temp[i])).append(" ");
-//
-//        }
-//
-//        System.out.println(sb);
-//    }
+    public void solution(int N, int M, int[] sangNums, int[] cardNums, Map<Integer, Integer> map) {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < N; i++) {
+            if(map.containsKey(sangNums[i])) map.put(sangNums[i], map.getOrDefault(sangNums[i], 0) + 1);
+        }
+
+        for (int i = 0; i < M; i++) {
+            if(i == M-1) sb.append(map.get(cardNums[i]));
+            else sb.append(map.get(cardNums[i])).append(" ");
+
+        }
+
+        System.out.println(sb);
+    }
 
     //백준 10828번 스택
 //    public void solution(Stack stack, String[] strings) {
