@@ -52,42 +52,54 @@ public class Main {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
-        while (true) {
-            String string = bf.readLine();
-            if (string.equals(".")) return;
-            else {
-                T.solution(string);
-            }
+        int num = Integer.parseInt(bf.readLine());
+        T.solution(num);
+
+    }
+
+    //백준 2164번 카드2
+    public void solution(int num) {
+        Queue<Integer> queue = new LinkedList<>();
+
+        for (int i = 1; i <= num; i++) {
+            queue.offer(i);
         }
+
+        while (queue.size() != 1) {
+            queue.poll();
+            queue.offer(queue.poll());
+        }
+
+        System.out.println(queue.poll());
     }
 
     //백준 4949번 균형잡힌 세상
-    public void solution(String string) {
-        Stack<Character> stack = new Stack();
-        String answer = "yes";
-        for (int i = 0; i < string.length(); i++) {
-            if (string.charAt(i) == '(' || string.charAt(i) == '[') {
-                stack.push(string.charAt(i));
-            } else if (string.charAt(i) == ')') {
-                if(stack.isEmpty() || stack.peek() == '[') {
-                    answer = "no";
-                    break;
-                }else if (stack.peek() == '(') {
-                    stack.pop();
-                }
-            } else if (string.charAt(i) == ']') {
-                if(stack.isEmpty() || stack.peek() == '('){
-                    answer = "no";
-                    break;
-                }else if (stack.peek() == '[') {
-                    stack.pop();
-                }
-            }
-        }
-        if(!stack.isEmpty()) answer = "no";
-
-        System.out.println(answer);
-    }
+//    public void solution(String string) {
+//        Stack<Character> stack = new Stack();
+//        String answer = "yes";
+//        for (int i = 0; i < string.length(); i++) {
+//            if (string.charAt(i) == '(' || string.charAt(i) == '[') {
+//                stack.push(string.charAt(i));
+//            } else if (string.charAt(i) == ')') {
+//                if(stack.isEmpty() || stack.peek() == '[') {
+//                    answer = "no";
+//                    break;
+//                }else if (stack.peek() == '(') {
+//                    stack.pop();
+//                }
+//            } else if (string.charAt(i) == ']') {
+//                if(stack.isEmpty() || stack.peek() == '('){
+//                    answer = "no";
+//                    break;
+//                }else if (stack.peek() == '[') {
+//                    stack.pop();
+//                }
+//            }
+//        }
+//        if(!stack.isEmpty()) answer = "no";
+//
+//        System.out.println(answer);
+//    }
 
     //백준 9012번 괄호
 //    public void solution(String[] brackets) {
