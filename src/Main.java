@@ -52,26 +52,104 @@ public class Main {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
-        int num = Integer.parseInt(bf.readLine());
-        T.solution(num);
+        String[] nums = bf.readLine().split(" ");
+        int width = Integer.parseInt(nums[0]);
+        int vertical = Integer.parseInt(nums[1]);
+        int inventory = Integer.parseInt(nums[2]);
 
+        int[][] map = new int[width][vertical];
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < width; i++) {
+            String[] locs = bf.readLine().split(" ");
+            for (int j = 0; j < vertical; j++) {
+                map[i][j] = Integer.parseInt(locs[j]);
+                min = Math.min(min, map[i][j]);
+                max = Math.max(max, map[i][j]);
+            }
+        }
+
+        T.solution(width, vertical, inventory, map, min, max);
     }
+
+    //백준 18111번 마인크래프트
+    public void solution(int width, int vertical, int inventory, int[][] map, int min, int max) {
+        int time = Integer.MAX_VALUE;
+        int height = Integer.MIN_VALUE;
+
+        for (int i = min; i <= max; i++) {
+            int tempTime = 0;
+            int tempInventory = inventory;
+
+            for (int j = 0; j < width; j++) {
+                for (int k = 0; k < vertical; k++) {
+                    if(map[j][k] > i) {
+                        int num = map[j][k] - i;
+                        tempTime += num * 2;
+                        tempInventory += num;
+                    } else if (map[j][k] < i) {
+                        int num = i - map[j][k];
+                        tempTime += num;
+                        tempInventory -= num;
+                    }
+                }
+            }
+
+            if(tempInventory >= 0) {
+                time = Math.min(time, tempTime);
+                if (tempTime == time) {
+                    height = Math.max(height, i);
+                }
+            }
+        }
+
+        System.out.println(time + " " + height);
+    }
+
+    //백준 2108번 통계학 해결못함
+//    public void solution(int N, int[] nums) {
+//        int[] clone = nums.clone();
+//
+//        Arrays.sort(nums);
+//
+//        final int st = 0;
+//        final int end = nums.length - 1;
+//        for (int i = 0; i < 4; i++) {
+//            switch (i) {
+//                case 0:
+//                    int average = (int) Arrays.stream(nums).average().getAsDouble();
+//                    System.out.println(average);
+//                    break;
+//                case 1:
+//                    int mid = nums.length / 2;
+//                    System.out.println(nums[mid]);
+//                    break;
+//                case 2:
+//
+//                    break;
+//                case 3:
+//                    System.out.println(nums[end] - nums[st]);
+//                    break;
+//            }
+//        }
+//
+//    }
 
     //백준 2164번 카드2
-    public void solution(int num) {
-        Queue<Integer> queue = new LinkedList<>();
-
-        for (int i = 1; i <= num; i++) {
-            queue.offer(i);
-        }
-
-        while (queue.size() != 1) {
-            queue.poll();
-            queue.offer(queue.poll());
-        }
-
-        System.out.println(queue.poll());
-    }
+//    public void solution(int num) {
+//        Queue<Integer> queue = new LinkedList<>();
+//
+//        for (int i = 1; i <= num; i++) {
+//            queue.offer(i);
+//        }
+//
+//        while (queue.size() != 1) {
+//            queue.poll();
+//            queue.offer(queue.poll());
+//        }
+//
+//        System.out.println(queue.poll());
+//    }
 
     //백준 4949번 균형잡힌 세상
 //    public void solution(String string) {
