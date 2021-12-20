@@ -52,59 +52,71 @@ public class Main {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
-        String[] nums = bf.readLine().split(" ");
-        int width = Integer.parseInt(nums[0]);
-        int vertical = Integer.parseInt(nums[1]);
-        int inventory = Integer.parseInt(nums[2]);
-
-        int[][] map = new int[width][vertical];
-        int min = Integer.MAX_VALUE;
-        int max = Integer.MIN_VALUE;
-        for (int i = 0; i < width; i++) {
-            String[] locs = bf.readLine().split(" ");
-            for (int j = 0; j < vertical; j++) {
-                map[i][j] = Integer.parseInt(locs[j]);
-                min = Math.min(min, map[i][j]);
-                max = Math.max(max, map[i][j]);
-            }
+        int N = Integer.parseInt(bf.readLine());
+        int[] nums = new int[N];
+        String[] stringNums = bf.readLine().split(" ");
+        for (int i = 0; i < N; i++) {
+            nums[i] = Integer.parseInt(stringNums[i]);
         }
 
-        T.solution(width, vertical, inventory, map, min, max);
+        T.solution(N, nums);
+    }
+
+    //백준 1978번 소수 찾기
+    public void solution(int N, int[] nums) {
+        int cnt = 0;
+        for (int i = 0; i < N; i++) {
+            boolean isPrime = true;
+
+            int num = nums[i];
+            if(num == 1) continue;
+            ;
+            for (int j = 2; j <= Math.sqrt(num); j++) {
+                if(num % j == 0){
+                    isPrime = false;
+                    break;
+                }
+            }
+
+            if(isPrime) cnt++;
+        }
+
+        System.out.println(cnt);
     }
 
     //백준 18111번 마인크래프트
-    public void solution(int width, int vertical, int inventory, int[][] map, int min, int max) {
-        int time = Integer.MAX_VALUE;
-        int height = Integer.MIN_VALUE;
-
-        for (int i = min; i <= max; i++) {
-            int tempTime = 0;
-            int tempInventory = inventory;
-
-            for (int j = 0; j < width; j++) {
-                for (int k = 0; k < vertical; k++) {
-                    if(map[j][k] > i) {
-                        int num = map[j][k] - i;
-                        tempTime += num * 2;
-                        tempInventory += num;
-                    } else if (map[j][k] < i) {
-                        int num = i - map[j][k];
-                        tempTime += num;
-                        tempInventory -= num;
-                    }
-                }
-            }
-
-            if(tempInventory >= 0) {
-                time = Math.min(time, tempTime);
-                if (tempTime == time) {
-                    height = Math.max(height, i);
-                }
-            }
-        }
-
-        System.out.println(time + " " + height);
-    }
+//    public void solution(int width, int vertical, int inventory, int[][] map, int min, int max) {
+//        int time = Integer.MAX_VALUE;
+//        int height = Integer.MIN_VALUE;
+//
+//        for (int i = min; i <= max; i++) {
+//            int tempTime = 0;
+//            int tempInventory = inventory;
+//
+//            for (int j = 0; j < width; j++) {
+//                for (int k = 0; k < vertical; k++) {
+//                    if(map[j][k] > i) {
+//                        int num = map[j][k] - i;
+//                        tempTime += num * 2;
+//                        tempInventory += num;
+//                    } else if (map[j][k] < i) {
+//                        int num = i - map[j][k];
+//                        tempTime += num;
+//                        tempInventory -= num;
+//                    }
+//                }
+//            }
+//
+//            if(tempInventory >= 0) {
+//                time = Math.min(time, tempTime);
+//                if (tempTime == time) {
+//                    height = Math.max(height, i);
+//                }
+//            }
+//        }
+//
+//        System.out.println(time + " " + height);
+//    }
 
     //백준 2108번 통계학 해결못함
 //    public void solution(int N, int[] nums) {
