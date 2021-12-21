@@ -52,7 +52,54 @@ public class Main {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
-        T.solution();
+        int N = Integer.parseInt(bf.readLine());
+        int[] nNums = new int[N];
+        String[] nNumsString = bf.readLine().split(" ");
+        for (int i = 0; i < N; i++) {
+            nNums[i] = Integer.parseInt(nNumsString[i]);
+        }
+
+        int M = Integer.parseInt(bf.readLine());
+        int[] mNums = new int[M];
+        String[] mNumsString = bf.readLine().split(" ");
+        for (int i = 0; i < M; i++) {
+            mNums[i] = Integer.parseInt(mNumsString[i]);
+        }
+
+        T.solution(N, nNums, M, mNums);
+    }
+
+    //백준 1920번 수 찾기
+    public void solution(int N, int[] nNums, int M, int[] mNums) {
+        StringBuilder sb = new StringBuilder();
+
+        Arrays.sort(nNums);
+
+        for (int mNum : mNums) {
+            if (searchBinary(nNums, mNum) >= 0) sb.append(1).append("\n");
+            else sb.append(0).append("\n");
+        }
+
+        System.out.println(sb);
+    }
+
+    public int searchBinary(int[] nNums, int mNum) {
+        int lt = 0;
+        int rt = nNums.length - 1;
+
+        while (lt <= rt) {
+            int mid = (lt + rt) / 2;
+
+            if (mNum > nNums[mid]) {
+                lt = mid + 1;
+            } else if (mNum < nNums[mid]) {
+                rt = mid - 1;
+            } else{
+                return mid;
+            }
+        }
+
+        return -1;
     }
 
     //백준 1978번 소수 찾기
@@ -112,50 +159,50 @@ public class Main {
 //    }
 
     //백준 2108번 통계학
-    public void solution() throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        int sum = 0;
-        int mid = 0;
-        int mode = 0;
-        int N = Integer.parseInt(bf.readLine());
-        int[] nums = new int[N];
-        Map<Integer, Integer> map = new HashMap<>();
-
-        for (int i = 0; i < N; i++) {
-            int num = Integer.parseInt(bf.readLine());
-            nums[i] = num;
-            sum += num;
-            map.put(num, map.getOrDefault(num, 0) + 1);
-        }
-
-        int max = 0;
-        ArrayList<Integer> maxKeyList = new ArrayList<>();
-        for (Integer integer : map.keySet()) {
-            max = Math.max(max, map.get(integer));
-        }
-
-        for (Integer integer : map.keySet()) {
-            if (max == map.get(integer)) {
-                maxKeyList.add(integer);
-            }
-        }
-
-        Collections.sort(maxKeyList);
-
-        if (maxKeyList.size() > 1) {
-            mode = maxKeyList.get(1);
-        } else {
-            mode = maxKeyList.get(0);
-        }
-
-        Arrays.sort(nums);
-
-        System.out.println((int) Math.round((double) sum / N));
-        System.out.println(nums[N / 2]);
-        System.out.println(mode);
-        System.out.println(nums[N - 1] - nums[0]);
-
-    }
+//    public void solution() throws IOException {
+//        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+//        int sum = 0;
+//        int mid = 0;
+//        int mode = 0;
+//        int N = Integer.parseInt(bf.readLine());
+//        int[] nums = new int[N];
+//        Map<Integer, Integer> map = new HashMap<>();
+//
+//        for (int i = 0; i < N; i++) {
+//            int num = Integer.parseInt(bf.readLine());
+//            nums[i] = num;
+//            sum += num;
+//            map.put(num, map.getOrDefault(num, 0) + 1);
+//        }
+//
+//        int max = 0;
+//        ArrayList<Integer> maxKeyList = new ArrayList<>();
+//        for (Integer integer : map.keySet()) {
+//            max = Math.max(max, map.get(integer));
+//        }
+//
+//        for (Integer integer : map.keySet()) {
+//            if (max == map.get(integer)) {
+//                maxKeyList.add(integer);
+//            }
+//        }
+//
+//        Collections.sort(maxKeyList);
+//
+//        if (maxKeyList.size() > 1) {
+//            mode = maxKeyList.get(1);
+//        } else {
+//            mode = maxKeyList.get(0);
+//        }
+//
+//        Arrays.sort(nums);
+//
+//        System.out.println((int) Math.round((double) sum / N));
+//        System.out.println(nums[N / 2]);
+//        System.out.println(mode);
+//        System.out.println(nums[N - 1] - nums[0]);
+//
+//    }
 
     //백준 2164번 카드2
 //    public void solution(int num) {
