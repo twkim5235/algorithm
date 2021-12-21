@@ -52,37 +52,30 @@ public class Main {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
-        int N = Integer.parseInt(bf.readLine());
-        int[] nums = new int[N];
-        String[] stringNums = bf.readLine().split(" ");
-        for (int i = 0; i < N; i++) {
-            nums[i] = Integer.parseInt(stringNums[i]);
-        }
-
-        T.solution(N, nums);
+        T.solution();
     }
 
     //백준 1978번 소수 찾기
-    public void solution(int N, int[] nums) {
-        int cnt = 0;
-        for (int i = 0; i < N; i++) {
-            boolean isPrime = true;
-
-            int num = nums[i];
-            if(num == 1) continue;
-            ;
-            for (int j = 2; j <= Math.sqrt(num); j++) {
-                if(num % j == 0){
-                    isPrime = false;
-                    break;
-                }
-            }
-
-            if(isPrime) cnt++;
-        }
-
-        System.out.println(cnt);
-    }
+//    public void solution(int N, int[] nums) {
+//        int cnt = 0;
+//        for (int i = 0; i < N; i++) {
+//            boolean isPrime = true;
+//
+//            int num = nums[i];
+//            if(num == 1) continue;
+//            ;
+//            for (int j = 2; j <= Math.sqrt(num); j++) {
+//                if(num % j == 0){
+//                    isPrime = false;
+//                    break;
+//                }
+//            }
+//
+//            if(isPrime) cnt++;
+//        }
+//
+//        System.out.println(cnt);
+//    }
 
     //백준 18111번 마인크래프트
 //    public void solution(int width, int vertical, int inventory, int[][] map, int min, int max) {
@@ -118,34 +111,51 @@ public class Main {
 //        System.out.println(time + " " + height);
 //    }
 
-    //백준 2108번 통계학 해결못함
-//    public void solution(int N, int[] nums) {
-//        int[] clone = nums.clone();
-//
-//        Arrays.sort(nums);
-//
-//        final int st = 0;
-//        final int end = nums.length - 1;
-//        for (int i = 0; i < 4; i++) {
-//            switch (i) {
-//                case 0:
-//                    int average = (int) Arrays.stream(nums).average().getAsDouble();
-//                    System.out.println(average);
-//                    break;
-//                case 1:
-//                    int mid = nums.length / 2;
-//                    System.out.println(nums[mid]);
-//                    break;
-//                case 2:
-//
-//                    break;
-//                case 3:
-//                    System.out.println(nums[end] - nums[st]);
-//                    break;
-//            }
-//        }
-//
-//    }
+    //백준 2108번 통계학
+    public void solution() throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        int sum = 0;
+        int mid = 0;
+        int mode = 0;
+        int N = Integer.parseInt(bf.readLine());
+        int[] nums = new int[N];
+        Map<Integer, Integer> map = new HashMap<>();
+
+        for (int i = 0; i < N; i++) {
+            int num = Integer.parseInt(bf.readLine());
+            nums[i] = num;
+            sum += num;
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+
+        int max = 0;
+        ArrayList<Integer> maxKeyList = new ArrayList<>();
+        for (Integer integer : map.keySet()) {
+            max = Math.max(max, map.get(integer));
+        }
+
+        for (Integer integer : map.keySet()) {
+            if (max == map.get(integer)) {
+                maxKeyList.add(integer);
+            }
+        }
+
+        Collections.sort(maxKeyList);
+
+        if (maxKeyList.size() > 1) {
+            mode = maxKeyList.get(1);
+        } else {
+            mode = maxKeyList.get(0);
+        }
+
+        Arrays.sort(nums);
+
+        System.out.println((int) Math.round((double) sum / N));
+        System.out.println(nums[N / 2]);
+        System.out.println(mode);
+        System.out.println(nums[N - 1] - nums[0]);
+
+    }
 
     //백준 2164번 카드2
 //    public void solution(int num) {
