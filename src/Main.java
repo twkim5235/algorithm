@@ -45,7 +45,7 @@ import java.util.*;
 public class Main {
     //    public static Boolean[][] map;
 //    public static int min = 64;
-    static int[] lines;
+    static int[] trees;
     static long max = Integer.MIN_VALUE;
 
     public static void main(String[] args) throws IOException {
@@ -55,31 +55,37 @@ public class Main {
         StringBuilder sb = new StringBuilder();
 
         StringTokenizer st = new StringTokenizer(bf.readLine(), " ");
-        int K = Integer.parseInt(st.nextToken());
         int N = Integer.parseInt(st.nextToken());
-        lines = new int[K];
-        for (int i = 0; i < K; i++) {
-            lines[i] = Integer.parseInt(bf.readLine());
-            max = Math.max(max, lines[i]);
-        }
-        max++;
+        int M = Integer.parseInt(st.nextToken());
+        trees = new int[N];
 
-        T.solution(K, N);
+        st = new StringTokenizer(bf.readLine(), " ");
+        for (int i = 0; i < N; i++) {
+            trees[i] = Integer.parseInt(st.nextToken());
+            if (max < trees[i]) {
+                max = trees[i];
+            }
+        }
+
+        T.solution(M);
     }
 
-    //백준 1654번 랜선자르기
-    public void solution(int K, int N) {
+    // 백준 2805번 나무자르기 이분검색
+    public void solution(int M) {
         long min = 0;
         long mid = 0;
+
         while (min < max) {
             mid = (min + max) / 2;
+            long length = 0;
 
-            long count = 0;
-            for (int i = 0; i < K; i++) {
-                count += lines[i] / mid;
+            for (int i = 0; i < trees.length; i++) {
+                if (trees[i] > mid) {
+                    length += (trees[i] - mid);
+                }
             }
 
-            if (count < N) {
+            if (length < M) {
                 max = mid;
             }else {
                 min = mid + 1;
@@ -88,6 +94,28 @@ public class Main {
 
         System.out.println(min - 1);
     }
+
+    //백준 1654번 랜선자르기
+//    public void solution(int K, int N) {
+//        long min = 0;
+//        long mid = 0;
+//        while (min < max) {
+//            mid = (min + max) / 2;
+//
+//            long count = 0;
+//            for (int i = 0; i < K; i++) {
+//                count += lines[i] / mid;
+//            }
+//
+//            if (count < N) {
+//                max = mid;
+//            }else {
+//                min = mid + 1;
+//            }
+//        }
+//
+//        System.out.println(min - 1);
+//    }
 
     //백준 1920번 수 찾기
 //    public void solution(int N, int[] nNums, int M, int[] mNums) {
