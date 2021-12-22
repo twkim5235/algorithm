@@ -42,6 +42,16 @@ import java.util.*;
 //    }
 //}
 
+class Doc{
+    int severity;
+    int num;
+
+    public Doc(int severity, int num) {
+        this.severity = severity;
+        this.num = num;
+    }
+}
+
 public class Main {
     //    public static Boolean[][] map;
 //    public static int min = 64;
@@ -52,48 +62,72 @@ public class Main {
         Main T = new Main();
         Scanner sc = new Scanner(System.in);
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
 
-        StringTokenizer st = new StringTokenizer(bf.readLine(), " ");
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
-        trees = new int[N];
+        int testCase = Integer.parseInt(bf.readLine());
+        for (int i = 0; i < testCase; i++) {
+            StringTokenizer st = new StringTokenizer(bf.readLine(), " ");
+            int paperNum = Integer.parseInt(st.nextToken());
+            int cnt = Integer.parseInt(st.nextToken());
+            Queue<Doc> docs = new LinkedList<>();
 
-        st = new StringTokenizer(bf.readLine(), " ");
-        for (int i = 0; i < N; i++) {
-            trees[i] = Integer.parseInt(st.nextToken());
-            if (max < trees[i]) {
-                max = trees[i];
+
+            String[] nums = bf.readLine().split(" ");
+            for (int j = 0; j < paperNum; j++) {
+                int severity = Integer.parseInt(nums[j]);
+                docs.offer(new Doc(severity, j));
             }
+            System.out.println(T.solution(paperNum, cnt, docs));
         }
-
-        T.solution(M);
     }
 
-    // 백준 2805번 나무자르기 이분검색
-    public void solution(int M) {
-        long min = 0;
-        long mid = 0;
-
-        while (min < max) {
-            mid = (min + max) / 2;
-            long length = 0;
-
-            for (int i = 0; i < trees.length; i++) {
-                if (trees[i] > mid) {
-                    length += (trees[i] - mid);
+    //백준 1966번 문제풀이 프린터 큐
+    public int solution(int paperNum, int cnt, Queue<Doc> docs) {
+        int answer = 0;
+        while (!docs.isEmpty()) {
+            Doc doc = docs.poll();
+            for (Doc compareDoc : docs) {
+                if (doc.severity < compareDoc.severity) {
+                    docs.offer(doc);
+                    doc = null;
+                    break;
                 }
             }
 
-            if (length < M) {
-                max = mid;
-            }else {
-                min = mid + 1;
+            if (doc != null) {
+                answer++;
+                if(doc.num == cnt){
+                    return answer;
+                }
+
             }
         }
-
-        System.out.println(min - 1);
+        return -1;
     }
+
+    // 백준 2805번 나무자르기 이분검색
+//    public void solution(int M) {
+//        long min = 0;
+//        long mid = 0;
+//
+//        while (min < max) {
+//            mid = (min + max) / 2;
+//            long length = 0;
+//
+//            for (int i = 0; i < trees.length; i++) {
+//                if (trees[i] > mid) {
+//                    length += (trees[i] - mid);
+//                }
+//            }
+//
+//            if (length < M) {
+//                max = mid;
+//            }else {
+//                min = mid + 1;
+//            }
+//        }
+//
+//        System.out.println(min - 1);
+//    }
 
     //백준 1654번 랜선자르기
 //    public void solution(int K, int N) {
