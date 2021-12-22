@@ -43,8 +43,10 @@ import java.util.*;
 //}
 
 public class Main {
-//    public static Boolean[][] map;
+    //    public static Boolean[][] map;
 //    public static int min = 64;
+    static int[] lines;
+    static long max = Integer.MIN_VALUE;
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
@@ -52,55 +54,73 @@ public class Main {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
-        int N = Integer.parseInt(bf.readLine());
-        int[] nNums = new int[N];
-        String[] nNumsString = bf.readLine().split(" ");
-        for (int i = 0; i < N; i++) {
-            nNums[i] = Integer.parseInt(nNumsString[i]);
+        StringTokenizer st = new StringTokenizer(bf.readLine(), " ");
+        int K = Integer.parseInt(st.nextToken());
+        int N = Integer.parseInt(st.nextToken());
+        lines = new int[K];
+        for (int i = 0; i < K; i++) {
+            lines[i] = Integer.parseInt(bf.readLine());
+            max = Math.max(max, lines[i]);
         }
+        max++;
 
-        int M = Integer.parseInt(bf.readLine());
-        int[] mNums = new int[M];
-        String[] mNumsString = bf.readLine().split(" ");
-        for (int i = 0; i < M; i++) {
-            mNums[i] = Integer.parseInt(mNumsString[i]);
-        }
-
-        T.solution(N, nNums, M, mNums);
+        T.solution(K, N);
     }
 
-    //백준 1920번 수 찾기
-    public void solution(int N, int[] nNums, int M, int[] mNums) {
-        StringBuilder sb = new StringBuilder();
+    //백준 1654번 랜선자르기
+    public void solution(int K, int N) {
+        long min = 0;
+        long mid = 0;
+        while (min < max) {
+            mid = (min + max) / 2;
 
-        Arrays.sort(nNums);
+            long count = 0;
+            for (int i = 0; i < K; i++) {
+                count += lines[i] / mid;
+            }
 
-        for (int mNum : mNums) {
-            if (searchBinary(nNums, mNum) >= 0) sb.append(1).append("\n");
-            else sb.append(0).append("\n");
-        }
-
-        System.out.println(sb);
-    }
-
-    public int searchBinary(int[] nNums, int mNum) {
-        int lt = 0;
-        int rt = nNums.length - 1;
-
-        while (lt <= rt) {
-            int mid = (lt + rt) / 2;
-
-            if (mNum > nNums[mid]) {
-                lt = mid + 1;
-            } else if (mNum < nNums[mid]) {
-                rt = mid - 1;
-            } else{
-                return mid;
+            if (count < N) {
+                max = mid;
+            }else {
+                min = mid + 1;
             }
         }
 
-        return -1;
+        System.out.println(min - 1);
     }
+
+    //백준 1920번 수 찾기
+//    public void solution(int N, int[] nNums, int M, int[] mNums) {
+//        StringBuilder sb = new StringBuilder();
+//
+//        Arrays.sort(nNums);
+//
+//        for (int mNum : mNums) {
+//            if (searchBinary(nNums, mNum) >= 0) sb.append(1).append("\n");
+//            else sb.append(0).append("\n");
+//        }
+//
+//        System.out.println(sb);
+//    }
+//
+//    public int searchBinary(int[] nNums, int mNum) {
+//        int lt = 0;
+//        int rt = nNums.length - 1;
+//
+//        while (lt <= rt) {
+//            int mid = (lt + rt) / 2;
+//
+//            if (mNum > nNums[mid]) {
+//                lt = mid + 1;
+//            } else if (mNum < nNums[mid]) {
+//                rt = mid - 1;
+//            } else{
+//                return mid;
+//            }
+//        }
+//
+//        return -1;
+//    }
 
     //백준 1978번 소수 찾기
 //    public void solution(int N, int[] nums) {
