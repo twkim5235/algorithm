@@ -42,7 +42,7 @@ import java.util.*;
 //    }
 //}
 
-class Doc{
+class Doc {
     int severity;
     int num;
 
@@ -55,54 +55,73 @@ class Doc{
 public class Main {
     //    public static Boolean[][] map;
 //    public static int min = 64;
-    static int[] trees;
-    static long max = Integer.MIN_VALUE;
+//    static int[] trees;
+//    static long max = Integer.MIN_VALUE;
+    static int start = 1;
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
         Scanner sc = new Scanner(System.in);
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
-        int testCase = Integer.parseInt(bf.readLine());
-        for (int i = 0; i < testCase; i++) {
-            StringTokenizer st = new StringTokenizer(bf.readLine(), " ");
-            int paperNum = Integer.parseInt(st.nextToken());
-            int cnt = Integer.parseInt(st.nextToken());
-            Queue<Doc> docs = new LinkedList<>();
+    }
 
+    //백준 1874번 스택 수열 풀이
+    public void solution() throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
 
-            String[] nums = bf.readLine().split(" ");
-            for (int j = 0; j < paperNum; j++) {
-                int severity = Integer.parseInt(nums[j]);
-                docs.offer(new Doc(severity, j));
+        int N = Integer.parseInt(bf.readLine());
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < N; i++) {
+            int num = Integer.parseInt(bf.readLine());
+
+            int j;
+            if(num >= start) {
+                for (j = start; j <= num; j++) {
+                    stack.push(j);
+                    sb.append("+").append("\n");
+                }
+                start = j;
             }
-            System.out.println(T.solution(paperNum, cnt, docs));
+
+            if (stack.peek() == num) {
+                sb.append("-").append("\n");
+                stack.pop();
+            }else {
+                if (start > num) {
+                    System.out.println("NO");
+                    return;
+                }
+            }
         }
+
+        System.out.println(sb);
     }
 
     //백준 1966번 문제풀이 프린터 큐
-    public int solution(int paperNum, int cnt, Queue<Doc> docs) {
-        int answer = 0;
-        while (!docs.isEmpty()) {
-            Doc doc = docs.poll();
-            for (Doc compareDoc : docs) {
-                if (doc.severity < compareDoc.severity) {
-                    docs.offer(doc);
-                    doc = null;
-                    break;
-                }
-            }
-
-            if (doc != null) {
-                answer++;
-                if(doc.num == cnt){
-                    return answer;
-                }
-
-            }
-        }
-        return -1;
-    }
+//    public int solution(int paperNum, int cnt, Queue<Doc> docs) {
+//        int answer = 0;
+//        while (!docs.isEmpty()) {
+//            Doc doc = docs.poll();
+//            for (Doc compareDoc : docs) {
+//                if (doc.severity < compareDoc.severity) {
+//                    docs.offer(doc);
+//                    doc = null;
+//                    break;
+//                }
+//            }
+//
+//            if (doc != null) {
+//                answer++;
+//                if(doc.num == cnt){
+//                    return answer;
+//                }
+//
+//            }
+//        }
+//        return -1;
+//    }
 
     // 백준 2805번 나무자르기 이분검색
 //    public void solution(int M) {
