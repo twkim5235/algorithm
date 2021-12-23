@@ -63,29 +63,40 @@ public class Main {
         Main T = new Main();
         Scanner sc = new Scanner(System.in);
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(bf.readLine());
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
 
-        T.solution(N, M);
+        int N = Integer.parseInt(bf.readLine());
+
+        T.solution(N);
+    }
+
+    //백준 1676번 문제풀이 팩토리얼 0의 개수
+    public void solution(int N) {
+        int cnt = 0;
+
+        while (N >= 5) {
+            cnt += N / 5;
+            N /= 5;
+        }
+
+        System.out.println(cnt);
     }
 
     //백준 1929번 문제풀이 소수 구하기
-    public void solution(int N, int M) {
-        int[] nums = new int[M + 1];
-        StringBuilder sb = new StringBuilder();
-        for (int i = 2; i <= M; i++) {
-            if (i >= N && i <= M && nums[i] == 0) {
-                sb.append(i).append("\n");
-            }
-
-            for (int j = i; j <= M; j += i) {
-                if(nums[j] == 0) nums[j] = 1;
-            }
-        }
-
-        System.out.println(sb);
-    }
+//    public void solution(int N, int M) {
+//        int[] nums = new int[M + 1];
+//        StringBuilder sb = new StringBuilder();
+//        for (int i = 2; i <= M; i++) {
+//            if (i >= N && i <= M && nums[i] == 0) {
+//                sb.append(i).append("\n");
+//            }
+//
+//            for (int j = i; j <= M; j += i) {
+//                if(nums[j] == 0) nums[j] = 1;
+//            }
+//        }
+//
+//        System.out.println(sb);
+//    }
 
 
 
