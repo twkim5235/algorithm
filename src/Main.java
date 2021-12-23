@@ -63,41 +63,64 @@ public class Main {
         Main T = new Main();
         Scanner sc = new Scanner(System.in);
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(bf.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
 
+        T.solution(N, M);
     }
 
-    //백준 1874번 스택 수열 풀이
-    public void solution() throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+    //백준 1929번 문제풀이 소수 구하기
+    public void solution(int N, int M) {
+        int[] nums = new int[M + 1];
         StringBuilder sb = new StringBuilder();
-
-        int N = Integer.parseInt(bf.readLine());
-        Stack<Integer> stack = new Stack<>();
-        for (int i = 0; i < N; i++) {
-            int num = Integer.parseInt(bf.readLine());
-
-            int j;
-            if(num >= start) {
-                for (j = start; j <= num; j++) {
-                    stack.push(j);
-                    sb.append("+").append("\n");
-                }
-                start = j;
+        for (int i = 2; i <= M; i++) {
+            if (i >= N && i <= M && nums[i] == 0) {
+                sb.append(i).append("\n");
             }
 
-            if (stack.peek() == num) {
-                sb.append("-").append("\n");
-                stack.pop();
-            }else {
-                if (start > num) {
-                    System.out.println("NO");
-                    return;
-                }
+            for (int j = i; j <= M; j += i) {
+                if(nums[j] == 0) nums[j] = 1;
             }
         }
 
         System.out.println(sb);
     }
+
+
+
+    //백준 1874번 스택 수열 풀이
+//    public void solution() throws IOException {
+//        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+//        StringBuilder sb = new StringBuilder();
+//
+//        int N = Integer.parseInt(bf.readLine());
+//        Stack<Integer> stack = new Stack<>();
+//        for (int i = 0; i < N; i++) {
+//            int num = Integer.parseInt(bf.readLine());
+//
+//            int j;
+//            if(num >= start) {
+//                for (j = start; j <= num; j++) {
+//                    stack.push(j);
+//                    sb.append("+").append("\n");
+//                }
+//                start = j;
+//            }
+//
+//            if (stack.peek() == num) {
+//                sb.append("-").append("\n");
+//                stack.pop();
+//            }else {
+//                if (start > num) {
+//                    System.out.println("NO");
+//                    return;
+//                }
+//            }
+//        }
+//
+//        System.out.println(sb);
+//    }
 
     //백준 1966번 문제풀이 프린터 큐
 //    public int solution(int paperNum, int cnt, Queue<Doc> docs) {
