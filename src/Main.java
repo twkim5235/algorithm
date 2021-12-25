@@ -64,22 +64,51 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
-        int N = Integer.parseInt(bf.readLine());
+        StringTokenizer st = new StringTokenizer(bf.readLine(), " ");
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        HashSet<String> listeners = new HashSet<>();
+        for (int i = 0; i < N; i++) {
+            listeners.add(bf.readLine());
+        }
+        String[] watchers = new String[M];
+        for (int i = 0; i < M; i++) {
+            watchers[i] = bf.readLine();
+        }
 
-        T.solution(N);
+        T.solution(listeners, watchers);
     }
 
-    //백준 1676번 문제풀이 팩토리얼 0의 개수
-    public void solution(int N) {
+    // 백준 1764번 문제풀이 듣보잡 (Hashset 사용)
+    public void solution(HashSet<String> listeners, String[] watchers) {
+        Arrays.sort(watchers);
+        ArrayList<String> listenWatchers = new ArrayList<>();
         int cnt = 0;
 
-        while (N >= 5) {
-            cnt += N / 5;
-            N /= 5;
+        for (String watcher : watchers) {
+            if (listeners.contains(watcher)) {
+                cnt++;
+                listenWatchers.add(watcher);
+            }
         }
 
         System.out.println(cnt);
+        for (String listenWatcher : listenWatchers) {
+            System.out.println(listenWatcher);
+        }
     }
+
+    //백준 1676번 문제풀이 팩토리얼 0의 개수
+//    public void solution(int N) {
+//        int cnt = 0;
+//
+//        while (N >= 5) {
+//            cnt += N / 5;
+//            N /= 5;
+//        }
+//
+//        System.out.println(cnt);
+//    }
 
     //백준 1929번 문제풀이 소수 구하기
 //    public void solution(int N, int M) {
