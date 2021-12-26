@@ -52,45 +52,77 @@ class Doc {
     }
 }
 
+class ZeroOne{
+    int zeroCnt;
+    int oneCnt;
+
+    public ZeroOne() {
+    }
+
+    public ZeroOne(int zeroCnt, int oneCnt) {
+        this.zeroCnt = zeroCnt;
+        this.oneCnt = oneCnt;
+    }
+}
+
 public class Main {
     //    public static Boolean[][] map;
 //    public static int min = 64;
 //    static int[] trees;
 //    static long max = Integer.MIN_VALUE;
-    static int start = 1;
+
+    static ZeroOne[] zeroOnes;
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
         Scanner sc = new Scanner(System.in);
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
-        StringTokenizer st = new StringTokenizer(bf.readLine(), " ");
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
+        int N = Integer.parseInt(bf.readLine());
+        zeroOnes = new ZeroOne[41];
+        for (int i = 0; i < N; i++) {
+            int M = Integer.parseInt(bf.readLine());
+            T.solution(M);
+            System.out.println(zeroOnes[M].zeroCnt + " " + zeroOnes[M].oneCnt);
+        }
 
-        T.solution(N, M, bf);
+    }
 
+    //백준 1003번 문제풀이 피보나치 함수 (재귀)
+    public ZeroOne solution(int num) {
+        if (zeroOnes[num] != null) {
+            return zeroOnes[num];
+        }
+        if (num == 0) {
+            zeroOnes[num] = new ZeroOne(1, 0);
+        } else if (num == 1) {
+            zeroOnes[num] = new ZeroOne(0, 1);
+        } else {
+            if(zeroOnes[num] == null) zeroOnes[num] = new ZeroOne();
+            zeroOnes[num].zeroCnt = solution(num - 1).zeroCnt + solution(num - 2).zeroCnt;
+            zeroOnes[num].oneCnt = solution(num - 1).oneCnt + solution(num - 2).oneCnt;
+        }
+        return zeroOnes[num];
     }
 
     //백준 17219번 문제풀기 비밀번호 찾기
-    public void solution(int N, int M, BufferedReader bf) throws IOException {
-        StringTokenizer st;
-        StringBuilder sb = new StringBuilder();
-
-        Map<String, String> sitePassword = new HashMap<>();
-        for (int i = 0; i < N; i++) {
-            st = new StringTokenizer(bf.readLine(), " ");
-            sitePassword.put(st.nextToken(), st.nextToken());
-        }
-
-        for (int i = 0; i < M; i++) {
-            String password = sitePassword.get(bf.readLine());
-            sb.append(password).append("\n");
-        }
-
-        System.out.println(sb);
-    }
-
+//    public void solution(int N, int M, BufferedReader bf) throws IOException {
+//        StringTokenizer st;
+//        StringBuilder sb = new StringBuilder();
+//
+//        Map<String, String> sitePassword = new HashMap<>();
+//        for (int i = 0; i < N; i++) {
+//            st = new StringTokenizer(bf.readLine(), " ");
+//            sitePassword.put(st.nextToken(), st.nextToken());
+//        }
+//
+//        for (int i = 0; i < M; i++) {
+//            String password = sitePassword.get(bf.readLine());
+//            sb.append(password).append("\n");
+//        }
+//
+//        System.out.println(sb);
+//    }
 
     // 백준 1764번 문제풀이 듣보잡 (Hashset 사용)
 //    public void solution(HashSet<String> listeners, String[] watchers) {
