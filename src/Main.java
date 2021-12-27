@@ -52,7 +52,7 @@ class Doc {
     }
 }
 
-class ZeroOne{
+class ZeroOne {
     int zeroCnt;
     int oneCnt;
 
@@ -70,8 +70,8 @@ public class Main {
 //    public static int min = 64;
 //    static int[] trees;
 //    static long max = Integer.MIN_VALUE;
-
-    static ZeroOne[] zeroOnes;
+//    static ZeroOne[] zeroOnes;
+    static Integer[] dp;
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
@@ -79,31 +79,43 @@ public class Main {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
         int N = Integer.parseInt(bf.readLine());
-        zeroOnes = new ZeroOne[41];
-        for (int i = 0; i < N; i++) {
-            int M = Integer.parseInt(bf.readLine());
-            T.solution(M);
-            System.out.println(zeroOnes[M].zeroCnt + " " + zeroOnes[M].oneCnt);
-        }
+        dp = new Integer[N + 1];
+        dp[0] = dp[1] = 0;
+        System.out.println(T.solution(N));
+    }
 
+    //백준 1463번 문제풀이 1로 만들기 (재귀)
+    public int solution(int N) {
+        if (dp[N] == null) {
+            if (N % 6 == 0) {
+                dp[N] = Math.min(Math.min(solution(N / 2), solution(N / 3)), solution(N - 1)) + 1;
+            } else if (N % 3 == 0) {
+                dp[N] = Math.min(solution(N / 3), solution(N - 1)) + 1;
+            } else if (N % 2 == 0) {
+                dp[N] = Math.min(solution(N / 2), solution(N - 1)) + 1;
+            } else {
+                dp[N] = solution(N - 1) + 1;
+            }
+        }
+        return dp[N];
     }
 
     //백준 1003번 문제풀이 피보나치 함수 (재귀)
-    public ZeroOne solution(int num) {
-        if (zeroOnes[num] != null) {
-            return zeroOnes[num];
-        }
-        if (num == 0) {
-            zeroOnes[num] = new ZeroOne(1, 0);
-        } else if (num == 1) {
-            zeroOnes[num] = new ZeroOne(0, 1);
-        } else {
-            if(zeroOnes[num] == null) zeroOnes[num] = new ZeroOne();
-            zeroOnes[num].zeroCnt = solution(num - 1).zeroCnt + solution(num - 2).zeroCnt;
-            zeroOnes[num].oneCnt = solution(num - 1).oneCnt + solution(num - 2).oneCnt;
-        }
-        return zeroOnes[num];
-    }
+//    public ZeroOne solution(int num) {
+//        if (zeroOnes[num] != null) {
+//            return zeroOnes[num];
+//        }
+//        if (num == 0) {
+//            zeroOnes[num] = new ZeroOne(1, 0);
+//        } else if (num == 1) {
+//            zeroOnes[num] = new ZeroOne(0, 1);
+//        } else {
+//            if(zeroOnes[num] == null) zeroOnes[num] = new ZeroOne();
+//            zeroOnes[num].zeroCnt = solution(num - 1).zeroCnt + solution(num - 2).zeroCnt;
+//            zeroOnes[num].oneCnt = solution(num - 1).oneCnt + solution(num - 2).oneCnt;
+//        }
+//        return zeroOnes[num];
+//    }
 
     //백준 17219번 문제풀기 비밀번호 찾기
 //    public void solution(int N, int M, BufferedReader bf) throws IOException {
@@ -171,7 +183,6 @@ public class Main {
 //
 //        System.out.println(sb);
 //    }
-
 
 
     //백준 1874번 스택 수열 풀이
