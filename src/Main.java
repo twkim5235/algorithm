@@ -65,40 +65,115 @@ class ZeroOne {
     }
 }
 
+class Node {
+    int data;
+    Node rt;
+    Node lt;
+
+    public Node(int data) {
+        this.data = data;
+        rt = null;
+        lt = null;
+    }
+}
+
+class Location {
+    int st;
+    int end;
+
+    public Location(int st, int end) {
+        this.st = st;
+        this.end = end;
+    }
+}
+
 public class Main {
     //    public static Boolean[][] map;
 //    public static int min = 64;
 //    static int[] trees;
 //    static long max = Integer.MIN_VALUE;
 //    static ZeroOne[] zeroOnes;
-    static Integer[] dp;
+//    static Integer[] dp;
+
+    static int[][] graph;
+//    static ArrayList<Location> graph;
+    static int[] ch;
+    static int N;
+    static int M;
+    static int V;
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
         Scanner sc = new Scanner(System.in);
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
-        int N = Integer.parseInt(bf.readLine());
-        dp = new Integer[N + 1];
-        dp[0] = dp[1] = 0;
-        System.out.println(T.solution(N));
+        StringTokenizer st = new StringTokenizer(bf.readLine(), " ");
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        V = Integer.parseInt(st.nextToken());
+        graph = new int[N + 1][N + 1];
+        ch = new int[N + 1];
+        for (int i = 0; i < M; i++) {
+            st = new StringTokenizer(bf.readLine(), " ");
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            graph[a][b] = 1;
+            graph[b][a] = 1;
+        }
+        ch[V] = 1;
+        System.out.print(V + " ");
+        T.DFS(V);
+
+        ch = new int[N + 1];
+        System.out.println();
+        T.BFS(V);
+    }
+
+    //백준 1260번 문제풀이 DFS BFS
+    public void DFS(int num) {
+        for (int i = 1; i <= N; i++) {
+            if (graph[num][i] == 1 && ch[i] == 0) {
+                ch[i] = 1;
+                System.out.print(i + " ");
+                DFS(i);
+            }
+        }
+    }
+
+    public void BFS(int num) {
+        Queue<Integer> queue = new LinkedList();
+        queue.offer(num);
+        ch[num] = 1;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                Integer nx = queue.poll();
+                System.out.print(nx + " ");
+                for (int j = 1; j <= N; j++) {
+                    if (graph[nx][j] == 1 && ch[j] == 0) {
+                        ch[j] = 1;
+                        queue.offer(j);
+                    }
+                }
+            }
+        }
     }
 
     //백준 1463번 문제풀이 1로 만들기 (재귀)
-    public int solution(int N) {
-        if (dp[N] == null) {
-            if (N % 6 == 0) {
-                dp[N] = Math.min(Math.min(solution(N / 2), solution(N / 3)), solution(N - 1)) + 1;
-            } else if (N % 3 == 0) {
-                dp[N] = Math.min(solution(N / 3), solution(N - 1)) + 1;
-            } else if (N % 2 == 0) {
-                dp[N] = Math.min(solution(N / 2), solution(N - 1)) + 1;
-            } else {
-                dp[N] = solution(N - 1) + 1;
-            }
-        }
-        return dp[N];
-    }
+//    public int solution(int N) {
+//        if (dp[N] == null) {
+//            if (N % 6 == 0) {
+//                dp[N] = Math.min(Math.min(solution(N / 2), solution(N / 3)), solution(N - 1)) + 1;
+//            } else if (N % 3 == 0) {
+//                dp[N] = Math.min(solution(N / 3), solution(N - 1)) + 1;
+//            } else if (N % 2 == 0) {
+//                dp[N] = Math.min(solution(N / 2), solution(N - 1)) + 1;
+//            } else {
+//                dp[N] = solution(N - 1) + 1;
+//            }
+//        }
+//        return dp[N];
+//    }
 
     //백준 1003번 문제풀이 피보나치 함수 (재귀)
 //    public ZeroOne solution(int num) {
