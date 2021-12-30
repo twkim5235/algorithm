@@ -93,71 +93,71 @@ public class Main {
 //    static int[] trees;
 //    static long max = Integer.MIN_VALUE;
 //    static ZeroOne[] zeroOnes;
-//    static Integer[] dp;
+    static Integer[] dp;
+    static int[] stairs;
 
-    static int[][] graph;
-//    static ArrayList<Location> graph;
-    static int[] ch;
-    static int N;
-    static int M;
-    static int V;
+    //    static int[][] graph;
+//    static int[] ch;
+
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
-        Scanner sc = new Scanner(System.in);
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
-        StringTokenizer st = new StringTokenizer(bf.readLine(), " ");
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-        V = Integer.parseInt(st.nextToken());
-        graph = new int[N + 1][N + 1];
-        ch = new int[N + 1];
-        for (int i = 0; i < M; i++) {
-            st = new StringTokenizer(bf.readLine(), " ");
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-            graph[a][b] = 1;
-            graph[b][a] = 1;
+        int N = Integer.parseInt(bf.readLine());
+        dp = new Integer[N + 1];
+        stairs = new int[N + 1];
+        for (int i = 1; i <= N; i++) {
+            stairs[i] = Integer.parseInt(bf.readLine());
         }
-        ch[V] = 1;
-        System.out.print(V + " ");
-        T.DFS(V);
+        dp[0] = stairs[0];
+        dp[1] = stairs[1];
 
-        ch = new int[N + 1];
-        System.out.println();
-        T.BFS(V);
+        if (N >= 2) {
+            dp[2] = stairs[1] + stairs[2];
+        }
+
+        System.out.println(T.solution(N));
+    }
+
+    //백준 2579번 계단 오르기 문제풀이
+    public int solution(int num) {
+        if (dp[num] == null) {
+            dp[num] = Math.max(solution(num - 2), solution(num - 3) + stairs[num - 1]) + stairs[num];
+        }
+
+        return dp[num];
     }
 
     //백준 1260번 문제풀이 DFS BFS
-    public void DFS(int num) {
-        for (int i = 1; i <= N; i++) {
-            if (graph[num][i] == 1 && ch[i] == 0) {
-                ch[i] = 1;
-                System.out.print(i + " ");
-                DFS(i);
-            }
-        }
-    }
-
-    public void BFS(int num) {
-        Queue<Integer> queue = new LinkedList();
-        queue.offer(num);
-        ch[num] = 1;
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-            for (int i = 0; i < size; i++) {
-                Integer nx = queue.poll();
-                System.out.print(nx + " ");
-                for (int j = 1; j <= N; j++) {
-                    if (graph[nx][j] == 1 && ch[j] == 0) {
-                        ch[j] = 1;
-                        queue.offer(j);
-                    }
-                }
-            }
-        }
-    }
+//    public void DFS(int num) {
+//        for (int i = 1; i <= N; i++) {
+//            if (graph[num][i] == 1 && ch[i] == 0) {
+//                ch[i] = 1;
+//                System.out.print(i + " ");
+//                DFS(i);
+//            }
+//        }
+//    }
+//
+//    public void BFS(int num) {
+//        Queue<Integer> queue = new LinkedList();
+//        queue.offer(num);
+//        ch[num] = 1;
+//        while (!queue.isEmpty()) {
+//            int size = queue.size();
+//            for (int i = 0; i < size; i++) {
+//                Integer nx = queue.poll();
+//                System.out.print(nx + " ");
+//                for (int j = 1; j <= N; j++) {
+//                    if (graph[nx][j] == 1 && ch[j] == 0) {
+//                        ch[j] = 1;
+//                        queue.offer(j);
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     //백준 1463번 문제풀이 1로 만들기 (재귀)
 //    public int solution(int N) {
