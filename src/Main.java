@@ -93,41 +93,79 @@ public class Main {
 //    static int[] trees;
 //    static long max = Integer.MIN_VALUE;
 //    static ZeroOne[] zeroOnes;
-    static Integer[] dp;
-    static int[] stairs;
+//    static Integer[] dp;
+//    static int[] stairs;
 
-    //    static int[][] graph;
-//    static int[] ch;
+    static int[][] graph;
+    static int[] ch;
+    static int cnt;
 
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
-        int N = Integer.parseInt(bf.readLine());
-        dp = new Integer[N + 1];
-        stairs = new int[N + 1];
-        for (int i = 1; i <= N; i++) {
-            stairs[i] = Integer.parseInt(bf.readLine());
-        }
-        dp[0] = stairs[0];
-        dp[1] = stairs[1];
+        int comNum = Integer.parseInt(bf.readLine());
+        int connectNum = Integer.parseInt(bf.readLine());
 
-        if (N >= 2) {
-            dp[2] = stairs[1] + stairs[2];
+        graph = new int[comNum + 1][comNum + 1];
+        ch = new int[comNum + 1];
+
+        for (int i = 0; i < connectNum; i++) {
+            StringTokenizer st = new StringTokenizer(bf.readLine(), " ");
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+
+            graph[a][b] = 1;
+            graph[b][a] = 1;
+        }
+        ch[1] = 1;
+        T.solutionDFS(1);
+        System.out.println(cnt);
+    }
+
+
+    //백준 2606번 문제풀이 웜 바이러스
+    public void solutionBFS(int num) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(num);
+        int cnt = 0;
+
+        while (!queue.isEmpty()) {
+            int queSize = queue.size();
+            for (int i = 0; i < queSize; i++) {
+                int nx = queue.poll();
+                for (int j = 1; j < graph.length; j++) {
+                    if (graph[nx][j] == 1 && ch[j] == 0) {
+                        ch[j] = 1;
+                        queue.offer(j);
+                        cnt++;
+                    }
+                }
+            }
         }
 
-        System.out.println(T.solution(N));
+        System.out.println(cnt);
+    }
+
+    public void solutionDFS(int num) {
+        for (int i = 1; i < graph.length; i++) {
+            if (graph[num][i] == 1 && ch[i] == 0) {
+                cnt++;
+                ch[i] = 1;
+                solutionDFS(i);
+            }
+        }
     }
 
     //백준 2579번 계단 오르기 문제풀이
-    public int solution(int num) {
-        if (dp[num] == null) {
-            dp[num] = Math.max(solution(num - 2), solution(num - 3) + stairs[num - 1]) + stairs[num];
-        }
-
-        return dp[num];
-    }
+//    public int solution(int num) {
+//        if (dp[num] == null) {
+//            dp[num] = Math.max(solution(num - 2), solution(num - 3) + stairs[num - 1]) + stairs[num];
+//        }
+//
+//        return dp[num];
+//    }
 
     //백준 1260번 문제풀이 DFS BFS
 //    public void DFS(int num) {
