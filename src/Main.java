@@ -97,66 +97,92 @@ public class Main {
 //    static int[] stairs;
 
     static int[][] graph;
-    static int[] ch;
-    static int cnt;
+//    static int[] ch;
+//    static int cnt;
 
+    static int white = 0;
+    static int blue = 0;
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-
-        int comNum = Integer.parseInt(bf.readLine());
-        int connectNum = Integer.parseInt(bf.readLine());
-
-        graph = new int[comNum + 1][comNum + 1];
-        ch = new int[comNum + 1];
-
-        for (int i = 0; i < connectNum; i++) {
-            StringTokenizer st = new StringTokenizer(bf.readLine(), " ");
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-
-            graph[a][b] = 1;
-            graph[b][a] = 1;
+        StringTokenizer st;
+        int N = Integer.parseInt(bf.readLine());
+        graph = new int[N][N];
+        for (int i = 0; i < N; i++) {
+            st = new StringTokenizer(bf.readLine(), " ");
+            for (int j = 0; j < N; j++) {
+                graph[i][j] = Integer.parseInt(st.nextToken());
+            }
         }
-        ch[1] = 1;
-        T.solutionDFS(1);
-        System.out.println(cnt);
+
+        T.solution(0, 0, N);
+        System.out.println(white);
+        System.out.println(blue);
     }
 
+    //백준 2630번 문제풀이 색종이 만들기
+    public void solution(int row, int col, int size) {
+
+        if (checkColor(row, col, size)) {
+            if(graph[row][col] == 1) blue++;
+            else white++;
+            return;
+        }
+
+        int newSize = size / 2;
+
+        solution(row, col, newSize); //2사분면
+        solution(row, col + newSize, newSize); //1사분면
+        solution(row + newSize, col, newSize); //3사분면
+        solution(row + newSize, col + newSize, newSize); //4사분면
+    }
+
+    public boolean checkColor(int row, int col, int size) {
+        int color = graph[row][col]; //첫 번째 원소를 기준으로 검사
+
+        for (int i = row; i < row + size; i++) {
+            for (int j = col; j < col + size; j++) {
+                int checkColor = graph[i][j];
+                if(color != checkColor) return false;
+            }
+        }
+
+        return true;
+    }
 
     //백준 2606번 문제풀이 웜 바이러스
-    public void solutionBFS(int num) {
-        Queue<Integer> queue = new LinkedList<>();
-        queue.offer(num);
-        int cnt = 0;
-
-        while (!queue.isEmpty()) {
-            int queSize = queue.size();
-            for (int i = 0; i < queSize; i++) {
-                int nx = queue.poll();
-                for (int j = 1; j < graph.length; j++) {
-                    if (graph[nx][j] == 1 && ch[j] == 0) {
-                        ch[j] = 1;
-                        queue.offer(j);
-                        cnt++;
-                    }
-                }
-            }
-        }
-
-        System.out.println(cnt);
-    }
-
-    public void solutionDFS(int num) {
-        for (int i = 1; i < graph.length; i++) {
-            if (graph[num][i] == 1 && ch[i] == 0) {
-                cnt++;
-                ch[i] = 1;
-                solutionDFS(i);
-            }
-        }
-    }
+//    public void solutionBFS(int num) {
+//        Queue<Integer> queue = new LinkedList<>();
+//        queue.offer(num);
+//        int cnt = 0;
+//
+//        while (!queue.isEmpty()) {
+//            int queSize = queue.size();
+//            for (int i = 0; i < queSize; i++) {
+//                int nx = queue.poll();
+//                for (int j = 1; j < graph.length; j++) {
+//                    if (graph[nx][j] == 1 && ch[j] == 0) {
+//                        ch[j] = 1;
+//                        queue.offer(j);
+//                        cnt++;
+//                    }
+//                }
+//            }
+//        }
+//
+//        System.out.println(cnt);
+//    }
+//
+//    public void solutionDFS(int num) {
+//        for (int i = 1; i < graph.length; i++) {
+//            if (graph[num][i] == 1 && ch[i] == 0) {
+//                cnt++;
+//                ch[i] = 1;
+//                solutionDFS(i);
+//            }
+//        }
+//    }
 
     //백준 2579번 계단 오르기 문제풀이
 //    public int solution(int num) {
