@@ -96,9 +96,11 @@ public class Main {
 //    static Integer[] dp;
 //    static int[] stairs;
 
-//    static int[][] graph;
-//    static int[] ch;
+    static int[][] graph;
+    static int[][] ch;
     static int cnt = 0;
+    static int[] dr = {-1, 1, 0, 0}; //상하좌우
+    static int[] dc = {0, 0, -1, 1}; //상하좌우
 
 //    static int white = 0;
 //    static int blue = 0;
@@ -108,31 +110,66 @@ public class Main {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
         int T = Integer.parseInt(bf.readLine());
-
         for (int i = 0; i < T; i++) {
-            int n = Integer.parseInt(bf.readLine());
-            main.solution(n);
-            System.out.println(cnt);
-            cnt = 0;
+            st = new StringTokenizer(bf.readLine(), " ");
+            int row = Integer.parseInt(st.nextToken());
+            int col = Integer.parseInt(st.nextToken());
+            int cabbage = Integer.parseInt(st.nextToken());
+            int count = 0;
+            graph = new int[row][col];
+            ch = new int[row][col];
+
+            for (int j = 0; j < cabbage; j++) {
+                st = new StringTokenizer(bf.readLine(), " ");
+                int x = Integer.parseInt(st.nextToken());
+                int y = Integer.parseInt(st.nextToken());
+                graph[x][y] = 1;
+            }
+
+            for (int j = 0; j < row; j++) {
+                for (int k = 0; k < col; k++) {
+                    if (graph[j][k] == 1 && ch[j][k] == 0) {
+                        main.solution(j, k);
+                        count++;
+                    }
+                }
+            }
+
+            System.out.println(count);
         }
     }
 
-    //백준 9095 문제풀이 1, 2, 3 더하기
-    public void solution(int num) {
-        if(num == 0) {
-            cnt++;
-            return;
-        }else {
-            for (int i = 1; i <= 3; i++) {
-                int j = num - i;
-                if (j >= 0) {
-                    solution(j);
-                }else {
-                    return;
+    //백준 1012 문제풀이 유기농 배추
+    public void solution(int j, int k) {
+        ch[j][k] = 1;
+
+        for (int i = 0; i < 4; i++) {
+            int nr = j + dr[i];
+            int nc = k + dc[i];
+            if (nr >= 0 && nc >= 0 && nr < graph.length && nc < graph[0].length) {
+                if (graph[nr][nc] == 1 && ch[nr][nc] == 0) {
+                    solution(nr, nc);
                 }
             }
         }
     }
+
+    //백준 9095 문제풀이 1, 2, 3 더하기
+//    public void solution(int num) {
+//        if(num == 0) {
+//            cnt++;
+//            return;
+//        }else {
+//            for (int i = 1; i <= 3; i++) {
+//                int j = num - i;
+//                if (j >= 0) {
+//                    solution(j);
+//                }else {
+//                    return;
+//                }
+//            }
+//        }
+//    }
 
     //백준 2630번 문제풀이 색종이 만들기
 //    public void solution(int row, int col, int size) {
