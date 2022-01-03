@@ -106,53 +106,59 @@ public class Main {
 //    static int blue = 0;
 
     public static void main(String[] args) throws IOException {
-        Main main = new Main();
+        Main T = new Main();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
-        int T = Integer.parseInt(bf.readLine());
-        for (int i = 0; i < T; i++) {
-            st = new StringTokenizer(bf.readLine(), " ");
-            int row = Integer.parseInt(st.nextToken());
-            int col = Integer.parseInt(st.nextToken());
-            int cabbage = Integer.parseInt(st.nextToken());
-            int count = 0;
-            graph = new int[row][col];
-            ch = new int[row][col];
+        String expression = bf.readLine();
 
-            for (int j = 0; j < cabbage; j++) {
-                st = new StringTokenizer(bf.readLine(), " ");
-                int x = Integer.parseInt(st.nextToken());
-                int y = Integer.parseInt(st.nextToken());
-                graph[x][y] = 1;
-            }
+        T.solution(expression);
+    }
 
-            for (int j = 0; j < row; j++) {
-                for (int k = 0; k < col; k++) {
-                    if (graph[j][k] == 1 && ch[j][k] == 0) {
-                        main.solution(j, k);
-                        count++;
-                    }
+    //백준 1541번 문제풀이 잃어버린 괄호
+    public void solution(String expression) {
+        StringTokenizer st;
+        int result = 0;
+        boolean flag = true;
+
+        if(expression.contains("-")){
+            st = new StringTokenizer(expression, "-");
+            while (st.hasMoreTokens()) {
+                String[] plusNums = st.nextToken().split("\\+");
+                int num = 0;
+                for (int i = 0; i < plusNums.length; i++) {
+                    num += Integer.parseInt(plusNums[i]);
+                }
+                if (flag == true) {
+                    result = num;
+                    flag = false;
+                }else {
+                    result -= num;
                 }
             }
-
-            System.out.println(count);
+        }else {
+            st = new StringTokenizer(expression, "+");
+            while (st.hasMoreTokens()) {
+                result += Integer.parseInt(st.nextToken());
+            }
         }
+
+        System.out.println(result);
     }
 
     //백준 1012 문제풀이 유기농 배추
-    public void solution(int j, int k) {
-        ch[j][k] = 1;
-
-        for (int i = 0; i < 4; i++) {
-            int nr = j + dr[i];
-            int nc = k + dc[i];
-            if (nr >= 0 && nc >= 0 && nr < graph.length && nc < graph[0].length) {
-                if (graph[nr][nc] == 1 && ch[nr][nc] == 0) {
-                    solution(nr, nc);
-                }
-            }
-        }
-    }
+//    public void solution(int j, int k) {
+//        ch[j][k] = 1;
+//
+//        for (int i = 0; i < 4; i++) {
+//            int nr = j + dr[i];
+//            int nc = k + dc[i];
+//            if (nr >= 0 && nc >= 0 && nr < graph.length && nc < graph[0].length) {
+//                if (graph[nr][nc] == 1 && ch[nr][nc] == 0) {
+//                    solution(nr, nc);
+//                }
+//            }
+//        }
+//    }
 
     //백준 9095 문제풀이 1, 2, 3 더하기
 //    public void solution(int num) {
