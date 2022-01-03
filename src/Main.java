@@ -96,60 +96,73 @@ public class Main {
 //    static Integer[] dp;
 //    static int[] stairs;
 
-    static int[][] graph;
+//    static int[][] graph;
 //    static int[] ch;
-//    static int cnt;
+    static int cnt = 0;
 
-    static int white = 0;
-    static int blue = 0;
+//    static int white = 0;
+//    static int blue = 0;
 
     public static void main(String[] args) throws IOException {
-        Main T = new Main();
+        Main main = new Main();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
-        int N = Integer.parseInt(bf.readLine());
-        graph = new int[N][N];
-        for (int i = 0; i < N; i++) {
-            st = new StringTokenizer(bf.readLine(), " ");
-            for (int j = 0; j < N; j++) {
-                graph[i][j] = Integer.parseInt(st.nextToken());
+        int T = Integer.parseInt(bf.readLine());
+
+        for (int i = 0; i < T; i++) {
+            int n = Integer.parseInt(bf.readLine());
+            main.solution(n);
+            System.out.println(cnt);
+            cnt = 0;
+        }
+    }
+
+    //백준 9095 문제풀이 1, 2, 3 더하기
+    public void solution(int num) {
+        if(num == 0) {
+            cnt++;
+            return;
+        }else {
+            for (int i = 1; i <= 3; i++) {
+                int j = num - i;
+                if (j >= 0) {
+                    solution(j);
+                }else {
+                    return;
+                }
             }
         }
-
-        T.solution(0, 0, N);
-        System.out.println(white);
-        System.out.println(blue);
     }
 
     //백준 2630번 문제풀이 색종이 만들기
-    public void solution(int row, int col, int size) {
-
-        if (checkColor(row, col, size)) {
-            if(graph[row][col] == 1) blue++;
-            else white++;
-            return;
-        }
-
-        int newSize = size / 2;
-
-        solution(row, col, newSize); //2사분면
-        solution(row, col + newSize, newSize); //1사분면
-        solution(row + newSize, col, newSize); //3사분면
-        solution(row + newSize, col + newSize, newSize); //4사분면
-    }
-
-    public boolean checkColor(int row, int col, int size) {
-        int color = graph[row][col]; //첫 번째 원소를 기준으로 검사
-
-        for (int i = row; i < row + size; i++) {
-            for (int j = col; j < col + size; j++) {
-                int checkColor = graph[i][j];
-                if(color != checkColor) return false;
-            }
-        }
-
-        return true;
-    }
+//    public void solution(int row, int col, int size) {
+//
+//        if (checkColor(row, col, size)) {
+//            if(graph[row][col] == 1) blue++;
+//            else white++;
+//            return;
+//        }
+//
+//        int newSize = size / 2;
+//
+//        solution(row, col, newSize); //2사분면
+//        solution(row, col + newSize, newSize); //1사분면
+//        solution(row + newSize, col, newSize); //3사분면
+//        solution(row + newSize, col + newSize, newSize); //4사분면
+//    }
+//
+//    public boolean checkColor(int row, int col, int size) {
+//        int color = graph[row][col]; //첫 번째 원소를 기준으로 검사
+//
+//        for (int i = row; i < row + size; i++) {
+//            for (int j = col; j < col + size; j++) {
+//                int checkColor = graph[i][j];
+//                if(color != checkColor) return false;
+//            }
+//        }
+//
+//        return true;
+//    }
 
     //백준 2606번 문제풀이 웜 바이러스
 //    public void solutionBFS(int num) {
