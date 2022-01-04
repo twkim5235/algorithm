@@ -98,52 +98,140 @@ public class Main {
 
     static int[][] graph;
     static int[][] ch;
-    static int cnt = 0;
-    static int[] dr = {-1, 1, 0, 0}; //상하좌우
-    static int[] dc = {0, 0, -1, 1}; //상하좌우
+//    static int cnt = 0;
+//    static int[] dr = {-1, 1, 0, 0}; //상하좌우
+//    static int[] dc = {0, 0, -1, 1}; //상하좌우
 
-//    static int white = 0;
-//    static int blue = 0;
+    static int minusOne = 0;
+    static int zero = 0;
+    static int one = 0;
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
-        String expression = bf.readLine();
-
-        T.solution(expression);
-    }
-
-    //백준 1541번 문제풀이 잃어버린 괄호
-    public void solution(String expression) {
-        StringTokenizer st;
-        int result = 0;
-        boolean flag = true;
-
-        if(expression.contains("-")){
-            st = new StringTokenizer(expression, "-");
+        int N = Integer.parseInt(bf.readLine());
+        graph = new int[N][N];
+        for (int i = 0; i < N; i++) {
+            int j = 0;
+            st = new StringTokenizer(bf.readLine(), " ");
             while (st.hasMoreTokens()) {
-                String[] plusNums = st.nextToken().split("\\+");
-                int num = 0;
-                for (int i = 0; i < plusNums.length; i++) {
-                    num += Integer.parseInt(plusNums[i]);
-                }
-                if (flag == true) {
-                    result = num;
-                    flag = false;
+                if (j < N) {
+                    graph[i][j++] = Integer.parseInt(st.nextToken());
                 }else {
-                    result -= num;
+                    j++;
                 }
-            }
-        }else {
-            st = new StringTokenizer(expression, "+");
-            while (st.hasMoreTokens()) {
-                result += Integer.parseInt(st.nextToken());
             }
         }
 
-        System.out.println(result);
+        T.solution(0, 0, N);
+        System.out.println(minusOne);
+        System.out.println(zero);
+        System.out.println(one);
     }
+
+    //백준 1780번 문제풀이 종이의 개수
+    public void solution(int j, int k, int size) {
+        if (checkColor(j, k, size)) {
+            switch (graph[j][k]) {
+                case -1:
+                    minusOne++;
+                    break;
+                case 0:
+                    zero++;
+                    break;
+                case 1:
+                    one++;
+                    break;
+            }
+            return;
+        }
+
+        int newSize = size / 3;
+        for (int i = 0; i < 9; i++) {
+            if(i / 3 == 0){
+                switch (i % 3) {
+                    case 0:
+                        solution(j, k, newSize);
+                        break;
+                    case 1:
+                        solution(j, k + newSize, newSize);
+                        break;
+                    case 2:
+                        solution(j, k + newSize * 2, newSize);
+                        break;
+                }
+            } else if(i / 3 == 1){
+                switch (i % 3) {
+                    case 0:
+                        solution(j + newSize, k, newSize);
+                        break;
+                    case 1:
+                        solution(j + newSize, k + newSize, newSize);
+                        break;
+                    case 2:
+                        solution(j + newSize, k + newSize * 2, newSize);
+                        break;
+                }
+            } else if(i / 3 == 2){
+                switch (i % 3) {
+                    case 0:
+                        solution(j + newSize * 2, k, newSize);
+                        break;
+                    case 1:
+                        solution(j + newSize * 2, k + newSize, newSize);
+                        break;
+                    case 2:
+                        solution(j + newSize * 2, k + newSize * 2, newSize);
+                        break;
+                }
+            }
+        }
+
+    }
+
+    public boolean checkColor(int j, int k, int size) {
+        int color = graph[j][k];
+
+        for (int i = j; i < j + size; i++) {
+            for (int l = k; l < k + size; l++) {
+                if(color != graph[i][l]) return false;
+            }
+        }
+
+        return true;
+    }
+
+    //백준 1541번 문제풀이 잃어버린 괄호
+//    public void solution(String expression) {
+//        StringTokenizer st;
+//        int result = 0;
+//        boolean flag = true;
+//
+//        if(expression.contains("-")){
+//            st = new StringTokenizer(expression, "-");
+//            while (st.hasMoreTokens()) {
+//                String[] plusNums = st.nextToken().split("\\+");
+//                int num = 0;
+//                for (int i = 0; i < plusNums.length; i++) {
+//                    num += Integer.parseInt(plusNums[i]);
+//                }
+//                if (flag == true) {
+//                    result = num;
+//                    flag = false;
+//                }else {
+//                    result -= num;
+//                }
+//            }
+//        }else {
+//            st = new StringTokenizer(expression, "+");
+//            while (st.hasMoreTokens()) {
+//                result += Integer.parseInt(st.nextToken());
+//            }
+//        }
+//
+//        System.out.println(result);
+//    }
 
     //백준 1012 문제풀이 유기농 배추
 //    public void solution(int j, int k) {
