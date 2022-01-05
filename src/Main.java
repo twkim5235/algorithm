@@ -88,65 +88,61 @@ class Location {
 }
 
 public class Main {
-    //    public static Boolean[][] map;
-//    public static int min = 64;
-//    static int[] trees;
-//    static long max = Integer.MIN_VALUE;
-//    static ZeroOne[] zeroOnes;
-//    static Integer[] dp;
-//    static int[] stairs;
 
-//    static int[][] graph;
-//    static int[][] ch;
-//    static int cnt = 0;
-//    static int[] dr = {-1, 1, 0, 0}; //상하좌우
-//    static int[] dc = {0, 0, -1, 1}; //상하좌우
-
-//    static int minusOne = 0;
-//    static int zero = 0;
-//    static int one = 0;
-
-    static int[][] meetingTime;
+    static int[] coins;
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
-        int N = Integer.parseInt(bf.readLine());
-        meetingTime = new int[N][2];
+        StringTokenizer st = new StringTokenizer(bf.readLine(), " ");
+        int N = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
+        coins = new int[N];
         for (int i = 0; i < N; i++) {
-            st = new StringTokenizer(bf.readLine(), " ");
-            meetingTime[i][0] = Integer.parseInt(st.nextToken()); //시작시간
-            meetingTime[i][1] = Integer.parseInt(st.nextToken()); //종료시간
+            coins[i] = Integer.parseInt(bf.readLine());
         }
 
-        T.solution(N);
+        T.solution(N, K);
+    }
+
+    //백준 11047 문제풀이 동전
+    public void solution(int N, int K) {
+        int restMoney = K;
+        int coinCount = 0;
+        for (int i = N - 1; i >= 0; i--) {
+            if (restMoney / coins[i] > 0) {
+                coinCount += restMoney / coins[i];
+                restMoney = restMoney % coins[i];
+            }
+        }
+
+        System.out.println(coinCount);
     }
 
     //백준 1931번 문제풀이 회의실 배정
-    public void solution(int N) {
-        Arrays.sort(meetingTime, new Comparator<int[]>() {
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                if (o1[1] == o2[1]) {
-                    return o1[0] - o2[0];
-                }
-                return o1[1] - o2[1];
-            }
-        });
-
-        int count = 0;
-        int prevEndTime = 0;
-
-        for (int i = 0; i < N; i++) {
-            if (prevEndTime <= meetingTime[i][0]) {
-                prevEndTime = meetingTime[i][1];
-                count++;
-            }
-        }
-
-        System.out.println(count);
-    }
+//    public void solution(int N) {
+//        Arrays.sort(meetingTime, new Comparator<int[]>() {
+//            @Override
+//            public int compare(int[] o1, int[] o2) {
+//                if (o1[1] == o2[1]) {
+//                    return o1[0] - o2[0];
+//                }
+//                return o1[1] - o2[1];
+//            }
+//        });
+//
+//        int count = 0;
+//        int prevEndTime = 0;
+//
+//        for (int i = 0; i < N; i++) {
+//            if (prevEndTime <= meetingTime[i][0]) {
+//                prevEndTime = meetingTime[i][1];
+//                count++;
+//            }
+//        }
+//
+//        System.out.println(count);
+//    }
 
     //백준 1780번 문제풀이 종이의 개수
 //    public void solution(int j, int k, int size) {
