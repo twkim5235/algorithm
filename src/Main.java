@@ -89,35 +89,71 @@ class Location {
 
 public class Main {
 
-    static int[] coins;
+    static int[][] graph;
+    static int[] ch;
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(bf.readLine(), " ");
         int N = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(st.nextToken());
-        coins = new int[N];
-        for (int i = 0; i < N; i++) {
-            coins[i] = Integer.parseInt(bf.readLine());
+        int M = Integer.parseInt(st.nextToken());
+
+        graph = new int[N + 1][N + 1];
+        ch = new int[N + 1];
+        for (int i = 0; i < M; i++) {
+            st = new StringTokenizer(bf.readLine(), " ");
+            int x = Integer.parseInt(st.nextToken());
+            int y = Integer.parseInt(st.nextToken());
+            graph[x][y] = 1;
+            graph[y][x] = 1;
         }
 
-        T.solution(N, K);
+        T.solution();
     }
 
-    //백준 11047 문제풀이 동전
-    public void solution(int N, int K) {
-        int restMoney = K;
-        int coinCount = 0;
-        for (int i = N - 1; i >= 0; i--) {
-            if (restMoney / coins[i] > 0) {
-                coinCount += restMoney / coins[i];
-                restMoney = restMoney % coins[i];
+    //백준 11724번 문제풀이 연결 요소의 개수
+    public void solution() {
+        int cnt = 0;
+        for (int i = 1; i < ch.length; i++) {
+            Queue<Integer> queue = new LinkedList();
+
+            if (ch[i] == 0) {
+                ch[i] = 1;
+                queue.offer(i);
+
+                while (!queue.isEmpty()) {
+                    int size = queue.size();
+                    for (int j = 0; j < size; j++) {
+                        int nx = queue.poll();
+                        for (int k = 1; k < ch.length; k++) {
+                            if (graph[nx][k] == 1 && ch[k] == 0) {
+                                ch[k] = 1;
+                                queue.offer(k);
+                            }
+                        }
+                    }
+                }
+                cnt++;
             }
         }
 
-        System.out.println(coinCount);
+        System.out.println(cnt);
     }
+
+    //백준 11047 문제풀이 동전
+//    public void solution(int N, int K) {
+//        int restMoney = K;
+//        int coinCount = 0;
+//        for (int i = N - 1; i >= 0; i--) {
+//            if (restMoney / coins[i] > 0) {
+//                coinCount += restMoney / coins[i];
+//                restMoney = restMoney % coins[i];
+//            }
+//        }
+//
+//        System.out.println(coinCount);
+//    }
 
     //백준 1931번 문제풀이 회의실 배정
 //    public void solution(int N) {
