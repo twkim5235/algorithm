@@ -96,111 +96,129 @@ public class Main {
 //    static Integer[] dp;
 //    static int[] stairs;
 
-    static int[][] graph;
-    static int[][] ch;
+//    static int[][] graph;
+//    static int[][] ch;
 //    static int cnt = 0;
 //    static int[] dr = {-1, 1, 0, 0}; //상하좌우
 //    static int[] dc = {0, 0, -1, 1}; //상하좌우
 
-    static int minusOne = 0;
-    static int zero = 0;
-    static int one = 0;
+//    static int minusOne = 0;
+//    static int zero = 0;
+//    static int one = 0;
+
+    static int[][] meetingTime;
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
         int N = Integer.parseInt(bf.readLine());
-        graph = new int[N][N];
+        meetingTime = new int[N][2];
         for (int i = 0; i < N; i++) {
-            int j = 0;
             st = new StringTokenizer(bf.readLine(), " ");
-            while (st.hasMoreTokens()) {
-                if (j < N) {
-                    graph[i][j++] = Integer.parseInt(st.nextToken());
-                }else {
-                    j++;
+            meetingTime[i][0] = Integer.parseInt(st.nextToken()); //시작시간
+            meetingTime[i][1] = Integer.parseInt(st.nextToken()); //종료시간
+        }
+
+        T.solution(N);
+    }
+
+    //백준 1931번 문제풀이 회의실 배정
+    public void solution(int N) {
+        Arrays.sort(meetingTime, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[1] == o2[1]) {
+                    return o1[0] - o2[0];
                 }
+                return o1[1] - o2[1];
+            }
+        });
+
+        int count = 0;
+        int prevEndTime = 0;
+
+        for (int i = 0; i < N; i++) {
+            if (prevEndTime <= meetingTime[i][0]) {
+                prevEndTime = meetingTime[i][1];
+                count++;
             }
         }
 
-        T.solution(0, 0, N);
-        System.out.println(minusOne);
-        System.out.println(zero);
-        System.out.println(one);
+        System.out.println(count);
     }
 
     //백준 1780번 문제풀이 종이의 개수
-    public void solution(int j, int k, int size) {
-        if (checkColor(j, k, size)) {
-            switch (graph[j][k]) {
-                case -1:
-                    minusOne++;
-                    break;
-                case 0:
-                    zero++;
-                    break;
-                case 1:
-                    one++;
-                    break;
-            }
-            return;
-        }
-
-        int newSize = size / 3;
-        for (int i = 0; i < 9; i++) {
-            if(i / 3 == 0){
-                switch (i % 3) {
-                    case 0:
-                        solution(j, k, newSize);
-                        break;
-                    case 1:
-                        solution(j, k + newSize, newSize);
-                        break;
-                    case 2:
-                        solution(j, k + newSize * 2, newSize);
-                        break;
-                }
-            } else if(i / 3 == 1){
-                switch (i % 3) {
-                    case 0:
-                        solution(j + newSize, k, newSize);
-                        break;
-                    case 1:
-                        solution(j + newSize, k + newSize, newSize);
-                        break;
-                    case 2:
-                        solution(j + newSize, k + newSize * 2, newSize);
-                        break;
-                }
-            } else if(i / 3 == 2){
-                switch (i % 3) {
-                    case 0:
-                        solution(j + newSize * 2, k, newSize);
-                        break;
-                    case 1:
-                        solution(j + newSize * 2, k + newSize, newSize);
-                        break;
-                    case 2:
-                        solution(j + newSize * 2, k + newSize * 2, newSize);
-                        break;
-                }
-            }
-        }
-
-    }
-
-    public boolean checkColor(int j, int k, int size) {
-        int color = graph[j][k];
-
-        for (int i = j; i < j + size; i++) {
-            for (int l = k; l < k + size; l++) {
-                if(color != graph[i][l]) return false;
-            }
-        }
-
-        return true;
-    }
+//    public void solution(int j, int k, int size) {
+//        if (checkColor(j, k, size)) {
+//            switch (graph[j][k]) {
+//                case -1:
+//                    minusOne++;
+//                    break;
+//                case 0:
+//                    zero++;
+//                    break;
+//                case 1:
+//                    one++;
+//                    break;
+//            }
+//            return;
+//        }
+//
+//        int newSize = size / 3;
+//        for (int i = 0; i < 9; i++) {
+//            if(i / 3 == 0){
+//                switch (i % 3) {
+//                    case 0:
+//                        solution(j, k, newSize);
+//                        break;
+//                    case 1:
+//                        solution(j, k + newSize, newSize);
+//                        break;
+//                    case 2:
+//                        solution(j, k + newSize * 2, newSize);
+//                        break;
+//                }
+//            } else if(i / 3 == 1){
+//                switch (i % 3) {
+//                    case 0:
+//                        solution(j + newSize, k, newSize);
+//                        break;
+//                    case 1:
+//                        solution(j + newSize, k + newSize, newSize);
+//                        break;
+//                    case 2:
+//                        solution(j + newSize, k + newSize * 2, newSize);
+//                        break;
+//                }
+//            } else if(i / 3 == 2){
+//                switch (i % 3) {
+//                    case 0:
+//                        solution(j + newSize * 2, k, newSize);
+//                        break;
+//                    case 1:
+//                        solution(j + newSize * 2, k + newSize, newSize);
+//                        break;
+//                    case 2:
+//                        solution(j + newSize * 2, k + newSize * 2, newSize);
+//                        break;
+//                }
+//            }
+//        }
+//
+//    }
+//
+//    public boolean checkColor(int j, int k, int size) {
+//        int color = graph[j][k];
+//
+//        for (int i = j; i < j + size; i++) {
+//            for (int l = k; l < k + size; l++) {
+//                if(color != graph[i][l]) return false;
+//            }
+//        }
+//
+//        return true;
+//    }
 
     //백준 1541번 문제풀이 잃어버린 괄호
 //    public void solution(String expression) {
