@@ -1,6 +1,4 @@
-import java.awt.*;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 
 
@@ -78,68 +76,115 @@ class Node {
 }
 
 class Location {
-    int st;
-    int end;
+    int x;
+    int y;
 
     public Location(int st, int end) {
-        this.st = st;
-        this.end = end;
+        this.x = st;
+        this.y = end;
     }
 }
 
 public class Main {
 
     static int[][] graph;
-    static int[] ch;
+    static int[][] ch;
+    static int[] dx = {-1, 1, 0, 0};//상하좌우
+    static int[] dy = {0, 0, -1, 1};//상하좌우
+    static int cnt = -1;
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(bf.readLine(), " ");
-        int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
+        int N = Integer.parseInt(st.nextToken());
 
-        graph = new int[N + 1][N + 1];
-        ch = new int[N + 1];
-        for (int i = 0; i < M; i++) {
+        graph = new int[N][M];
+        Queue<Location> locationQueue = new LinkedList<>();
+        boolean storeFlag = true;
+        for (int i = 0; i < N; i++) {
             st = new StringTokenizer(bf.readLine(), " ");
-            int x = Integer.parseInt(st.nextToken());
-            int y = Integer.parseInt(st.nextToken());
-            graph[x][y] = 1;
-            graph[y][x] = 1;
-        }
-
-        T.solution();
-    }
-
-    //백준 11724번 문제풀이 연결 요소의 개수
-    public void solution() {
-        int cnt = 0;
-        for (int i = 1; i < ch.length; i++) {
-            Queue<Integer> queue = new LinkedList();
-
-            if (ch[i] == 0) {
-                ch[i] = 1;
-                queue.offer(i);
-
-                while (!queue.isEmpty()) {
-                    int size = queue.size();
-                    for (int j = 0; j < size; j++) {
-                        int nx = queue.poll();
-                        for (int k = 1; k < ch.length; k++) {
-                            if (graph[nx][k] == 1 && ch[k] == 0) {
-                                ch[k] = 1;
-                                queue.offer(k);
-                            }
-                        }
+            int j = 0;
+            while (st.hasMoreTokens()) {
+                if (j < M) {
+                    graph[i][j] = Integer.parseInt(st.nextToken());
+                    if (graph[i][j] == 1) {
+                        locationQueue.offer(new Location(i, j));
+                    } else if (graph[i][j] == 0) {
+                        storeFlag = false;
                     }
                 }
-                cnt++;
+                j++;
+            }
+        }
+
+        if (storeFlag == true) {
+            System.out.println(0);
+            return;
+        }
+
+        T.solution(N, M, locationQueue);
+
+        for (int[] ints : graph) {
+            for (int anInt : ints) {
+                if (anInt == 0) {
+                    System.out.println(-1);
+                    return;
+                }
             }
         }
 
         System.out.println(cnt);
     }
+
+    //백준 7576번 토마토 문제풀이
+    public void solution(int N, int M, Queue<Location> queue) {
+        while (!queue.isEmpty()) {
+            int queSize = queue.size();
+            for (int i = 0; i < queSize; i++) {
+                Location temp = queue.poll();
+                for (int j = 0; j < 4; j++) {
+                    int nx = temp.x + dx[j];
+                    int ny = temp.y + dy[j];
+                    if (nx >= 0 && ny >= 0 && nx < N && ny < M && graph[nx][ny] == 0) {
+                        graph[nx][ny] = 1;
+                        queue.offer(new Location(nx, ny));
+                    }
+                }
+            }
+            cnt++;
+        }
+    }
+
+    //백준 11724번 문제풀이 연결 요소의 개수
+//    public void solution() {
+//        int cnt = 0;
+//        for (int i = 1; i < ch.length; i++) {
+//            Queue<Integer> queue = new LinkedList();
+//
+//            if (ch[i] == 0) {
+//                ch[i] = 1;
+//                queue.offer(i);
+//
+//                while (!queue.isEmpty()) {
+//                    int size = queue.size();
+//                    for (int j = 0; j < size; j++) {
+//                        int nx = queue.poll();
+//                        for (int k = 1; k < ch.length; k++) {
+//                            if (graph[nx][k] == 1 && ch[k] == 0) {
+//                                ch[k] = 1;
+//                                queue.offer(k);
+//                            }
+//                        }
+//                    }
+//                }
+//                cnt++;
+//            }
+//        }
+//
+//        System.out.println(cnt);
+//    }
 
     //백준 11047 문제풀이 동전
 //    public void solution(int N, int K) {
