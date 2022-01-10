@@ -176,12 +176,13 @@ class Location {
 
 public class Main {
 
-    static int[][] graph;
-    static int[][] ch;
-    static int N, M;
-    static int[] dx = {-1, 1, 0, 0};//상하좌우
-    static int[] dy = {0, 0, -1, 1};//상하좌우
-    static int cnt = Integer.MAX_VALUE;
+    //    static int[][] graph;
+//    static int[][] ch;
+//    static int[] dx = {-1, 1, 0, 0};//상하좌우
+//    static int[] dy = {0, 0, -1, 1};//상하좌우
+//    static int cnt = Integer.MAX_VALUE;
+    static boolean[] ch = new boolean[100001];
+    static int dis[] = {1, -1, 2};
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
@@ -189,48 +190,76 @@ public class Main {
         StringTokenizer st;
 
         st = new StringTokenizer(bf.readLine(), " ");
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
 
-        graph = new int[N][M];
-        ch = new int[N][M];
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
 
-        for (int i = 0; i < N; i++) {
-            String stNum = bf.readLine();
-            for (int j = 0; j < M; j++) {
-                graph[i][j] = Integer.parseInt(String.valueOf(stNum.charAt(j)));
-            }
-        }
-
-        T.solutionBFS();
-        System.out.println(cnt);
+        ch[N] = true;
+        int level = T.solution(N, M);
+        System.out.println(level);
     }
 
-    //백준 2178번 문제풀이 미로탐색 BFS
-    public void solutionBFS() {
-        Queue<Location> locationQueue = new LinkedList<>();
-        locationQueue.offer(new Location(0, 0, 1));
-        ch[0][0] = 1;
-        int sum = 0;
-        while (!locationQueue.isEmpty()) {
-            int size = locationQueue.size();
+    //백준 1697번 문제풀이 숨바꼭질 BFS
+    public int solution(int num, int end) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(num);
+        int level = 0;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
             for (int i = 0; i < size; i++) {
-                Location temp = locationQueue.poll();
-                for (int j = 0; j < 4; j++) {
-                    int nx = temp.x + dx[j];
-                    int ny = temp.y + dy[j];
-                    sum = temp.sum;
-                    if (nx == N - 1 && ny == M - 1) {
-                        cnt = Math.min(cnt, sum + 1);
+                int temp = queue.poll();
+                if(temp == end){
+                    return level;
+                }else {
+                    int next = 0;
+                    if (temp + 1 < ch.length && !ch[temp + 1]) {
+                        next = temp + 1;
+                        ch[next] = true;
+                        queue.offer(next);
                     }
-                    if (nx >= 0 && nx < N && ny >= 0 && ny < M && graph[nx][ny] == 1 && ch[nx][ny] == 0) {
-                        ch[nx][ny] = 1;
-                        locationQueue.offer(new Location(nx, ny, sum + 1));
+                    if (temp - 1 >= 0 && !ch[temp - 1]) {
+                        next = temp - 1;
+                        ch[next] = true;
+                        queue.offer(next);
+                    }
+                    if (temp * 2 <= ch.length && !ch[temp * 2]) {
+                        next = temp * 2;
+                        ch[next] = true;
+                        queue.offer(next);
                     }
                 }
             }
+
+            level++;
         }
+        return -1;
     }
+
+    //백준 2178번 문제풀이 미로탐색 BFS
+//    public void solutionBFS() {
+//        Queue<Location> locationQueue = new LinkedList<>();
+//        locationQueue.offer(new Location(0, 0, 1));
+//        ch[0][0] = 1;
+//        int sum = 0;
+//        while (!locationQueue.isEmpty()) {
+//            int size = locationQueue.size();
+//            for (int i = 0; i < size; i++) {
+//                Location temp = locationQueue.poll();
+//                for (int j = 0; j < 4; j++) {
+//                    int nx = temp.x + dx[j];
+//                    int ny = temp.y + dy[j];
+//                    sum = temp.sum;
+//                    if (nx == N - 1 && ny == M - 1) {
+//                        cnt = Math.min(cnt, sum + 1);
+//                    }
+//                    if (nx >= 0 && nx < N && ny >= 0 && ny < M && graph[nx][ny] == 1 && ch[nx][ny] == 0) {
+//                        ch[nx][ny] = 1;
+//                        locationQueue.offer(new Location(nx, ny, sum + 1));
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     //백준 2178번 문재풀이 미로탐색 DFS
 //    public void solutionDFS(int x, int y, int sum) {
