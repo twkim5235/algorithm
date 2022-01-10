@@ -25,20 +25,107 @@ import java.util.*;
 //    }
 //}
 
-class Node{
-    public int num;
-    public Node nextNode;
-
-    public Node(int num) {
-        this.num = num;
-        this.nextNode = null;
-    }
-
-    public Node(int num, Node nextNode) {
-        this.num = num;
-        this.nextNode = nextNode;
-    }
-}
+//class Node {
+//    public int num;
+//    public Node nextNode;
+//
+//    public Node(int num) {
+//        this.num = num;
+//        this.nextNode = null;
+//    }
+//
+//    public Node(int num, Node nextNode) {
+//        this.num = num;
+//        this.nextNode = nextNode;
+//    }
+//}
+//
+//class MyLinkedList {
+//    Node head;
+//
+//    public void insertNode(int data) {
+//        Node newNode = new Node(data);
+//        if (head == null) {
+//            head = newNode;
+//        } else {
+//            Node temp = head;
+//            while (temp.nextNode != null) {
+//                temp = temp.nextNode;
+//            }
+//            temp.nextNode = newNode;
+//        }
+//    }
+//
+//    public void deleteNode() {
+//        if (head == null) {
+//            return;
+//        }
+//        if (head.nextNode == null) {
+//            head = null;
+//        } else {
+//            Node temp = head;
+//            Node prevNode = temp;
+//            while (temp.nextNode != null) {
+//                prevNode = temp;
+//                temp = temp.nextNode;
+//            }
+//
+//            prevNode.nextNode = null;
+//
+//        }
+//    }
+//
+//    public void deleteNode(int data) {
+//        Node temp = head;
+//        Node prevNode = temp;
+//        if (head == null) {
+//            return;
+//        }
+//        if (head.nextNode == null) {
+//            head = null;
+//        } else {
+//            while (temp.num != data) {
+//                prevNode = temp;
+//                temp = temp.nextNode;
+//            }
+//            prevNode.nextNode = temp.nextNode;
+//            temp = null;
+//        }
+//    }
+//
+//    public Node searchNode(int data) {
+//        Node temp = head;
+//
+//        while (temp.num != data) {
+//            temp = temp.nextNode;
+//        }
+//
+//        return temp;
+//    }
+//
+//    public void printAllNode() {
+//        Node temp = head;
+//        while (temp != null) {
+//            System.out.print(temp.num + " ");
+//            temp = temp.nextNode;
+//        }
+//    }
+//
+//    public void reverse() {
+//        Node nextNode = head;
+//        Node currentNode = null;
+//        Node prevNode = null;
+//
+//        while (nextNode != null) {
+//            prevNode = currentNode;
+//            currentNode = nextNode;
+//            nextNode = nextNode.nextNode;
+//            currentNode.nextNode = prevNode;
+//        }
+//
+//        head = currentNode;
+//    }
+//}
 
 class Doc {
     int severity;
@@ -78,10 +165,12 @@ class ZeroOne {
 class Location {
     int x;
     int y;
+    int sum;
 
-    public Location(int st, int end) {
+    public Location(int st, int end, int sum) {
         this.x = st;
         this.y = end;
+        this.sum = sum;
     }
 }
 
@@ -89,69 +178,110 @@ public class Main {
 
     static int[][] graph;
     static int[][] ch;
-    static int N;
+    static int N, M;
     static int[] dx = {-1, 1, 0, 0};//상하좌우
     static int[] dy = {0, 0, -1, 1};//상하좌우
-    static int estate = 0;
-    static ArrayList<Integer> houseNum = new ArrayList<>();
+    static int cnt = Integer.MAX_VALUE;
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
-        N = Integer.parseInt(bf.readLine());
-        graph = new int[N][N];
-        ch = new int[N][N];
+
+        st = new StringTokenizer(bf.readLine(), " ");
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+
+        graph = new int[N][M];
+        ch = new int[N][M];
+
         for (int i = 0; i < N; i++) {
-            String line = bf.readLine();
-            for (int j = 0; j < line.length(); j++) {
-                graph[i][j] = line.charAt(j) - 48;
+            String stNum = bf.readLine();
+            for (int j = 0; j < M; j++) {
+                graph[i][j] = Integer.parseInt(String.valueOf(stNum.charAt(j)));
             }
         }
 
         T.solutionBFS();
-
-        System.out.println(estate);
-        houseNum.sort((o1, o2) -> {
-            return o1 - o2;
-        });
-        for (int num : houseNum) {
-            System.out.println(num);
-        }
+        System.out.println(cnt);
     }
 
-    //백준 2667번 문제풀이 단지번호붙이기
+    //백준 2178번 문제풀이 미로탐색 BFS
     public void solutionBFS() {
         Queue<Location> locationQueue = new LinkedList<>();
-
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                if (graph[i][j] == 1 && ch[i][j] == 0) {
-                    ch[i][j] = 1;
-                    locationQueue.offer(new Location(i, j));
-                    int count = 1;
-                    while (!locationQueue.isEmpty()) {
-                        int size = locationQueue.size();
-                        for (int k = 0; k < size; k++) {
-                            Location tmp = locationQueue.poll();
-                            for (int l = 0; l < 4; l++) {
-                                int nx = tmp.x + dx[l];
-                                int ny = tmp.y + dy[l];
-
-                                if (nx >= 0 && nx < N && ny >= 0 && ny < N && graph[nx][ny] == 1 & ch[nx][ny] == 0) {
-                                    count++;
-                                    ch[nx][ny] = 1;
-                                    locationQueue.offer(new Location(nx, ny));
-                                }
-                            }
-                        }
+        locationQueue.offer(new Location(0, 0, 1));
+        ch[0][0] = 1;
+        int sum = 0;
+        while (!locationQueue.isEmpty()) {
+            int size = locationQueue.size();
+            for (int i = 0; i < size; i++) {
+                Location temp = locationQueue.poll();
+                for (int j = 0; j < 4; j++) {
+                    int nx = temp.x + dx[j];
+                    int ny = temp.y + dy[j];
+                    sum = temp.sum;
+                    if (nx == N - 1 && ny == M - 1) {
+                        cnt = Math.min(cnt, sum + 1);
                     }
-                    houseNum.add(count);
-                    estate++;
+                    if (nx >= 0 && nx < N && ny >= 0 && ny < M && graph[nx][ny] == 1 && ch[nx][ny] == 0) {
+                        ch[nx][ny] = 1;
+                        locationQueue.offer(new Location(nx, ny, sum + 1));
+                    }
                 }
             }
         }
     }
+
+    //백준 2178번 문재풀이 미로탐색 DFS
+//    public void solutionDFS(int x, int y, int sum) {
+//        if (x == N - 1 && y == M - 1) {
+//            cnt = Math.min(sum, cnt);
+//            return;
+//        }else {
+//            for (int i = 0; i < 4; i++) {
+//                int nx = x + dx[i];
+//                int ny = y + dy[i];
+//                if (nx >= 0 && nx < N && ny >= 0 && ny < M && graph[nx][ny] == 1 && ch[nx][ny] == 0) {
+//                    ch[nx][ny] = 1;
+//                    solution(nx, ny, sum + 1);
+//                    ch[nx][ny] = 0;
+//                }
+//            }
+//        }
+//    }
+
+    //백준 2667번 문제풀이 단지번호붙이기
+//    public void solutionBFS() {
+//        Queue<Location> locationQueue = new LinkedList<>();
+//
+//        for (int i = 0; i < N; i++) {
+//            for (int j = 0; j < N; j++) {
+//                if (graph[i][j] == 1 && ch[i][j] == 0) {
+//                    ch[i][j] = 1;
+//                    locationQueue.offer(new Location(i, j));
+//                    int count = 1;
+//                    while (!locationQueue.isEmpty()) {
+//                        int size = locationQueue.size();
+//                        for (int k = 0; k < size; k++) {
+//                            Location tmp = locationQueue.poll();
+//                            for (int l = 0; l < 4; l++) {
+//                                int nx = tmp.x + dx[l];
+//                                int ny = tmp.y + dy[l];
+//
+//                                if (nx >= 0 && nx < N && ny >= 0 && ny < N && graph[nx][ny] == 1 & ch[nx][ny] == 0) {
+//                                    count++;
+//                                    ch[nx][ny] = 1;
+//                                    locationQueue.offer(new Location(nx, ny));
+//                                }
+//                            }
+//                        }
+//                    }
+//                    houseNum.add(count);
+//                    estate++;
+//                }
+//            }
+//        }
+//    }
 
     //백준 7576번 토마토 문제풀이
 //    public void solution(int N, int M, Queue<Location> queue) {
