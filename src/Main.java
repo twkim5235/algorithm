@@ -25,20 +25,20 @@ import java.util.*;
 //    }
 //}
 
-//class Node{
-//    public int num;
-//    public Node nextNode;
-//
-//    public Node(int num) {
-//        this.num = num;
-//        this.nextNode = null;
-//    }
-//
-//    public Node(int num, Node nextNode) {
-//        this.num = num;
-//        this.nextNode = nextNode;
-//    }
-//}
+class Node{
+    public int num;
+    public Node nextNode;
+
+    public Node(int num) {
+        this.num = num;
+        this.nextNode = null;
+    }
+
+    public Node(int num, Node nextNode) {
+        this.num = num;
+        this.nextNode = nextNode;
+    }
+}
 
 class Doc {
     int severity;
@@ -63,17 +63,17 @@ class ZeroOne {
     }
 }
 
-class Node {
-    int data;
-    Node rt;
-    Node lt;
-
-    public Node(int data) {
-        this.data = data;
-        rt = null;
-        lt = null;
-    }
-}
+//class Node {
+//    int data;
+//    Node rt;
+//    Node lt;
+//
+//    public Node(int data) {
+//        this.data = data;
+//        rt = null;
+//        lt = null;
+//    }
+//}
 
 class Location {
     int x;
@@ -89,73 +89,88 @@ public class Main {
 
     static int[][] graph;
     static int[][] ch;
+    static int N;
     static int[] dx = {-1, 1, 0, 0};//상하좌우
     static int[] dy = {0, 0, -1, 1};//상하좌우
-    static int cnt = -1;
+    static int estate = 0;
+    static ArrayList<Integer> houseNum = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(bf.readLine(), " ");
-        int M = Integer.parseInt(st.nextToken());
-        int N = Integer.parseInt(st.nextToken());
-
-        graph = new int[N][M];
-        Queue<Location> locationQueue = new LinkedList<>();
-        boolean storeFlag = true;
+        StringTokenizer st;
+        N = Integer.parseInt(bf.readLine());
+        graph = new int[N][N];
+        ch = new int[N][N];
         for (int i = 0; i < N; i++) {
-            st = new StringTokenizer(bf.readLine(), " ");
-            int j = 0;
-            while (st.hasMoreTokens()) {
-                if (j < M) {
-                    graph[i][j] = Integer.parseInt(st.nextToken());
-                    if (graph[i][j] == 1) {
-                        locationQueue.offer(new Location(i, j));
-                    } else if (graph[i][j] == 0) {
-                        storeFlag = false;
+            String line = bf.readLine();
+            for (int j = 0; j < line.length(); j++) {
+                graph[i][j] = line.charAt(j) - 48;
+            }
+        }
+
+        T.solutionBFS();
+
+        System.out.println(estate);
+        houseNum.sort((o1, o2) -> {
+            return o1 - o2;
+        });
+        for (int num : houseNum) {
+            System.out.println(num);
+        }
+    }
+
+    //백준 2667번 문제풀이 단지번호붙이기
+    public void solutionBFS() {
+        Queue<Location> locationQueue = new LinkedList<>();
+
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (graph[i][j] == 1 && ch[i][j] == 0) {
+                    ch[i][j] = 1;
+                    locationQueue.offer(new Location(i, j));
+                    int count = 1;
+                    while (!locationQueue.isEmpty()) {
+                        int size = locationQueue.size();
+                        for (int k = 0; k < size; k++) {
+                            Location tmp = locationQueue.poll();
+                            for (int l = 0; l < 4; l++) {
+                                int nx = tmp.x + dx[l];
+                                int ny = tmp.y + dy[l];
+
+                                if (nx >= 0 && nx < N && ny >= 0 && ny < N && graph[nx][ny] == 1 & ch[nx][ny] == 0) {
+                                    count++;
+                                    ch[nx][ny] = 1;
+                                    locationQueue.offer(new Location(nx, ny));
+                                }
+                            }
+                        }
                     }
-                }
-                j++;
-            }
-        }
-
-        if (storeFlag == true) {
-            System.out.println(0);
-            return;
-        }
-
-        T.solution(N, M, locationQueue);
-
-        for (int[] ints : graph) {
-            for (int anInt : ints) {
-                if (anInt == 0) {
-                    System.out.println(-1);
-                    return;
+                    houseNum.add(count);
+                    estate++;
                 }
             }
         }
-
-        System.out.println(cnt);
     }
 
     //백준 7576번 토마토 문제풀이
-    public void solution(int N, int M, Queue<Location> queue) {
-        while (!queue.isEmpty()) {
-            int queSize = queue.size();
-            for (int i = 0; i < queSize; i++) {
-                Location temp = queue.poll();
-                for (int j = 0; j < 4; j++) {
-                    int nx = temp.x + dx[j];
-                    int ny = temp.y + dy[j];
-                    if (nx >= 0 && ny >= 0 && nx < N && ny < M && graph[nx][ny] == 0) {
-                        graph[nx][ny] = 1;
-                        queue.offer(new Location(nx, ny));
-                    }
-                }
-            }
-            cnt++;
-        }
-    }
+//    public void solution(int N, int M, Queue<Location> queue) {
+//        while (!queue.isEmpty()) {
+//            int queSize = queue.size();
+//            for (int i = 0; i < queSize; i++) {
+//                Location temp = queue.poll();
+//                for (int j = 0; j < 4; j++) {
+//                    int nx = temp.x + dx[j];
+//                    int ny = temp.y + dy[j];
+//                    if (nx >= 0 && ny >= 0 && nx < N && ny < M && graph[nx][ny] == 0) {
+//                        graph[nx][ny] = 1;
+//                        queue.offer(new Location(nx, ny));
+//                    }
+//                }
+//            }
+//            cnt++;
+//        }
+//    }
 
     //백준 11724번 문제풀이 연결 요소의 개수
 //    public void solution() {
