@@ -183,57 +183,74 @@ public class Main {
 //    static int cnt = Integer.MAX_VALUE;
     static boolean[] ch = new boolean[100001];
     static int dis[] = {1, -1, 2};
+    static int cnt = 0;
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
-        st = new StringTokenizer(bf.readLine(), " ");
+//        st = new StringTokenizer(bf.readLine(), " ");
 
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
+        int N = Integer.parseInt(bf.readLine());
 
-        ch[N] = true;
-        int level = T.solution(N, M);
-        System.out.println(level);
+        System.out.println(T.solution(N));
+    }
+
+
+    //백준 11726번 문제풀이 2xn 타일링
+    public Long solution(int num) {
+        if (num == 0) {
+            return 1L;
+        } else if (num == 1) {
+            return 1L;
+        } else {
+            Long[] nums = new Long[num + 1];
+            nums[0] = 1L;
+            nums[1] = 1L;
+            int i;
+            for (i = 2; i < nums.length; i++) {
+                nums[i] = (nums[i - 1] + nums[i - 2]) % 10007;
+            }
+            return nums[i - 1];
+        }
     }
 
     //백준 1697번 문제풀이 숨바꼭질 BFS
-    public int solution(int num, int end) {
-        Queue<Integer> queue = new LinkedList<>();
-        queue.offer(num);
-        int level = 0;
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-            for (int i = 0; i < size; i++) {
-                int temp = queue.poll();
-                if(temp == end){
-                    return level;
-                }else {
-                    int next = 0;
-                    if (temp + 1 < ch.length && !ch[temp + 1]) {
-                        next = temp + 1;
-                        ch[next] = true;
-                        queue.offer(next);
-                    }
-                    if (temp - 1 >= 0 && !ch[temp - 1]) {
-                        next = temp - 1;
-                        ch[next] = true;
-                        queue.offer(next);
-                    }
-                    if (temp * 2 <= ch.length && !ch[temp * 2]) {
-                        next = temp * 2;
-                        ch[next] = true;
-                        queue.offer(next);
-                    }
-                }
-            }
-
-            level++;
-        }
-        return -1;
-    }
+//    public int solution(int num, int end) {
+//        Queue<Integer> queue = new LinkedList<>();
+//        queue.offer(num);
+//        int level = 0;
+//        while (!queue.isEmpty()) {
+//            int size = queue.size();
+//            for (int i = 0; i < size; i++) {
+//                int temp = queue.poll();
+//                if(temp == end){
+//                    return level;
+//                }else {
+//                    int next = 0;
+//                    if (temp + 1 < ch.length && !ch[temp + 1]) {
+//                        next = temp + 1;
+//                        ch[next] = true;
+//                        queue.offer(next);
+//                    }
+//                    if (temp - 1 >= 0 && !ch[temp - 1]) {
+//                        next = temp - 1;
+//                        ch[next] = true;
+//                        queue.offer(next);
+//                    }
+//                    if (temp * 2 <= ch.length && !ch[temp * 2]) {
+//                        next = temp * 2;
+//                        ch[next] = true;
+//                        queue.offer(next);
+//                    }
+//                }
+//            }
+//
+//            level++;
+//        }
+//        return -1;
+//    }
 
     //백준 2178번 문제풀이 미로탐색 BFS
 //    public void solutionBFS() {
