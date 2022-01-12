@@ -3,41 +3,62 @@ import java.util.*;
 class Solution {
     public static void main(String[] args) {
         Solution T = new Solution();
-        int[][] board = {
-                {0, 0, 0, 0, 0},
-                {0, 0, 1, 0, 3},
-                {0, 2, 5, 0, 1},
-                {4, 2, 4, 4, 2},
-                {3, 5, 1, 3, 1}};
-        int[] moves = {1, 5, 3, 5, 1, 2, 1, 4};
-        T.solution(board, moves);
+//        int[] nums = {1, 2, 3, 4, 6, 7, 8, 0};
+        int[] nums = {5, 8, 4, 0, 6, 7, 9};
+
+        T.solution(nums);
     }
 
-    //프로그래머스 크레인 인형뽑기 게임
-    public int solution(int[][] board, int[] moves) {
-        int answer = 0;
-        Stack<Integer> stack = new Stack<>();
+    //프로그래머스 없는 숫자 더하기
+    public int solution(int[] numbers) {
+        int answer = -1;
+        int[] compareNums = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        Arrays.sort(numbers);
 
-        for (int i = 0; i < moves.length; i++) {
-            int move = moves[i] - 1;
-            for (int j = 0; j < board.length; j++) {
-                if (board[j][move] != 0) {
-                    if (stack.empty() || stack.peek() != board[j][move]) {
-                        stack.push(board[j][move]);
-                    }else if (stack.peek() == board[j][move]){
-                        stack.pop();
-                        answer += 2;
-                    }
-                    board[j][move] = 0;
-                    break;
-                }
+        int p1 = 0;
+        int p2 = 0;
+        answer = 0;
+        while (true) {
+            if(p2 >= compareNums.length) break;
+            if (numbers[p1] != compareNums[p2]) {
+                System.out.println(compareNums[p2]);
+                answer += compareNums[p2++];
+            }else{
+                if(p1 < numbers.length - 1) p1++;
+                if(p2 < compareNums.length) p2++;
             }
         }
 
-        System.out.println("answer = " + answer);
+        System.out.println(answer);
 
         return answer;
     }
+
+    //프로그래머스 크레인 인형뽑기 게임
+//    public int solution(int[][] board, int[] moves) {
+//        int answer = 0;
+//        Stack<Integer> stack = new Stack<>();
+//
+//        for (int i = 0; i < moves.length; i++) {
+//            int move = moves[i] - 1;
+//            for (int j = 0; j < board.length; j++) {
+//                if (board[j][move] != 0) {
+//                    if (stack.empty() || stack.peek() != board[j][move]) {
+//                        stack.push(board[j][move]);
+//                    }else if (stack.peek() == board[j][move]){
+//                        stack.pop();
+//                        answer += 2;
+//                    }
+//                    board[j][move] = 0;
+//                    break;
+//                }
+//            }
+//        }
+//
+//        System.out.println("answer = " + answer);
+//
+//        return answer;
+//    }
 
     //프로그래머스 숫자 문자열과 영단어
 //    public int solution(String s) {
