@@ -3,49 +3,82 @@ import java.util.*;
 class Solution {
     public static void main(String[] args) {
         Solution T = new Solution();
-        T.solution("1zerotwozero3");
+        int[][] board = {
+                {0, 0, 0, 0, 0},
+                {0, 0, 1, 0, 3},
+                {0, 2, 5, 0, 1},
+                {4, 2, 4, 4, 2},
+                {3, 5, 1, 3, 1}};
+        int[] moves = {1, 5, 3, 5, 1, 2, 1, 4};
+        T.solution(board, moves);
     }
 
-    //프로그래머스 숫자 문자열과 영단어
-    public int solution(String s) {
+    //프로그래머스 크레인 인형뽑기 게임
+    public int solution(int[][] board, int[] moves) {
         int answer = 0;
-        if (!s.matches("\\d")) {
-            if (s.contains("zero")) {
-                s = s.replace("zero", "0");
-            }
-            if (s.contains("one")) {
-                s = s.replace("one", "1");
-            }
-            if (s.contains("two")) {
-                s = s.replace("two", "2");
-            }
-            if (s.contains("three")) {
-                s = s.replace("three", "3");
-            }
-            if (s.contains("four")) {
-                s = s.replace("four", "4");
-            }
-            if (s.contains("five")) {
-                s = s.replace("five", "5");
-            }
-            if (s.contains("six")) {
-                s = s.replace("six", "6");
-            }
-            if (s.contains("seven")) {
-                s = s.replace("seven", "7");
-            }
-            if (s.contains("eight")) {
-                s = s.replace("eight", "8");
-            }
-            if (s.contains("nine")) {
-                s = s.replace("nine", "9");
+        Stack<Integer> stack = new Stack<>();
+
+        for (int i = 0; i < moves.length; i++) {
+            int move = moves[i] - 1;
+            for (int j = 0; j < board.length; j++) {
+                if (board[j][move] != 0) {
+                    if (stack.empty() || stack.peek() != board[j][move]) {
+                        stack.push(board[j][move]);
+                    }else if (stack.peek() == board[j][move]){
+                        stack.pop();
+                        answer += 2;
+                    }
+                    board[j][move] = 0;
+                    break;
+                }
             }
         }
 
-        answer = Integer.parseInt(s);
+        System.out.println("answer = " + answer);
 
         return answer;
     }
+
+    //프로그래머스 숫자 문자열과 영단어
+//    public int solution(String s) {
+//        int answer = 0;
+//        if (!s.matches("\\d")) {
+//            if (s.contains("zero")) {
+//                s = s.replace("zero", "0");
+//            }
+//            if (s.contains("one")) {
+//                s = s.replace("one", "1");
+//            }
+//            if (s.contains("two")) {
+//                s = s.replace("two", "2");
+//            }
+//            if (s.contains("three")) {
+//                s = s.replace("three", "3");
+//            }
+//            if (s.contains("four")) {
+//                s = s.replace("four", "4");
+//            }
+//            if (s.contains("five")) {
+//                s = s.replace("five", "5");
+//            }
+//            if (s.contains("six")) {
+//                s = s.replace("six", "6");
+//            }
+//            if (s.contains("seven")) {
+//                s = s.replace("seven", "7");
+//            }
+//            if (s.contains("eight")) {
+//                s = s.replace("eight", "8");
+//            }
+//            if (s.contains("nine")) {
+//                s = s.replace("nine", "9");
+//            }
+//        }
+//
+//        answer = Integer.parseInt(s);
+//
+//        return answer;
+//    }
 
     //프로그래머스 신규 아이디 추천
 //    public String solution(String new_id) {
