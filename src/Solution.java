@@ -3,35 +3,51 @@ import java.util.*;
 class Solution {
     public static void main(String[] args) {
         Solution T = new Solution();
-        int[] nums = {3, 1, 2, 3};
+        String[] phoneBook = {"12", "345", "1"};
 
-        T.solution(nums);
+        System.out.println(T.solution(phoneBook));
+    }
+
+    //프로그래머스 전화번호 목록
+    public boolean solution(String[] phoneBook) {
+        boolean answer = true;
+        Set<String> hashSet = new HashSet<>();
+
+        for (int i = 0; i < phoneBook.length; i++) {
+            hashSet.add(phoneBook[i]);
+        }
+
+        for (int i = 0; i < phoneBook.length; i++)
+            for (int j = 0; j < phoneBook[i].length(); j++)
+                if (hashSet.contains(phoneBook[i].substring(0, j))) return false;
+
+        return answer;
     }
 
     //프로그래머스 폰켓몬
-    public int solution(int[] nums) {
-        int answer = 0;
-        int size = nums.length / 2;
-        int cnt = 0;
-        int prev = 0;
-        Arrays.sort(nums);
-
-        for (int i = 0; i < nums.length; i++) {
-            if (prev != nums[i]) {
-                cnt++;
-            }
-            prev = nums[i];
-        }
-
-        if (cnt > size) {
-            answer = size;
-        }else {
-            answer = cnt;
-        }
-
-        System.out.println("answer = " + answer);
-        return answer;
-    }
+//    public int solution(int[] nums) {
+//        int answer = 0;
+//        int size = nums.length / 2;
+//        int cnt = 0;
+//        int prev = 0;
+//        Arrays.sort(nums);
+//
+//        for (int i = 0; i < nums.length; i++) {
+//            if (prev != nums[i]) {
+//                cnt++;
+//            }
+//            prev = nums[i];
+//        }
+//
+//        if (cnt > size) {
+//            answer = size;
+//        }else {
+//            answer = cnt;
+//        }
+//
+//        System.out.println("answer = " + answer);
+//        return answer;
+//    }
 
     //프로그래머스 체육복
     //n: 전체 학생 수, lost: 잃어버린 학생의 번호, reserve: 여분의 체육복이 있는 학생 번호
