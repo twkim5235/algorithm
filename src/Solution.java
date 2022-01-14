@@ -3,58 +3,82 @@ import java.util.*;
 class Solution {
     public static void main(String[] args) {
         Solution T = new Solution();
-        int[] answers = {1, 2, 3, 4, 5};
+        int[] nums = {3, 1, 2, 3};
 
-        T.solution(5, new int[]{4, 2}, new int[]{3, 5});
+        T.solution(nums);
     }
 
-
-    //프로그래머스 체육복
-    //n: 전체 학생 수, lost: 잃어버린 학생의 번호, reserve: 여분의 체육복이 있는 학생 번호
-    public int solution(int n, int[] lost, int[] reserve) {
+    //프로그래머스 폰켓몬
+    public int solution(int[] nums) {
         int answer = 0;
-        int[] students = new int[n];
-        Arrays.sort(lost);
-        Arrays.sort(reserve);
+        int size = nums.length / 2;
+        int cnt = 0;
+        int prev = 0;
+        Arrays.sort(nums);
 
-        for (int i : lost) {
-            students[i - 1]--;
-        }
-
-        for (int i : reserve) {
-            students[i - 1]++;
-        }
-
-
-        for (int i = 0; i < students.length; i++) {
-            if (students[i] == -1) {
-                if (i == 0) {
-                    if (students[i + 1] == 1) {
-                        students[i + 1]--;
-                        answer++;
-                    }
-                } else if (i == students.length - 1) {
-                    if (students[i - 1] == 1) {
-                        students[i - 1]--;
-                        answer++;
-                    }
-                } else {
-                    if (students[i - 1] == 1) {
-                        students[i - 1]--;
-                        answer++;
-                    } else if (students[i + 1] == 1) {
-                        students[i + 1]--;
-                        answer++;
-                    }
-                }
-            } else {
-                answer++;
+        for (int i = 0; i < nums.length; i++) {
+            if (prev != nums[i]) {
+                cnt++;
             }
+            prev = nums[i];
+        }
+
+        if (cnt > size) {
+            answer = size;
+        }else {
+            answer = cnt;
         }
 
         System.out.println("answer = " + answer);
         return answer;
     }
+
+    //프로그래머스 체육복
+    //n: 전체 학생 수, lost: 잃어버린 학생의 번호, reserve: 여분의 체육복이 있는 학생 번호
+//    public int solution(int n, int[] lost, int[] reserve) {
+//        int answer = 0;
+//        int[] students = new int[n];
+//        Arrays.sort(lost);
+//        Arrays.sort(reserve);
+//
+//        for (int i : lost) {
+//            students[i - 1]--;
+//        }
+//
+//        for (int i : reserve) {
+//            students[i - 1]++;
+//        }
+//
+//
+//        for (int i = 0; i < students.length; i++) {
+//            if (students[i] == -1) {
+//                if (i == 0) {
+//                    if (students[i + 1] == 1) {
+//                        students[i + 1]--;
+//                        answer++;
+//                    }
+//                } else if (i == students.length - 1) {
+//                    if (students[i - 1] == 1) {
+//                        students[i - 1]--;
+//                        answer++;
+//                    }
+//                } else {
+//                    if (students[i - 1] == 1) {
+//                        students[i - 1]--;
+//                        answer++;
+//                    } else if (students[i + 1] == 1) {
+//                        students[i + 1]--;
+//                        answer++;
+//                    }
+//                }
+//            } else {
+//                answer++;
+//            }
+//        }
+//
+//        System.out.println("answer = " + answer);
+//        return answer;
+//    }
     //프로그래머스 모의고사
 //    public ArrayList<Integer> solution(int[] answers) {
 //        ArrayList<Integer> answer = new ArrayList<>();
