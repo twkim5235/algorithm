@@ -5,64 +5,109 @@ class Solution {
         Solution T = new Solution();
         int[] answers = {1, 2, 3, 4, 5};
 
-        for (Integer integer : T.solution(answers)) {
-            System.out.println("integer = " + integer);
-        }
+        T.solution(5, new int[]{4, 2}, new int[]{3, 5});
     }
 
-    //프로그래머스 모의고사
-    public ArrayList<Integer> solution(int[] answers) {
-        ArrayList<Integer> answer = new ArrayList<>();
-        int[][] students = {
-                {1, 2, 3, 4, 5},
-                {2, 1, 2, 3, 2, 4, 2, 5},
-                {3, 3, 1, 1, 2, 2, 4, 4, 5, 5}
-        };
-        int one, two, three;
-        int max = Integer.MIN_VALUE;
-        one = two = three = 0;
 
-        for (int i = 0; i < 3; i++) {
-            switch (i) {
-                case 0:
-                    for (int j = 0; j < answers.length; j++) {
-                        if (students[i][j % 5] == answers[j]) {
-                            one++;
-                            max = Math.max(max, one);
-                        }
+    //프로그래머스 체육복
+    //n: 전체 학생 수, lost: 잃어버린 학생의 번호, reserve: 여분의 체육복이 있는 학생 번호
+    public int solution(int n, int[] lost, int[] reserve) {
+        int answer = 0;
+        int[] students = new int[n];
+        Arrays.sort(lost);
+        Arrays.sort(reserve);
+
+        for (int i : lost) {
+            students[i - 1]--;
+        }
+
+        for (int i : reserve) {
+            students[i - 1]++;
+        }
+
+
+        for (int i = 0; i < students.length; i++) {
+            if (students[i] == -1) {
+                if (i == 0) {
+                    if (students[i + 1] == 1) {
+                        students[i + 1]--;
+                        answer++;
                     }
-                    break;
-                case 1:
-                    for (int j = 0; j < answers.length; j++) {
-                        if (students[i][j % 8] == answers[j]) {
-                            two++;
-                            max = Math.max(max, two);
-                        }
+                } else if (i == students.length - 1) {
+                    if (students[i - 1] == 1) {
+                        students[i - 1]--;
+                        answer++;
                     }
-                    break;
-                case 2:
-                    for (int j = 0; j < answers.length; j++) {
-                        if (students[i][j % 10] == answers[j]) {
-                            three++;
-                            max = Math.max(max, three);
-                        }
+                } else {
+                    if (students[i - 1] == 1) {
+                        students[i - 1]--;
+                        answer++;
+                    } else if (students[i + 1] == 1) {
+                        students[i + 1]--;
+                        answer++;
                     }
-                    break;
+                }
+            } else {
+                answer++;
             }
         }
 
-        if (one == max) {
-            answer.add(1);
-        }
-        if (two == max) {
-            answer.add(2);
-        }
-        if (three == max) {
-            answer.add(3);
-        }
-
+        System.out.println("answer = " + answer);
         return answer;
     }
+    //프로그래머스 모의고사
+//    public ArrayList<Integer> solution(int[] answers) {
+//        ArrayList<Integer> answer = new ArrayList<>();
+//        int[][] students = {
+//                {1, 2, 3, 4, 5},
+//                {2, 1, 2, 3, 2, 4, 2, 5},
+//                {3, 3, 1, 1, 2, 2, 4, 4, 5, 5}
+//        };
+//        int one, two, three;
+//        int max = Integer.MIN_VALUE;
+//        one = two = three = 0;
+//
+//        for (int i = 0; i < 3; i++) {
+//            switch (i) {
+//                case 0:
+//                    for (int j = 0; j < answers.length; j++) {
+//                        if (students[i][j % 5] == answers[j]) {
+//                            one++;
+//                            max = Math.max(max, one);
+//                        }
+//                    }
+//                    break;
+//                case 1:
+//                    for (int j = 0; j < answers.length; j++) {
+//                        if (students[i][j % 8] == answers[j]) {
+//                            two++;
+//                            max = Math.max(max, two);
+//                        }
+//                    }
+//                    break;
+//                case 2:
+//                    for (int j = 0; j < answers.length; j++) {
+//                        if (students[i][j % 10] == answers[j]) {
+//                            three++;
+//                            max = Math.max(max, three);
+//                        }
+//                    }
+//                    break;
+//            }
+//        }
+//
+//        if (one == max) {
+//            answer.add(1);
+//        }
+//        if (two == max) {
+//            answer.add(2);
+//        }
+//        if (three == max) {
+//            answer.add(3);
+//        }
+//
+//        return answer;
+//    }
 
     //프로그래머스 없는 숫자 더하기
 //    public int solution(int[] numbers) {
