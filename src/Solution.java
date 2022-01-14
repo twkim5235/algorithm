@@ -3,36 +3,91 @@ import java.util.*;
 class Solution {
     public static void main(String[] args) {
         Solution T = new Solution();
-//        int[] nums = {1, 2, 3, 4, 6, 7, 8, 0};
-        int[] nums = {5, 8, 4, 0, 6, 7, 9};
+        int[] answers = {1, 2, 3, 4, 5};
 
-        T.solution(nums);
+        for (Integer integer : T.solution(answers)) {
+            System.out.println("integer = " + integer);
+        }
     }
 
-    //프로그래머스 없는 숫자 더하기
-    public int solution(int[] numbers) {
-        int answer = -1;
-        int[] compareNums = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-        Arrays.sort(numbers);
+    //프로그래머스 모의고사
+    public ArrayList<Integer> solution(int[] answers) {
+        ArrayList<Integer> answer = new ArrayList<>();
+        int[][] students = {
+                {1, 2, 3, 4, 5},
+                {2, 1, 2, 3, 2, 4, 2, 5},
+                {3, 3, 1, 1, 2, 2, 4, 4, 5, 5}
+        };
+        int one, two, three;
+        int max = Integer.MIN_VALUE;
+        one = two = three = 0;
 
-        int p1 = 0;
-        int p2 = 0;
-        answer = 0;
-        while (true) {
-            if(p2 >= compareNums.length) break;
-            if (numbers[p1] != compareNums[p2]) {
-                System.out.println(compareNums[p2]);
-                answer += compareNums[p2++];
-            }else{
-                if(p1 < numbers.length - 1) p1++;
-                if(p2 < compareNums.length) p2++;
+        for (int i = 0; i < 3; i++) {
+            switch (i) {
+                case 0:
+                    for (int j = 0; j < answers.length; j++) {
+                        if (students[i][j % 5] == answers[j]) {
+                            one++;
+                            max = Math.max(max, one);
+                        }
+                    }
+                    break;
+                case 1:
+                    for (int j = 0; j < answers.length; j++) {
+                        if (students[i][j % 8] == answers[j]) {
+                            two++;
+                            max = Math.max(max, two);
+                        }
+                    }
+                    break;
+                case 2:
+                    for (int j = 0; j < answers.length; j++) {
+                        if (students[i][j % 10] == answers[j]) {
+                            three++;
+                            max = Math.max(max, three);
+                        }
+                    }
+                    break;
             }
         }
 
-        System.out.println(answer);
+        if (one == max) {
+            answer.add(1);
+        }
+        if (two == max) {
+            answer.add(2);
+        }
+        if (three == max) {
+            answer.add(3);
+        }
 
         return answer;
     }
+
+    //프로그래머스 없는 숫자 더하기
+//    public int solution(int[] numbers) {
+//        int answer = -1;
+//        int[] compareNums = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+//        Arrays.sort(numbers);
+//
+//        int p1 = 0;
+//        int p2 = 0;
+//        answer = 0;
+//        while (true) {
+//            if(p2 >= compareNums.length) break;
+//            if (numbers[p1] != compareNums[p2]) {
+//                System.out.println(compareNums[p2]);
+//                answer += compareNums[p2++];
+//            }else{
+//                if(p1 < numbers.length - 1) p1++;
+//                if(p2 < compareNums.length) p2++;
+//            }
+//        }
+//
+//        System.out.println(answer);
+//
+//        return answer;
+//    }
 
     //프로그래머스 크레인 인형뽑기 게임
 //    public int solution(int[][] board, int[] moves) {
