@@ -3,31 +3,59 @@ import java.util.*;
 class Solution {
     public static void main(String[] args) {
         Solution T = new Solution();
-        String[][] clothes = {
-                {"yellowhat", "headgear"},
-                {"bluesunglasses", "eyewear"},
-                {"green_turban", "headgear"}
-        };
 
-        System.out.println(T.solution(clothes));
+        T.solution(new int[]{1, 99}, new int[]{99, 1});
+    }
+
+    //프로그래머스 기능개발
+    public ArrayList<Integer> solution(int[] progresses, int[] speeds) {
+        Queue<Integer> queue = new LinkedList<>();
+        ArrayList<Integer> answer = new ArrayList<>();
+
+        for (int i = 0; i < progresses.length; i++) {
+            int rest = 100 - progresses[i];
+            int day = rest / speeds[i];
+            if (rest % speeds[i] > 0) {
+                 day += 1;
+            }
+            queue.add(day);
+        }
+
+        while (!queue.isEmpty()) {
+            int cnt = 1;
+
+            int top = queue.poll();
+            while (!queue.isEmpty() && top >= queue.peek()) {
+                cnt++;
+                queue.poll();
+            }
+
+            answer.add(cnt);
+        }
+
+        for (Integer count : answer) {
+            System.out.println("count = " + count);
+        }
+
+        return answer;
     }
 
     //프로그래머스 위장
-    public int solution(String[][] clothes) {
-        int answer = 1;
-        Map<String, Integer> clotheMap = new HashMap<>();
-
-        for (int i = 0; i < clothes.length; i++) {
-            clotheMap.put(clothes[i][1], clotheMap.getOrDefault(clothes[i][1], 0) + 1);
-        }
-
-        for (String key : clotheMap.keySet()) {
-            answer *= (clotheMap.get(key) + 1);
-        }
-
-        System.out.println("answer = " + answer);
-        return answer - 1;
-    }
+//    public int solution(String[][] clothes) {
+//        int answer = 1;
+//        Map<String, Integer> clotheMap = new HashMap<>();
+//
+//        for (int i = 0; i < clothes.length; i++) {
+//            clotheMap.put(clothes[i][1], clotheMap.getOrDefault(clothes[i][1], 0) + 1);
+//        }
+//
+//        for (String key : clotheMap.keySet()) {
+//            answer *= (clotheMap.get(key) + 1);
+//        }
+//
+//        System.out.println("answer = " + answer);
+//        return answer - 1;
+//    }
 
     //프로그래머스 전화번호 목록
 //    public boolean solution(String[] phoneBook) {
