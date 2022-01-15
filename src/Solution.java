@@ -3,26 +3,47 @@ import java.util.*;
 class Solution {
     public static void main(String[] args) {
         Solution T = new Solution();
-        String[] phoneBook = {"12", "345", "1"};
+        String[][] clothes = {
+                {"yellowhat", "headgear"},
+                {"bluesunglasses", "eyewear"},
+                {"green_turban", "headgear"}
+        };
 
-        System.out.println(T.solution(phoneBook));
+        System.out.println(T.solution(clothes));
+    }
+
+    //프로그래머스 위장
+    public int solution(String[][] clothes) {
+        int answer = 1;
+        Map<String, Integer> clotheMap = new HashMap<>();
+
+        for (int i = 0; i < clothes.length; i++) {
+            clotheMap.put(clothes[i][1], clotheMap.getOrDefault(clothes[i][1], 0) + 1);
+        }
+
+        for (String key : clotheMap.keySet()) {
+            answer *= (clotheMap.get(key) + 1);
+        }
+
+        System.out.println("answer = " + answer);
+        return answer - 1;
     }
 
     //프로그래머스 전화번호 목록
-    public boolean solution(String[] phoneBook) {
-        boolean answer = true;
-        Set<String> hashSet = new HashSet<>();
-
-        for (int i = 0; i < phoneBook.length; i++) {
-            hashSet.add(phoneBook[i]);
-        }
-
-        for (int i = 0; i < phoneBook.length; i++)
-            for (int j = 0; j < phoneBook[i].length(); j++)
-                if (hashSet.contains(phoneBook[i].substring(0, j))) return false;
-
-        return answer;
-    }
+//    public boolean solution(String[] phoneBook) {
+//        boolean answer = true;
+//        Set<String> hashSet = new HashSet<>();
+//
+//        for (int i = 0; i < phoneBook.length; i++) {
+//            hashSet.add(phoneBook[i]);
+//        }
+//
+//        for (int i = 0; i < phoneBook.length; i++)
+//            for (int j = 0; j < phoneBook[i].length(); j++)
+//                if (hashSet.contains(phoneBook[i].substring(0, j))) return false;
+//
+//        return answer;
+//    }
 
     //프로그래머스 폰켓몬
 //    public int solution(int[] nums) {
