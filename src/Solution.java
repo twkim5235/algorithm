@@ -1,44 +1,95 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
+import java.util.stream.IntStream;
+
+import static java.util.stream.Collectors.toList;
 
 class Solution {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Solution T = new Solution();
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
-        T.solution(new int[]{1, 99}, new int[]{99, 1});
+        String str = bf.readLine();
+
     }
 
-    //프로그래머스 기능개발
-    public ArrayList<Integer> solution(int[] progresses, int[] speeds) {
-        Queue<Integer> queue = new LinkedList<>();
-        ArrayList<Integer> answer = new ArrayList<>();
+    //프로그래머스 우선순위 프린터
+    class Print {
+        int severity;
+        int num;
 
-        for (int i = 0; i < progresses.length; i++) {
-            int rest = 100 - progresses[i];
-            int day = rest / speeds[i];
-            if (rest % speeds[i] > 0) {
-                 day += 1;
-            }
-            queue.add(day);
+        public Print(int severity, int num) {
+            this.severity = severity;
+            this.num = num;
+        }
+    }
+
+    public int solution(int[] priorities, int location) {
+        int answer = 0;
+        int cnt = 0;
+        Queue<Print> printQueue = new LinkedList<>();
+        for (int i = 0; i < priorities.length; i++) {
+            printQueue.offer(new Print(priorities[i], i));
         }
 
-        while (!queue.isEmpty()) {
-            int cnt = 1;
-
-            int top = queue.poll();
-            while (!queue.isEmpty() && top >= queue.peek()) {
+        while (!printQueue.isEmpty()) {
+            Print poll = printQueue.poll();
+            boolean flag = true;
+            for (Print print : printQueue) {
+                if (poll.severity < print.severity) {
+                    printQueue.offer(poll);
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) {
                 cnt++;
-                queue.poll();
+                if (poll.num == location) {
+                    answer = cnt;
+                    break;
+                }
             }
-
-            answer.add(cnt);
         }
 
-        for (Integer count : answer) {
-            System.out.println("count = " + count);
-        }
+        System.out.println("answer = " + answer);
 
         return answer;
     }
+
+    //프로그래머스 기능개발
+//    public ArrayList<Integer> solution(int[] progresses, int[] speeds) {
+//        Queue<Integer> queue = new LinkedList<>();
+//        ArrayList<Integer> answer = new ArrayList<>();
+//
+//        for (int i = 0; i < progresses.length; i++) {
+//            int rest = 100 - progresses[i];
+//            int day = rest / speeds[i];
+//            if (rest % speeds[i] > 0) {
+//                 day += 1;
+//            }
+//            queue.add(day);
+//        }
+//
+//        while (!queue.isEmpty()) {
+//            int cnt = 1;
+//
+//            int top = queue.poll();
+//            while (!queue.isEmpty() && top >= queue.peek()) {
+//                cnt++;
+//                queue.poll();
+//            }
+//
+//            answer.add(cnt);
+//        }
+//
+//        for (Integer count : answer) {
+//            System.out.println("count = " + count);
+//        }
+//
+//        return answer;
+//    }
 
     //프로그래머스 위장
 //    public int solution(String[][] clothes) {
