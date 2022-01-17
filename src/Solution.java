@@ -11,52 +11,122 @@ class Solution {
         Solution T = new Solution();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
-        String str = bf.readLine();
+//        String str = bf.readLine();
 
-    }
+        String[] inputs = {
+                "aabbaccc",
+                "ababcdcdababcdcd",
+                "abcabcdede",
+                "abcabcabcabcdededededede",
+                "xababcdcdababcdcd",
+                "xxxxxxxxxxyyy",
+                "a"
+        };
 
-    //프로그래머스 우선순위 프린터
-    class Print {
-        int severity;
-        int num;
-
-        public Print(int severity, int num) {
-            this.severity = severity;
-            this.num = num;
+        for (String s : inputs) {
+            System.out.println(T.solution(s));
         }
     }
 
-    public int solution(int[] priorities, int location) {
-        int answer = 0;
-        int cnt = 0;
-        Queue<Print> printQueue = new LinkedList<>();
-        for (int i = 0; i < priorities.length; i++) {
-            printQueue.offer(new Print(priorities[i], i));
+    //프로그래머스 카카오 문자열 압축
+    public int solution(String str) {
+        int answer = str.length();
+
+        if (answer == 1) {
+            return 1;
         }
 
-        while (!printQueue.isEmpty()) {
-            Print poll = printQueue.poll();
-            boolean flag = true;
-            for (Print print : printQueue) {
-                if (poll.severity < print.severity) {
-                    printQueue.offer(poll);
-                    flag = false;
-                    break;
-                }
-            }
-            if (flag) {
-                cnt++;
-                if (poll.num == location) {
-                    answer = cnt;
-                    break;
-                }
-            }
-        }
+        for (int i = 1; i <= str.length() / 2; i++) {
+            StringBuilder sb = new StringBuilder();
+            int cnt = 1;
+            String prev = str.substring(0, i);
+            for (int j = i; j < str.length(); j += i) { //전체 조회
+                String temp;
+                if(j + i > str.length()) temp = str.substring(j); // j+i가 length보다 크면 전체 다 붙이기
+                else temp = str.substring(j, j+i);
 
-        System.out.println("answer = " + answer);
+                if (prev.equals(temp)) { // 이전과 같으면 cnt 증가
+                    cnt++;
+                } else {//이전과 다르면 sringBuilder를 통해 문자를 붙이고 cnt 초기화
+                    if (cnt > 1) sb.append(cnt);
+                    sb.append(prev);
+                    prev = temp;
+                    cnt = 1;
+                }
+            }
+            if(cnt > 1) sb.append(cnt);
+            sb.append(prev);
+            answer = Math.min(answer, sb.length());
+        }
 
         return answer;
     }
+
+//    public String solution(String str) {
+//        StringBuilder stringBuilder = new StringBuilder();
+//
+//        char[] chars = str.toCharArray();
+//        char prev = 0;
+//        int cnt = 1;
+//        for (char c : chars) {
+//            if (prev != c) {
+//                if (cnt > 1) {
+//                    stringBuilder.append(cnt);
+//                }
+//                stringBuilder.append(c);
+//                cnt = 1;
+//                prev = c;
+//            }else {
+//                cnt++;
+//            }
+//        }
+//        stringBuilder.append(cnt);
+//
+//        return stringBuilder.toString();
+//    }
+
+    //프로그래머스 우선순위 프린터
+//    class Print {
+//        int severity;
+//        int num;
+//
+//        public Print(int severity, int num) {
+//            this.severity = severity;
+//            this.num = num;
+//        }
+//    }
+//
+//    public int solution(int[] priorities, int location) {
+//        int answer = 0;
+//        int cnt = 0;
+//        Queue<Print> printQueue = new LinkedList<>();
+//        for (int i = 0; i < priorities.length; i++) {
+//            printQueue.offer(new Print(priorities[i], i));
+//        }
+//
+//        while (!printQueue.isEmpty()) {
+//            Print poll = printQueue.poll();
+//            boolean flag = true;
+//            for (Print print : printQueue) {
+//                if (poll.severity < print.severity) {
+//                    printQueue.offer(poll);
+//                    flag = false;
+//                    break;
+//                }
+//            }
+//            if (flag) {
+//                cnt++;
+//                if (poll.num == location) {
+//                    answer = cnt;
+//                    break;
+//                }
+//            }
+//        }
+//
+//        System.out.println("answer = " + answer);
+//
+//        return answer;
+//    }
 
     //프로그래머스 기능개발
 //    public ArrayList<Integer> solution(int[] progresses, int[] speeds) {
