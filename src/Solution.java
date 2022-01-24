@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -10,22 +8,82 @@ class Solution {
     public static void main(String[] args) throws IOException {
         Solution T = new Solution();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-//        String str = bf.readLine();
+        int q = Integer.parseInt(bf.readLine());
+        IntStream.range(0, q).forEach(qItr -> {
+            try {
+                String s = bf.readLine();
 
-        String[] inputs = {
-                "aabbaccc",
-                "ababcdcdababcdcd",
-                "abcabcdede",
-                "abcabcabcabcdededededede",
-                "xababcdcdababcdcd",
-                "xxxxxxxxxxyyy",
-                "a"
-        };
+                int result = T.palindrome(s);
 
-        for (String s : inputs) {
-            System.out.println(T.solution(s));
+                bw.write(String.valueOf(result));
+                bw.newLine();
+                bw.flush();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        bw.close();
+    }
+
+    public int palindrome(String str) {
+        int answer = -1;
+
+        int lt = 0;
+        int rt = str.length() - 1;
+        boolean deleted = false;
+
+        while (lt <= rt) {
+            if (str.charAt(lt) == str.charAt(rt)) {
+                lt++;
+                rt--;
+            }else {
+                if (deleted) {
+                    answer = -1;
+                    deleted = false;
+                    break;
+                }
+                if (str.charAt(lt + 1) == str.charAt(rt)) {
+                    answer = lt;
+                    deleted = true;
+                    lt += 2;
+                    rt--;
+                }else {
+                    answer = -1;
+                    break;
+                }
+            }
         }
+
+        if (answer == -1) {
+            lt = 0;
+            rt = str.length() - 1;
+            while(lt<=rt){
+                if(str.charAt(lt) == str.charAt(rt)){
+                    lt++;
+                    rt--;
+                }
+                else{
+                    if(deleted){
+                        answer=-1;
+                        break;
+                    }
+                    if(str.charAt(lt) == str.charAt(rt-1)){
+                        answer = rt;
+                        deleted = true;
+                        lt++;
+                        rt-=2;
+                    }
+                    else{       //다른 경우
+                        answer = -1;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return answer;
     }
 
     // 프로그래머스 카카오 문자열 압축 리팩토링
