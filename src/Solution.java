@@ -7,24 +7,51 @@ import static java.util.stream.Collectors.toList;
 class Solution {
     public static void main(String[] args) throws IOException {
         Solution T = new Solution();
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        int q = Integer.parseInt(bf.readLine());
-        IntStream.range(0, q).forEach(qItr -> {
-            try {
-                String s = bf.readLine();
+//        int q = Integer.parseInt(bf.readLine());
+//        IntStream.range(0, q).forEach(qItr -> {
+//            try {
+//                String s = bf.readLine();
+//
+//                int result = T.palindrome(s);
+//
+//                bw.write(String.valueOf(result));
+//                bw.newLine();
+//                bw.flush();
+//            } catch (IOException ex) {
+//                throw new RuntimeException(ex);
+//            }
+//        });
+//        bw.close();
 
-                int result = T.palindrome(s);
-
-                bw.write(String.valueOf(result));
-                bw.newLine();
-                bw.flush();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
+        bw.write(T.checkOverlap(br));
+        bw.flush();
         bw.close();
+    }
+
+    public String checkOverlap (BufferedReader br) throws IOException {
+        List<Integer> rect1 = new ArrayList<>(); //x1, y1, x2, y2
+        List<Integer> rect2 = new ArrayList<>(); //x3, y3, x4, y4
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        while (st.hasMoreTokens()) {
+            String s = st.nextToken();
+            rect1.add(Integer.parseInt(s));
+        }
+
+        st = new StringTokenizer(br.readLine());
+        while (st.hasMoreTokens()) {
+            String s = st.nextToken();
+            rect2.add(Integer.parseInt(s));
+        }
+
+        if (rect1.get(0) > rect2.get(2) || rect1.get(2) < rect2.get(0) || rect1.get(1) > rect2.get(3) || rect1.get(3) < rect2.get(1)) {
+            return "No overlap";
+        }
+
+        return "overlap";
     }
 
     public int palindrome(String str) {
