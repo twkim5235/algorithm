@@ -174,47 +174,144 @@ class Location {
     }
 }
 
+class Node<T>{
+    T data;
+    Node nextNode;
+
+    public Node(T data) {
+        this.data = data;
+        this.nextNode = null;
+    }
+
+    public Node(T data, Node nextNode) {
+        this.data = data;
+        this.nextNode = nextNode;
+    }
+
+    public T getData() {
+        return data;
+    }
+}
+
+class MyQueue<T>{
+    Node<T> head;
+    Node<T> tail;
+    int size;
+
+    public MyQueue() {
+        this.head = null;
+        this.tail = null;
+        this.size = 0;
+    }
+
+    public T offer(T data) {
+        Node<T> node = new Node<>(data);
+
+        if (head == null) {
+            head = tail = node;
+        }else {
+            tail.nextNode = node;
+            tail = tail.nextNode;
+        }
+        size++;
+        return data;
+    }
+
+    public T poll() {
+        if (head == null) {
+            System.out.println("Queue is empty");
+            return null;
+        }else {
+            Node temp = head.nextNode;
+            T data = head.data;
+            head = null;
+            head = temp;
+            size--;
+            return data;
+        }
+    }
+
+    public T peek() {
+        if (head == null) {
+            return null;
+        }
+        return head.data;
+    }
+
+    public int getSize() {
+        return this.size;
+    }
+    
+    public boolean isEmpty() {
+        return head == null;
+    }
+
+    public void clear() {
+        Node temp = head;
+        while (temp != null) {
+            Node nextNode = temp.nextNode;
+            temp = null;
+            temp = nextNode;
+        }
+        size = 0;
+        head = tail = null;
+    }
+
+    public void printAll() {
+        Node temp = head;
+        while (temp != null) {
+            System.out.println("temp.data = " + temp.data);
+            temp = temp.nextNode;
+        }
+    }
+}
+
 public class Main {
 
-    //    static int[][] graph;
-//    static int[][] ch;
+    static int[][] graph;
+    static int[][] ch;
 //    static int[] dx = {-1, 1, 0, 0};//상하좌우
 //    static int[] dy = {0, 0, -1, 1};//상하좌우
 //    static int cnt = Integer.MAX_VALUE;
-    static boolean[] ch = new boolean[100001];
-    static int dis[] = {1, -1, 2};
-    static int cnt = 0;
+//    static boolean[] ch = new boolean[100001];
+//    static int dis[] = {1, -1, 2};
+    static int max = Integer.MIN_VALUE;
+    static int N, M;
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st;
 
-//        st = new StringTokenizer(bf.readLine(), " ");
-
-        int N = Integer.parseInt(bf.readLine());
-
-        System.out.println(T.solution(N));
+        MyQueue<Integer> queue = new MyQueue<>();
+        queue.offer(1);
+        queue.offer(2);
+        queue.offer(3);
+        queue.offer(4);
+        System.out.println("queue.size = " + queue.getSize());
+        queue.printAll();
     }
+
 
 
     //백준 11726번 문제풀이 2xn 타일링
-    public Long solution(int num) {
-        if (num == 0) {
-            return 1L;
-        } else if (num == 1) {
-            return 1L;
-        } else {
-            Long[] nums = new Long[num + 1];
-            nums[0] = 1L;
-            nums[1] = 1L;
-            int i;
-            for (i = 2; i < nums.length; i++) {
-                nums[i] = (nums[i - 1] + nums[i - 2]) % 10007;
-            }
-            return nums[i - 1];
-        }
-    }
+//    public Long solution(int num) {
+//        if (num == 0) {
+//            return 1L;
+//        } else if (num == 1) {
+//            return 1L;
+//        } else {
+//            Long[] nums = new Long[num + 1];
+//            nums[0] = 1L;
+//            nums[1] = 1L;
+//            int i;
+//            for (i = 2; i < nums.length; i++) {
+//                nums[i] = (nums[i - 1] + nums[i - 2]) % 10007;
+//            }
+//            return nums[i - 1];
+//        }
+//    }
 
     //백준 1697번 문제풀이 숨바꼭질 BFS
 //    public int solution(int num, int end) {
