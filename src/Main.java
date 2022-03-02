@@ -269,14 +269,7 @@ class MyQueue<T>{
 public class Main {
 
     static int[][] graph;
-    static int[][] ch;
-//    static int[] dx = {-1, 1, 0, 0};//상하좌우
-//    static int[] dy = {0, 0, -1, 1};//상하좌우
-//    static int cnt = Integer.MAX_VALUE;
-//    static boolean[] ch = new boolean[100001];
-//    static int dis[] = {1, -1, 2};
-    static int max = Integer.MIN_VALUE;
-    static int N, M;
+    static int count;
 
     public static void main(String[] args) throws IOException {
         Main T = new Main();
@@ -284,16 +277,42 @@ public class Main {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st;
 
-        MyQueue<Integer> queue = new MyQueue<>();
-        queue.offer(1);
-        queue.offer(2);
-        queue.offer(3);
-        queue.offer(4);
-        System.out.println("queue.size = " + queue.getSize());
-        queue.printAll();
+        st = new StringTokenizer(bf.readLine(), " ");
+        int N = Integer.parseInt(st.nextToken());
+        int r = Integer.parseInt(st.nextToken());
+        int c = Integer.parseInt(st.nextToken());
+
+        int size = (int) Math.pow(2, N);
+
+        T.solution(size, r, c);
+
+        System.out.println(count);
     }
 
+    public void solution(int size, int r, int c) {
+        if(size == 1)
+            return;
 
+        if(r < size/2 && c < size/2) {
+//            System.out.println("1사분면");
+            solution(size/2, r, c);
+        }
+        else if(r < size/2 && c >= size/2) {
+//            System.out.println("2사분면");
+            count += size * size / 4;
+            solution(size/2, r, c - size/2);
+        }
+        else if(r >= size/2 && c < size/2) {
+//            System.out.println("3사분면");
+            count += (size * size / 4) * 2;
+            solution(size/2, r - size/2, c);
+        }
+        else {
+//            System.out.println("4사분면");
+            count += (size * size / 4) * 3;
+            solution(size/2, r - size/2, c - size/2);
+        }
+    }
 
     //백준 11726번 문제풀이 2xn 타일링
 //    public Long solution(int num) {
