@@ -1,7 +1,6 @@
 import java.io.*;
 import java.util.*;
 
-
 //class Player implements Comparable<Player>{
 //    int height;
 //    int weight;
@@ -128,26 +127,28 @@ import java.util.*;
 //}
 
 class Doc {
-    int severity;
-    int num;
 
-    public Doc(int severity, int num) {
-        this.severity = severity;
-        this.num = num;
-    }
+  int severity;
+  int num;
+
+  public Doc(int severity, int num) {
+    this.severity = severity;
+    this.num = num;
+  }
 }
 
 class ZeroOne {
-    int zeroCnt;
-    int oneCnt;
 
-    public ZeroOne() {
-    }
+  int zeroCnt;
+  int oneCnt;
 
-    public ZeroOne(int zeroCnt, int oneCnt) {
-        this.zeroCnt = zeroCnt;
-        this.oneCnt = oneCnt;
-    }
+  public ZeroOne() {
+  }
+
+  public ZeroOne(int zeroCnt, int oneCnt) {
+    this.zeroCnt = zeroCnt;
+    this.oneCnt = oneCnt;
+  }
 }
 
 //class Node {
@@ -163,158 +164,159 @@ class ZeroOne {
 //}
 
 class Location {
-    int x;
-    int y;
-    int sum;
 
-    public Location(int st, int end, int sum) {
-        this.x = st;
-        this.y = end;
-        this.sum = sum;
-    }
+  int x;
+  int y;
+  int sum;
+
+  public Location(int st, int end, int sum) {
+    this.x = st;
+    this.y = end;
+    this.sum = sum;
+  }
 }
 
-class Node<T>{
-    T data;
-    Node nextNode;
+class Node<T> {
 
-    public Node(T data) {
-        this.data = data;
-        this.nextNode = null;
-    }
+  T data;
+  Node nextNode;
 
-    public Node(T data, Node nextNode) {
-        this.data = data;
-        this.nextNode = nextNode;
-    }
+  public Node(T data) {
+    this.data = data;
+    this.nextNode = null;
+  }
 
-    public T getData() {
-        return data;
-    }
+  public Node(T data, Node nextNode) {
+    this.data = data;
+    this.nextNode = nextNode;
+  }
+
+  public T getData() {
+    return data;
+  }
 }
 
-class MyQueue<T>{
-    Node<T> head;
-    Node<T> tail;
-    int size;
+class MyQueue<T> {
 
-    public MyQueue() {
-        this.head = null;
-        this.tail = null;
-        this.size = 0;
-    }
+  Node<T> head;
+  Node<T> tail;
+  int size;
 
-    public T offer(T data) {
-        Node<T> node = new Node<>(data);
+  public MyQueue() {
+    this.head = null;
+    this.tail = null;
+    this.size = 0;
+  }
 
-        if (head == null) {
-            head = tail = node;
-        }else {
-            tail.nextNode = node;
-            tail = tail.nextNode;
-        }
-        size++;
-        return data;
-    }
+  public T offer(T data) {
+    Node<T> node = new Node<>(data);
 
-    public T poll() {
-        if (head == null) {
-            System.out.println("Queue is empty");
-            return null;
-        }else {
-            Node temp = head.nextNode;
-            T data = head.data;
-            head = null;
-            head = temp;
-            size--;
-            return data;
-        }
+    if (head == null) {
+      head = tail = node;
+    } else {
+      tail.nextNode = node;
+      tail = tail.nextNode;
     }
+    size++;
+    return data;
+  }
 
-    public T peek() {
-        if (head == null) {
-            return null;
-        }
-        return head.data;
+  public T poll() {
+    if (head == null) {
+      System.out.println("Queue is empty");
+      return null;
+    } else {
+      Node temp = head.nextNode;
+      T data = head.data;
+      head = null;
+      head = temp;
+      size--;
+      return data;
     }
+  }
 
-    public int getSize() {
-        return this.size;
+  public T peek() {
+    if (head == null) {
+      return null;
     }
-    
-    public boolean isEmpty() {
-        return head == null;
-    }
+    return head.data;
+  }
 
-    public void clear() {
-        Node temp = head;
-        while (temp != null) {
-            Node nextNode = temp.nextNode;
-            temp = null;
-            temp = nextNode;
-        }
-        size = 0;
-        head = tail = null;
-    }
+  public int getSize() {
+    return this.size;
+  }
 
-    public void printAll() {
-        Node temp = head;
-        while (temp != null) {
-            System.out.println("temp.data = " + temp.data);
-            temp = temp.nextNode;
-        }
+  public boolean isEmpty() {
+    return head == null;
+  }
+
+  public void clear() {
+    Node temp = head;
+    while (temp != null) {
+      Node nextNode = temp.nextNode;
+      temp = null;
+      temp = nextNode;
     }
+    size = 0;
+    head = tail = null;
+  }
+
+  public void printAll() {
+    Node temp = head;
+    while (temp != null) {
+      System.out.println("temp.data = " + temp.data);
+      temp = temp.nextNode;
+    }
+  }
 }
 
 public class Main {
 
-    static int[][] graph;
-    static int count;
+  static int[][] graph;
+  static int count;
 
-    public static void main(String[] args) throws IOException {
-        Main T = new Main();
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st;
+  public static void main(String[] args) throws IOException {
+    Main T = new Main();
+    BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    StringTokenizer st;
 
-        st = new StringTokenizer(bf.readLine(), " ");
-        int N = Integer.parseInt(st.nextToken());
-        int r = Integer.parseInt(st.nextToken());
-        int c = Integer.parseInt(st.nextToken());
+    st = new StringTokenizer(bf.readLine(), " ");
+    int N = Integer.parseInt(st.nextToken());
+    int r = Integer.parseInt(st.nextToken());
+    int c = Integer.parseInt(st.nextToken());
 
-        int size = (int) Math.pow(2, N);
+    int size = (int) Math.pow(2, N);
 
-        T.solution(size, r, c);
+    T.solution(size, r, c);
 
-        System.out.println(count);
-    }
+    System.out.println(count);
+  }
 
-    public void solution(int size, int r, int c) {
-        if(size == 1)
-            return;
+  public void solution(int size, int r, int c) {
+      if (size == 1) {
+          return;
+      }
 
-        if(r < size/2 && c < size/2) {
+    if (r < size / 2 && c < size / 2) {
 //            System.out.println("1사분면");
-            solution(size/2, r, c);
-        }
-        else if(r < size/2 && c >= size/2) {
+      solution(size / 2, r, c);
+    } else if (r < size / 2 && c >= size / 2) {
 //            System.out.println("2사분면");
-            count += size * size / 4;
-            solution(size/2, r, c - size/2);
-        }
-        else if(r >= size/2 && c < size/2) {
+      count += size * size / 4;
+      solution(size / 2, r, c - size / 2);
+    } else if (r >= size / 2 && c < size / 2) {
 //            System.out.println("3사분면");
-            count += (size * size / 4) * 2;
-            solution(size/2, r - size/2, c);
-        }
-        else {
+      count += (size * size / 4) * 2;
+      solution(size / 2, r - size / 2, c);
+    } else {
 //            System.out.println("4사분면");
-            count += (size * size / 4) * 3;
-            solution(size/2, r - size/2, c - size/2);
-        }
+      count += (size * size / 4) * 3;
+      solution(size / 2, r - size / 2, c - size / 2);
     }
+  }
 
-    //백준 11726번 문제풀이 2xn 타일링
+  //백준 11726번 문제풀이 2xn 타일링
 //    public Long solution(int num) {
 //        if (num == 0) {
 //            return 1L;
@@ -332,7 +334,7 @@ public class Main {
 //        }
 //    }
 
-    //백준 1697번 문제풀이 숨바꼭질 BFS
+  //백준 1697번 문제풀이 숨바꼭질 BFS
 //    public int solution(int num, int end) {
 //        Queue<Integer> queue = new LinkedList<>();
 //        queue.offer(num);
@@ -368,7 +370,7 @@ public class Main {
 //        return -1;
 //    }
 
-    //백준 2178번 문제풀이 미로탐색 BFS
+  //백준 2178번 문제풀이 미로탐색 BFS
 //    public void solutionBFS() {
 //        Queue<Location> locationQueue = new LinkedList<>();
 //        locationQueue.offer(new Location(0, 0, 1));
@@ -394,7 +396,7 @@ public class Main {
 //        }
 //    }
 
-    //백준 2178번 문재풀이 미로탐색 DFS
+  //백준 2178번 문재풀이 미로탐색 DFS
 //    public void solutionDFS(int x, int y, int sum) {
 //        if (x == N - 1 && y == M - 1) {
 //            cnt = Math.min(sum, cnt);
@@ -412,7 +414,7 @@ public class Main {
 //        }
 //    }
 
-    //백준 2667번 문제풀이 단지번호붙이기
+  //백준 2667번 문제풀이 단지번호붙이기
 //    public void solutionBFS() {
 //        Queue<Location> locationQueue = new LinkedList<>();
 //
@@ -445,7 +447,7 @@ public class Main {
 //        }
 //    }
 
-    //백준 7576번 토마토 문제풀이
+  //백준 7576번 토마토 문제풀이
 //    public void solution(int N, int M, Queue<Location> queue) {
 //        while (!queue.isEmpty()) {
 //            int queSize = queue.size();
@@ -464,7 +466,7 @@ public class Main {
 //        }
 //    }
 
-    //백준 11724번 문제풀이 연결 요소의 개수
+  //백준 11724번 문제풀이 연결 요소의 개수
 //    public void solution() {
 //        int cnt = 0;
 //        for (int i = 1; i < ch.length; i++) {
@@ -493,7 +495,7 @@ public class Main {
 //        System.out.println(cnt);
 //    }
 
-    //백준 11047 문제풀이 동전
+  //백준 11047 문제풀이 동전
 //    public void solution(int N, int K) {
 //        int restMoney = K;
 //        int coinCount = 0;
@@ -507,7 +509,7 @@ public class Main {
 //        System.out.println(coinCount);
 //    }
 
-    //백준 1931번 문제풀이 회의실 배정
+  //백준 1931번 문제풀이 회의실 배정
 //    public void solution(int N) {
 //        Arrays.sort(meetingTime, new Comparator<int[]>() {
 //            @Override
@@ -532,7 +534,7 @@ public class Main {
 //        System.out.println(count);
 //    }
 
-    //백준 1780번 문제풀이 종이의 개수
+  //백준 1780번 문제풀이 종이의 개수
 //    public void solution(int j, int k, int size) {
 //        if (checkColor(j, k, size)) {
 //            switch (graph[j][k]) {
@@ -604,7 +606,7 @@ public class Main {
 //        return true;
 //    }
 
-    //백준 1541번 문제풀이 잃어버린 괄호
+  //백준 1541번 문제풀이 잃어버린 괄호
 //    public void solution(String expression) {
 //        StringTokenizer st;
 //        int result = 0;
@@ -635,7 +637,7 @@ public class Main {
 //        System.out.println(result);
 //    }
 
-    //백준 1012 문제풀이 유기농 배추
+  //백준 1012 문제풀이 유기농 배추
 //    public void solution(int j, int k) {
 //        ch[j][k] = 1;
 //
@@ -650,7 +652,7 @@ public class Main {
 //        }
 //    }
 
-    //백준 9095 문제풀이 1, 2, 3 더하기
+  //백준 9095 문제풀이 1, 2, 3 더하기
 //    public void solution(int num) {
 //        if(num == 0) {
 //            cnt++;
@@ -667,7 +669,7 @@ public class Main {
 //        }
 //    }
 
-    //백준 2630번 문제풀이 색종이 만들기
+  //백준 2630번 문제풀이 색종이 만들기
 //    public void solution(int row, int col, int size) {
 //
 //        if (checkColor(row, col, size)) {
@@ -697,7 +699,7 @@ public class Main {
 //        return true;
 //    }
 
-    //백준 2606번 문제풀이 웜 바이러스
+  //백준 2606번 문제풀이 웜 바이러스
 //    public void solutionBFS(int num) {
 //        Queue<Integer> queue = new LinkedList<>();
 //        queue.offer(num);
@@ -730,7 +732,7 @@ public class Main {
 //        }
 //    }
 
-    //백준 2579번 계단 오르기 문제풀이
+  //백준 2579번 계단 오르기 문제풀이
 //    public int solution(int num) {
 //        if (dp[num] == null) {
 //            dp[num] = Math.max(solution(num - 2), solution(num - 3) + stairs[num - 1]) + stairs[num];
@@ -739,7 +741,7 @@ public class Main {
 //        return dp[num];
 //    }
 
-    //백준 1260번 문제풀이 DFS BFS
+  //백준 1260번 문제풀이 DFS BFS
 //    public void DFS(int num) {
 //        for (int i = 1; i <= N; i++) {
 //            if (graph[num][i] == 1 && ch[i] == 0) {
@@ -769,7 +771,7 @@ public class Main {
 //        }
 //    }
 
-    //백준 1463번 문제풀이 1로 만들기 (재귀)
+  //백준 1463번 문제풀이 1로 만들기 (재귀)
 //    public int solution(int N) {
 //        if (dp[N] == null) {
 //            if (N % 6 == 0) {
@@ -785,7 +787,7 @@ public class Main {
 //        return dp[N];
 //    }
 
-    //백준 1003번 문제풀이 피보나치 함수 (재귀)
+  //백준 1003번 문제풀이 피보나치 함수 (재귀)
 //    public ZeroOne solution(int num) {
 //        if (zeroOnes[num] != null) {
 //            return zeroOnes[num];
@@ -802,7 +804,7 @@ public class Main {
 //        return zeroOnes[num];
 //    }
 
-    //백준 17219번 문제풀기 비밀번호 찾기
+  //백준 17219번 문제풀기 비밀번호 찾기
 //    public void solution(int N, int M, BufferedReader bf) throws IOException {
 //        StringTokenizer st;
 //        StringBuilder sb = new StringBuilder();
@@ -821,7 +823,7 @@ public class Main {
 //        System.out.println(sb);
 //    }
 
-    // 백준 1764번 문제풀이 듣보잡 (Hashset 사용)
+  // 백준 1764번 문제풀이 듣보잡 (Hashset 사용)
 //    public void solution(HashSet<String> listeners, String[] watchers) {
 //        Arrays.sort(watchers);
 //        ArrayList<String> listenWatchers = new ArrayList<>();
@@ -840,7 +842,7 @@ public class Main {
 //        }
 //    }
 
-    //백준 1676번 문제풀이 팩토리얼 0의 개수
+  //백준 1676번 문제풀이 팩토리얼 0의 개수
 //    public void solution(int N) {
 //        int cnt = 0;
 //
@@ -852,7 +854,7 @@ public class Main {
 //        System.out.println(cnt);
 //    }
 
-    //백준 1929번 문제풀이 소수 구하기
+  //백준 1929번 문제풀이 소수 구하기
 //    public void solution(int N, int M) {
 //        int[] nums = new int[M + 1];
 //        StringBuilder sb = new StringBuilder();
@@ -869,8 +871,7 @@ public class Main {
 //        System.out.println(sb);
 //    }
 
-
-    //백준 1874번 스택 수열 풀이
+  //백준 1874번 스택 수열 풀이
 //    public void solution() throws IOException {
 //        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 //        StringBuilder sb = new StringBuilder();
@@ -903,7 +904,7 @@ public class Main {
 //        System.out.println(sb);
 //    }
 
-    //백준 1966번 문제풀이 프린터 큐
+  //백준 1966번 문제풀이 프린터 큐
 //    public int solution(int paperNum, int cnt, Queue<Doc> docs) {
 //        int answer = 0;
 //        while (!docs.isEmpty()) {
@@ -927,7 +928,7 @@ public class Main {
 //        return -1;
 //    }
 
-    // 백준 2805번 나무자르기 이분검색
+  // 백준 2805번 나무자르기 이분검색
 //    public void solution(int M) {
 //        long min = 0;
 //        long mid = 0;
@@ -952,7 +953,7 @@ public class Main {
 //        System.out.println(min - 1);
 //    }
 
-    //백준 1654번 랜선자르기
+  //백준 1654번 랜선자르기
 //    public void solution(int K, int N) {
 //        long min = 0;
 //        long mid = 0;
@@ -974,7 +975,7 @@ public class Main {
 //        System.out.println(min - 1);
 //    }
 
-    //백준 1920번 수 찾기
+  //백준 1920번 수 찾기
 //    public void solution(int N, int[] nNums, int M, int[] mNums) {
 //        StringBuilder sb = new StringBuilder();
 //
@@ -1007,7 +1008,7 @@ public class Main {
 //        return -1;
 //    }
 
-    //백준 1978번 소수 찾기
+  //백준 1978번 소수 찾기
 //    public void solution(int N, int[] nums) {
 //        int cnt = 0;
 //        for (int i = 0; i < N; i++) {
@@ -1029,7 +1030,7 @@ public class Main {
 //        System.out.println(cnt);
 //    }
 
-    //백준 18111번 마인크래프트
+  //백준 18111번 마인크래프트
 //    public void solution(int width, int vertical, int inventory, int[][] map, int min, int max) {
 //        int time = Integer.MAX_VALUE;
 //        int height = Integer.MIN_VALUE;
@@ -1063,7 +1064,7 @@ public class Main {
 //        System.out.println(time + " " + height);
 //    }
 
-    //백준 2108번 통계학
+  //백준 2108번 통계학
 //    public void solution() throws IOException {
 //        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 //        int sum = 0;
@@ -1109,7 +1110,7 @@ public class Main {
 //
 //    }
 
-    //백준 2164번 카드2
+  //백준 2164번 카드2
 //    public void solution(int num) {
 //        Queue<Integer> queue = new LinkedList<>();
 //
@@ -1125,7 +1126,7 @@ public class Main {
 //        System.out.println(queue.poll());
 //    }
 
-    //백준 4949번 균형잡힌 세상
+  //백준 4949번 균형잡힌 세상
 //    public void solution(String string) {
 //        Stack<Character> stack = new Stack();
 //        String answer = "yes";
@@ -1153,7 +1154,7 @@ public class Main {
 //        System.out.println(answer);
 //    }
 
-    //백준 9012번 괄호
+  //백준 9012번 괄호
 //    public void solution(String[] brackets) {
 //        for (int i = 0; i < brackets.length; i++) {
 //            String bracket = brackets[i];
@@ -1182,7 +1183,7 @@ public class Main {
 //        }
 //    }
 
-    // 백준 10773번 제로(스택)
+  // 백준 10773번 제로(스택)
 //    public void solution(BufferedReader bf,int N, Stack<Integer> stack) throws IOException {
 //
 //        for (int i = 0; i < N; i++) {
@@ -1199,7 +1200,7 @@ public class Main {
 //        System.out.println(result);
 //    }
 
-    //백준 10816번 숫자카드2
+  //백준 10816번 숫자카드2
 //    public void solution(int N, int M, int[] sangNums, int[] cardNums, Map<Integer, Integer> map) {
 //        StringBuilder sb = new StringBuilder();
 //
@@ -1216,7 +1217,7 @@ public class Main {
 //        System.out.println(sb);
 //    }
 
-    //백준 10828번 스택
+  //백준 10828번 스택
 //    public void solution(Stack stack, String[] strings) {
 //        String command = strings[0];
 //
@@ -1297,7 +1298,7 @@ public class Main {
 //        }
 //    }
 
-    //백준 10845번 큐
+  //백준 10845번 큐
 //    public void solution(Queue queue, String[] strings) {
 //        String command = strings[0];
 //
@@ -1379,8 +1380,7 @@ public class Main {
 //        }
 //    }
 
-
-    //백준 10866번 덱 문제
+  //백준 10866번 덱 문제
 //    public void solution(Deque<Integer> deque, String[] strings) {
 //        String command = strings[0];
 //        Integer num = 0;
@@ -1419,7 +1419,7 @@ public class Main {
 //        }
 //    }
 
-    //백준 11866번 요세푸스문제 큐
+  //백준 11866번 요세푸스문제 큐
 //    public void solution(Queue<Integer> queue, int K) {
 //        int cnt = 0;
 //        StringBuilder sb = new StringBuilder();
@@ -1442,7 +1442,7 @@ public class Main {
 //        System.out.println(sb);
 //    }
 
-    //백준 11650번 좌표정렬하기 문제풀이
+  //백준 11650번 좌표정렬하기 문제풀이
 //    static class Point implements Comparable<Point>{
 //        int x;
 //        int y;
@@ -1463,8 +1463,7 @@ public class Main {
 //        }
 //    }
 
-
-    //백준 1018번 체스판 다시칠하기 문제풀이
+  //백준 1018번 체스판 다시칠하기 문제풀이
 //    public void solution(int N, int M, Boolean[][] map) {
 //        //경우의 수
 //        int N_row = N - 7;
@@ -1504,7 +1503,7 @@ public class Main {
 //        min = Math.min(min, cnt);
 //    }
 
-    //백준 10841번 나이순 정렬
+  //백준 10841번 나이순 정렬
 //    public void solution(Person[] people) {
 //        StringBuilder sb = new StringBuilder();
 //        Person key;
@@ -1533,8 +1532,7 @@ public class Main {
 //        }
 //    }
 
-
-    //백준 7568문제 풀이 덩치 - 브루트포스
+  //백준 7568문제 풀이 덩치 - 브루트포스
 //    public void solution(Person[] people) {
 //        StringBuilder sb = new StringBuilder();
 //
@@ -1576,8 +1574,7 @@ public class Main {
 //        }
 //    }
 
-
-    //백준 2751 수정렬하기 2번
+  //백준 2751 수정렬하기 2번
 //    public void solution(ArrayList<Integer> nums) {
 //        StringBuilder sb = new StringBuilder();
 //
@@ -1590,8 +1587,7 @@ public class Main {
 //        System.out.println(sb);
 //    }
 
-
-    //백준 2609 최대공약수, 최소공배수
+  //백준 2609 최대공약수, 최소공배수
 //    public void solution(int num1, int num2) {
 //        //내가 풀은 풀이 시간초과로 틀림
 //        /*
@@ -1635,8 +1631,7 @@ public class Main {
 //        System.out.println((numA / num1) * (numB/num1) * num1);
 //    }
 
-
-    //백준 1436번 영화감독 숌 풀이
+  //백준 1436번 영화감독 숌 풀이
 //    public void solution(int num) {
 //        int endNum = 666;
 //        int count = 1;
@@ -1652,8 +1647,7 @@ public class Main {
 //        System.out.println(endNum);
 //    }
 
-
-    //백준 1181번 단어의 정렬 문제
+  //백준 1181번 단어의 정렬 문제
 //    public void solution(int num, String[] words) {
 //
 //        Arrays.sort(words, new Comparator<String>() {
@@ -1694,8 +1688,7 @@ public class Main {
 //        System.out.println(cnt);
 //    }
 
-
-    //백준 1259번 팰린드롬수
+  //백준 1259번 팰린드롬수
 //    public void solution(BufferedReader bf) throws IOException {
 //        while (true) {
 //            String answer = "yes";
@@ -1714,7 +1707,7 @@ public class Main {
 //        }
 //    }
 
-    //백준 2577번
+  //백준 2577번
 //    public void solution(Integer num) {
 //        Map<Integer, Integer> numMap = new HashMap<>();
 //        while (num != 0) {
@@ -2094,7 +2087,6 @@ public class Main {
 //            }
 //        }
 //    }
-
 
 //    //연결리스트를 위한 Node
 //    static class Node{
@@ -2523,7 +2515,7 @@ public class Main {
 //        }
 //    }
 
-    //    //8-1 합이 같은 부분 집합(DFS) - 강의 풀이
+  //    //8-1 합이 같은 부분 집합(DFS) - 강의 풀이
 //    public void sameSumSubSet(int level, int sum, int[] arr) {
 //        if(flag) return;
 //        if(sum > total/2) return;

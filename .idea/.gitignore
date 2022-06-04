@@ -7,3 +7,7 @@
 # Editor-based HTTP Client requests
 /httpRequests/
 ../out
+/codeStyles/codeStyleConfig.xml
+/git_toolbox_prj.xml
+/google-java-format.xml
+/uiDesigner.xml

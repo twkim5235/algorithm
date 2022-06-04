@@ -5,10 +5,11 @@ import java.util.stream.IntStream;
 import static java.util.stream.Collectors.toList;
 
 class Solution {
-    public static void main(String[] args) throws IOException {
-        Solution T = new Solution();
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+  public static void main(String[] args) throws IOException {
+    Solution T = new Solution();
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
 //        int q = Integer.parseInt(bf.readLine());
 //        IntStream.range(0, q).forEach(qItr -> {
@@ -26,125 +27,124 @@ class Solution {
 //        });
 //        bw.close();
 
-        bw.write(T.checkOverlap(br));
-        bw.flush();
-        bw.close();
+    bw.write(T.checkOverlap(br));
+    bw.flush();
+    bw.close();
+  }
+
+  public String checkOverlap(BufferedReader br) throws IOException {
+    List<Integer> rect1 = new ArrayList<>(); //x1, y1, x2, y2
+    List<Integer> rect2 = new ArrayList<>(); //x3, y3, x4, y4
+
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    while (st.hasMoreTokens()) {
+      String s = st.nextToken();
+      rect1.add(Integer.parseInt(s));
     }
 
-    public String checkOverlap (BufferedReader br) throws IOException {
-        List<Integer> rect1 = new ArrayList<>(); //x1, y1, x2, y2
-        List<Integer> rect2 = new ArrayList<>(); //x3, y3, x4, y4
-
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        while (st.hasMoreTokens()) {
-            String s = st.nextToken();
-            rect1.add(Integer.parseInt(s));
-        }
-
-        st = new StringTokenizer(br.readLine());
-        while (st.hasMoreTokens()) {
-            String s = st.nextToken();
-            rect2.add(Integer.parseInt(s));
-        }
-
-        if (rect1.get(0) > rect2.get(2) || rect1.get(2) < rect2.get(0) || rect1.get(1) > rect2.get(3) || rect1.get(3) < rect2.get(1)) {
-            return "No overlap";
-        }
-
-        return "overlap";
+    st = new StringTokenizer(br.readLine());
+    while (st.hasMoreTokens()) {
+      String s = st.nextToken();
+      rect2.add(Integer.parseInt(s));
     }
 
-    public int palindrome(String str) {
-        int answer = -1;
-
-        int lt = 0;
-        int rt = str.length() - 1;
-        boolean deleted = false;
-
-        while (lt <= rt) {
-            if (str.charAt(lt) == str.charAt(rt)) {
-                lt++;
-                rt--;
-            }else {
-                if (deleted) {
-                    answer = -1;
-                    deleted = false;
-                    break;
-                }
-                if (str.charAt(lt + 1) == str.charAt(rt)) {
-                    answer = lt;
-                    deleted = true;
-                    lt += 2;
-                    rt--;
-                }else {
-                    answer = -1;
-                    break;
-                }
-            }
-        }
-
-        if (answer == -1) {
-            lt = 0;
-            rt = str.length() - 1;
-            while(lt<=rt){
-                if(str.charAt(lt) == str.charAt(rt)){
-                    lt++;
-                    rt--;
-                }
-                else{
-                    if(deleted){
-                        answer=-1;
-                        break;
-                    }
-                    if(str.charAt(lt) == str.charAt(rt-1)){
-                        answer = rt;
-                        deleted = true;
-                        lt++;
-                        rt-=2;
-                    }
-                    else{       //다른 경우
-                        answer = -1;
-                        break;
-                    }
-                }
-            }
-        }
-
-        return answer;
+    if (rect1.get(0) > rect2.get(2) || rect1.get(2) < rect2.get(0) || rect1.get(1) > rect2.get(3)
+        || rect1.get(3) < rect2.get(1)) {
+      return "No overlap";
     }
 
-    // 프로그래머스 카카오 문자열 압축 리팩토링
-    public int solution(String str) {
-        int answer = str.length();
+    return "overlap";
+  }
 
-        for (int i = 1; i <= str.length() / 2; i++) {
-            String prev = str.substring(0, i);
-            int cnt = 1;
-            int result = 0;
-            for (int j = i; j < str.length(); j += i) {
-                String comp = j + i > str.length() ? str.substring(j) : str.substring(j, j + i);
-                if (prev.equals(comp)) {
-                    cnt++;
-                }else {
-                    if (cnt > 1) {
-                        result += String.valueOf(cnt).length();
-                    }
-                    result += prev.length();
-                    prev = comp;
-                    cnt = 1;
-                }
-            }
-            if (cnt > 1) {
-                result += String.valueOf(cnt).length();
-            }
-            result += prev.length();
-            answer = Math.min(answer, result);
+  public int palindrome(String str) {
+    int answer = -1;
+
+    int lt = 0;
+    int rt = str.length() - 1;
+    boolean deleted = false;
+
+    while (lt <= rt) {
+      if (str.charAt(lt) == str.charAt(rt)) {
+        lt++;
+        rt--;
+      } else {
+        if (deleted) {
+          answer = -1;
+          deleted = false;
+          break;
         }
-
-        return answer;
+        if (str.charAt(lt + 1) == str.charAt(rt)) {
+          answer = lt;
+          deleted = true;
+          lt += 2;
+          rt--;
+        } else {
+          answer = -1;
+          break;
+        }
+      }
     }
 
-    //프로그래머스 카카오 문자열 압축
+    if (answer == -1) {
+      lt = 0;
+      rt = str.length() - 1;
+      while (lt <= rt) {
+        if (str.charAt(lt) == str.charAt(rt)) {
+          lt++;
+          rt--;
+        } else {
+          if (deleted) {
+            answer = -1;
+            break;
+          }
+          if (str.charAt(lt) == str.charAt(rt - 1)) {
+            answer = rt;
+            deleted = true;
+            lt++;
+            rt -= 2;
+          } else {       //다른 경우
+            answer = -1;
+            break;
+          }
+        }
+      }
+    }
+
+    return answer;
+  }
+
+  // 프로그래머스 카카오 문자열 압축 리팩토링
+  public int solution(String str) {
+    int answer = str.length();
+
+    for (int i = 1; i <= str.length() / 2; i++) {
+      String prev = str.substring(0, i);
+      int cnt = 1;
+      int result = 0;
+      for (int j = i; j < str.length(); j += i) {
+        String comp = j + i > str.length() ? str.substring(j) : str.substring(j, j + i);
+        if (prev.equals(comp)) {
+          cnt++;
+        } else {
+          if (cnt > 1) {
+            result += String.valueOf(cnt).length();
+          }
+          result += prev.length();
+          prev = comp;
+          cnt = 1;
+        }
+      }
+      if (cnt > 1) {
+        result += String.valueOf(cnt).length();
+      }
+      result += prev.length();
+      answer = Math.min(answer, result);
+    }
+
+    return answer;
+  }
+
+  //프로그래머스 카카오 문자열 압축
 //    public int solution(String str) {
 //        int answer = str.length();
 //
@@ -201,7 +201,7 @@ class Solution {
 //        return stringBuilder.toString();
 //    }
 
-    //프로그래머스 우선순위 프린터
+  //프로그래머스 우선순위 프린터
 //    class Print {
 //        int severity;
 //        int num;
@@ -244,7 +244,7 @@ class Solution {
 //        return answer;
 //    }
 
-    //프로그래머스 기능개발
+  //프로그래머스 기능개발
 //    public ArrayList<Integer> solution(int[] progresses, int[] speeds) {
 //        Queue<Integer> queue = new LinkedList<>();
 //        ArrayList<Integer> answer = new ArrayList<>();
@@ -277,7 +277,7 @@ class Solution {
 //        return answer;
 //    }
 
-    //프로그래머스 위장
+  //프로그래머스 위장
 //    public int solution(String[][] clothes) {
 //        int answer = 1;
 //        Map<String, Integer> clotheMap = new HashMap<>();
@@ -294,7 +294,7 @@ class Solution {
 //        return answer - 1;
 //    }
 
-    //프로그래머스 전화번호 목록
+  //프로그래머스 전화번호 목록
 //    public boolean solution(String[] phoneBook) {
 //        boolean answer = true;
 //        Set<String> hashSet = new HashSet<>();
@@ -310,7 +310,7 @@ class Solution {
 //        return answer;
 //    }
 
-    //프로그래머스 폰켓몬
+  //프로그래머스 폰켓몬
 //    public int solution(int[] nums) {
 //        int answer = 0;
 //        int size = nums.length / 2;
@@ -335,8 +335,8 @@ class Solution {
 //        return answer;
 //    }
 
-    //프로그래머스 체육복
-    //n: 전체 학생 수, lost: 잃어버린 학생의 번호, reserve: 여분의 체육복이 있는 학생 번호
+  //프로그래머스 체육복
+  //n: 전체 학생 수, lost: 잃어버린 학생의 번호, reserve: 여분의 체육복이 있는 학생 번호
 //    public int solution(int n, int[] lost, int[] reserve) {
 //        int answer = 0;
 //        int[] students = new int[n];
@@ -381,7 +381,7 @@ class Solution {
 //        System.out.println("answer = " + answer);
 //        return answer;
 //    }
-    //프로그래머스 모의고사
+  //프로그래머스 모의고사
 //    public ArrayList<Integer> solution(int[] answers) {
 //        ArrayList<Integer> answer = new ArrayList<>();
 //        int[][] students = {
@@ -435,7 +435,7 @@ class Solution {
 //        return answer;
 //    }
 
-    //프로그래머스 없는 숫자 더하기
+  //프로그래머스 없는 숫자 더하기
 //    public int solution(int[] numbers) {
 //        int answer = -1;
 //        int[] compareNums = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -460,7 +460,7 @@ class Solution {
 //        return answer;
 //    }
 
-    //프로그래머스 크레인 인형뽑기 게임
+  //프로그래머스 크레인 인형뽑기 게임
 //    public int solution(int[][] board, int[] moves) {
 //        int answer = 0;
 //        Stack<Integer> stack = new Stack<>();
@@ -486,7 +486,7 @@ class Solution {
 //        return answer;
 //    }
 
-    //프로그래머스 숫자 문자열과 영단어
+  //프로그래머스 숫자 문자열과 영단어
 //    public int solution(String s) {
 //        int answer = 0;
 //        if (!s.matches("\\d")) {
@@ -527,7 +527,7 @@ class Solution {
 //        return answer;
 //    }
 
-    //프로그래머스 신규 아이디 추천
+  //프로그래머스 신규 아이디 추천
 //    public String solution(String new_id) {
 //        String answer = "";
 //        //1단계
