@@ -8,12 +8,16 @@ public class Main {
   public static void main(String[] args) throws IOException {
     Main t = new Main();
 
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 //    StringTokenizer st = new StringTokenizer(br.readLine());
-    Integer count = Integer.valueOf(br.readLine());
-    String password = br.readLine();
+//    Integer count = Integer.valueOf(br.readLine());
+//    String password = br.readLine();
 
-    t.password_12(count, password);
+//    t.password_12(count, password);
+    int x = 1;
+    for (int i = 0; i < 5; i += x) {
+      System.out.println("i = " + i);
+    }
   }
 
   public void password_12(Integer count, String password) {
